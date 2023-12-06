@@ -1,0 +1,29 @@
+---
+title: "result"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## This document shows the result of the code
+
+## CardioStatsUSA
+To install CardioStatsUSA, run this
+```{r,eval=FALSE}
+install.packages("CardioStatsUSA")
+```
+if not work, try this
+```{r,eval=FALSE}
+if (!requireNamespace("remotes", quietly = TRUE))
+install.packages("remotes")
+remotes::install_github("jhs-hwg/CardioStatsUSA")
+```
+
+## data
+```{r}
+library(cardioStatsUSA)
+head(nhanes_data)
+```
+

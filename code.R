@@ -5,4 +5,12 @@
 
 # R packages
 # install.packages("CardioStatsUSA")
-library(CardioStatsUSA)
+# if not work, try the following
+# if (!requireNamespace("remotes", quietly = TRUE))
+# install.packages("remotes")
+# remotes::install_github("jhs-hwg/CardioStatsUSA")
+library(cardioStatsUSA)
+head(nhanes_data)
+
+
+
