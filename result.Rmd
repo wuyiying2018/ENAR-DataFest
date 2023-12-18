@@ -26,6 +26,7 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 library(cardioStatsUSA)
 library(tidyverse)
 library(survey)
+library(gtsummary)
 # head(nhanes_data)
 dat<-nhanes_data
 ```
@@ -96,16 +97,23 @@ dat <- dat %>% mutate(
 
 **check variables**
 ```{r}
-summary(dat$demo_age_cat)
-dat$pregnant=as.factor(dat$pregnant)
-summary(dat$pregnant)
-dat$female=as.factor(dat$female)
-summary(dat$female)
-summary(dat$bp_med_n_class)
-dat$htn_accaha=as.factor(dat$htn_accaha)
-summary(dat$htn_accaha)
-summary(dat$bp_med_n_pills)
+# summary(dat$demo_age_cat)
+# dat$pregnant=as.factor(dat$pregnant)
+# summary(dat$pregnant)
+# dat$female=as.factor(dat$female)
+# summary(dat$female)
+# summary(dat$bp_med_n_class)
+# dat$htn_accaha=as.factor(dat$htn_accaha)
+# summary(dat$htn_accaha)
+# summary(dat$bp_med_n_pills)
+
+## Summary Statistics
+dat %>% 
+  select(demo_age_cat, pregnant, female, bp_med_n_class, htn_accaha, htn_accaha, bp_med_n_pills) %>% 
+  tbl_summary() %>% 
+  bold_labels()
 ```
+
 
 # survey design
 **Notes**: 
