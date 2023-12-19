@@ -23,12 +23,18 @@ install.packages("remotes")
 remotes::install_github("jhs-hwg/CardioStatsUSA")
 ```
 
-## data
+## R packages
 ```{r,warning=FALSE,message=FALSE}
 library(cardioStatsUSA)
 library(tidyverse)
 library(survey)
 library(gtsummary)
+library(mice)
+```
+
+
+## data
+```{r,warning=FALSE,message=FALSE}
 # head(nhanes_data)
 dat<-nhanes_data
 ```
@@ -36,6 +42,7 @@ dat<-nhanes_data
 
 ## data cleaning
 
+<<<<<<< HEAD
 ### missing values
 Participants with missing pregnancy status were assumed to be nonpregnant for these analyses.
 reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
@@ -43,6 +50,8 @@ reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
 
 survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
 https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
+=======
+>>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
 
 ### recode categorical data
 ```{r}
@@ -103,23 +112,75 @@ dat <- dat %>% mutate(
 )
 ```
 
+**Transform categorical data into factor type**
+```{r}
+dat = dat %>% 
+  mutate(
+    # Demographics variables
+    pregnant = as.factor(pregnant),
+    female = as.factor(female),
+    
+    # Blood pressure variables
+    bp_uncontrolled_140_90 = as.factor(bp_uncontrolled_140_90),
+    bp_uncontrolled_130_80 = as.factor(bp_uncontrolled_130_80),
+    
+    # Hypertension variables
+    htn_accaha = as.factor(htn_accaha),
+    htn_aware = as.factor(htn_aware),
+    htn_resistant_jnc7 = as.factor(htn_resistant_jnc7),
+    htn_resistant_accaha = as.factor(htn_resistant_accaha),
+    htn_resistant_accaha_thz = as.factor(htn_resistant_accaha_thz),
+    htn_resistant_jnc7_thz = as.factor(htn_resistant_jnc7_thz),
+    
+    # Antihypertensive medication variables
+    bp_med_use = as.factor(bp_med_use),
+    bp_med_recommended_jnc7 = as.factor(bp_med_recommended_jnc7),
+    bp_med_recommended_accaha = as.factor(bp_med_recommended_accaha),
+    bp_med_recommended_escesh = as.factor(bp_med_recommended_escesh),
+    bp_med_combination = as.factor(bp_med_combination),
+    bp_med_pills_gteq_2 = as.factor(bp_med_pills_gteq_2),
+    bp_med_ace = as.factor(bp_med_ace),
+    bp_med_aldo = as.factor(bp_med_aldo),
+    bp_med_alpha = as.factor(bp_med_alpha),
+    bp_med_angioten = as.factor(bp_med_angioten),
+    bp_med_beta = as.factor(bp_med_beta),
+    bp_med_ccb = as.factor(bp_med_ccb),
+    bp_med_ccb_dh = as.factor(bp_med_ccb_dh),
+    bp_med_ccb_ndh = as.factor(bp_med_ccb_ndh),
+    bp_med_central = as.factor(bp_med_central),
+    bp_med_renin_inhibitors = as.factor(bp_med_renin_inhibitors),
+    bp_med_vasod = as.factor(bp_med_vasod),
+    bp_med_diur_loop = as.factor(bp_med_diur_loop),
+    bp_med_diur_Ksparing = as.factor(bp_med_diur_Ksparing),
+    bp_med_diur_thz = as.factor(bp_med_diur_thz),
+    
+    # Comorbidities variables
+    cc_diabetes = as.factor(cc_diabetes),
+    cc_ckd = as.factor(cc_ckd),
+    cc_cvd_mi = as.factor(cc_cvd_mi),
+    cc_cvd_chd = as.factor(cc_cvd_chd),
+    cc_cvd_stroke = as.factor(cc_cvd_stroke),
+    cc_cvd_ascvd = as.factor(cc_cvd_ascvd),
+    cc_cvd_hf = as.factor(cc_cvd_hf),
+    cc_cvd_any = as.factor(cc_cvd_any)
+  )
+```
+
 **check variables**
 ```{r}
-# summary(dat$demo_age_cat)
-# dat$pregnant=as.factor(dat$pregnant)
-# summary(dat$pregnant)
-# dat$female=as.factor(dat$female)
-# summary(dat$female)
-# summary(dat$bp_med_n_class)
-# dat$htn_accaha=as.factor(dat$htn_accaha)
-# summary(dat$htn_accaha)
-# summary(dat$bp_med_n_pills)
-
 ## Summary Statistics
 dat %>% 
   select(demo_age_cat, pregnant, female, bp_med_n_class, htn_accaha, htn_accaha, bp_med_n_pills) %>% 
   tbl_summary() %>% 
   bold_labels()
+```
+
+### missing values
+```{r}
+ini = mice(dat, maxit = 0, print = FALSE)
+pred0 = ini$pred
+method0 = ini$method
+method0
 ```
 
 
@@ -129,6 +190,16 @@ dat %>%
 * combine weight in many years, refer to https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx 
 * The weight in the dataset is: **Full sample 2 year MEC exam weight** (2-year weight?)
 * However, for all analyses that combine 1999-2000 with other survey cycles, you must start by using the 4-year weights provided by NCHS for 1999-2002, then include the 2-year weights for each additional 2-year cycle that is combined. (refer to larger nhance dataset to find 4-year weights???)
+
+## weight adjustment for years
+To simplify this, we first ignore the "must start by using the 4-year weights provided by NCHS for 1999-2002", and use 2-year weights for all observations from 1999-2016. Treat 2017-2020Mar as 3.2 years.
+
+Combining nine survey cycles + one 3.2 year survey cycle (18+3.2 years: 1999-2016 2017-2020Mar)
+```{r}
+dat$svy_weight_mec<-ifelse(dat$svy_year %in% c("2017-2020"),dat$svy_weight_mec*3.2/21.2,dat$svy_weight_mec*2/21.2)
+```
+
+## define survey design
 ```{r}
 nhanes_all<-svydesign(data=dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
 ```
