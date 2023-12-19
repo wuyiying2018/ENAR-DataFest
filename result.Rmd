@@ -75,6 +75,18 @@ dat <- dat %>%
       bp_med_n_pills == "Three" ~ "Two or more",
       bp_med_n_pills == "Four or more" ~ "Two or more",
       TRUE ~ bp_med_n_pills
+    )),
+    # cc_bmi
+    cc_bmi=factor(case_when(
+      cc_bmi == "30 to <35" ~ "30+",
+      cc_bmi == "35+" ~ "30+",
+      TRUE ~ cc_bmi
+    )),
+    # cc_smoke
+    cc_smoke=factor(case_when(
+      cc_smoke == "Former" ~ "Former/Current",
+      cc_smoke == "Current" ~ "Former/Current",
+      TRUE ~ cc_smoke
     ))
   )
 
@@ -200,7 +212,7 @@ dat=dat%>%select(
   svy_id, svy_psu,svy_strata, svy_weight_mec, svy_subpop_htn,
   svy_year,
   # Demographics variables
-  demo_age_cat, demo_race, pregnant, female, 
+  demo_age_cat, demo_age_years, demo_race, pregnant, female, 
   # Blood pressure variables
   bp_uncontrolled_140_90,bp_uncontrolled_130_80,
   # Hypertension variables
@@ -223,7 +235,7 @@ dat=dat%>%select(
 ```{r}
 ## Summary Statistics
 dat %>% 
-  select(demo_age_cat, pregnant, female, bp_med_n_class, htn_accaha, htn_accaha, bp_med_n_pills) %>% 
+  select(everything()) %>% 
   tbl_summary() %>% 
   bold_labels()
 ```
@@ -239,10 +251,28 @@ reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
 survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
 https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
 
+### Create a new data frame that contains 11 predictors
+```{r}
+my_dat <- dat %>% select(# Survey variables 
+                         svy_id, svy_weight_mec, svy_psu, svy_strata, svy_year, svy_subpop_htn,
+                         # outcome
+                         bp_uncontrolled_140_90, bp_uncontrolled_130_80, 
+                         # predictors
+                         demo_age_years, demo_race, female, pregnant, cc_bmi, 
+                         cc_diabetes, cc_ckd, cc_cvd_any, bp_med_use, htn_aware, cc_smoke
+                         # bp_med_n_class, htn_resistant_jnc7
+                        )
+
+## Summary Statistics
+my_dat %>% 
+  select(everything()) %>% 
+  tbl_summary() %>% 
+  bold_labels()
+```
 
 ```{r,eval=FALSE}
 # adj for pregnant missing
-my_dat <- dat %>% 
+my_dat <- my_dat %>% 
   mutate(pregnant = ifelse(is.na(pregnant), 0, pregnant))
 
 # Initial imputation
@@ -259,16 +289,18 @@ md.pattern(my_dat,plot = FALSE)
 # and generate 5 imputations with 5 iterations 
 # in each imputation using the modified predictor matrix
 pred1 = pred0
-pred1[, c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn","svy_subpop_chol")] = 0
+pred1[, c("svy_id", "svy_weight_mec", "svy_psu", "svy_strata", "svy_year", "svy_subpop_htn")] = 0
+# pred1[, c("bp_uncontrolled_140_90")] = 0
 pred1
 
 # to Speed Up the Process, subset the data
-my_dat<-my_dat%>%filter(svy_subpop_chol == 1)
-ini_1 = mice(my_dat, pred = pred1, m = 1, maxit = 1, print = FALSE, seed = 123)
+# my_dat<-my_dat%>%filter(svy_subpop_chol == 1)
+ini_1 = mice(my_dat, pred = pred1, m = 5, maxit = 5, print = FALSE, seed = 1)
 
 # using quickpred instead
-my_dat<-my_dat%>%filter(svy_subpop_htn == 1, svy_year=="1999-2000")
-pred2 = quickpred(my_dat, mincor = .1,  exclude = c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn","svy_subpop_chol"), method = "pearson")
+# my_dat<-my_dat%>%filter(svy_subpop_htn == 1, svy_year=="1999-2000")
+pred2 = quickpred(my_dat, mincor = .1,  exclude = c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn"), 
+                  method = "pearson")
 ini_2 = mice(my_dat, pred = pred2, m = 5, maxit = 5, print = FALSE, seed = 123)
 ```
 
@@ -303,3 +335,11 @@ nhanes<-subset(nhanes_all,svy_subpop_htn == 1)
 ```
 
 
+
+
+# Lasso
+
+
+
+
+# Fit model
