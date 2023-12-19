@@ -19,13 +19,19 @@ install.packages("remotes")
 remotes::install_github("jhs-hwg/CardioStatsUSA")
 ```
 
-## data
+## R packages
 
 ``` r
 library(cardioStatsUSA)
 library(tidyverse)
 library(survey)
 library(gtsummary)
+library(mice)
+```
+
+## data
+
+``` r
 # head(nhanes_data)
 dat<-nhanes_data
 ```
@@ -92,6 +98,61 @@ dat <- dat %>% mutate(
 )
 ```
 
+**Transform categorical data into factor type**
+
+``` r
+dat = dat %>% 
+  mutate(
+    # Demographics variables
+    pregnant = as.factor(pregnant),
+    female = as.factor(female),
+    
+    # Blood pressure variables
+    bp_uncontrolled_140_90 = as.factor(bp_uncontrolled_140_90),
+    bp_uncontrolled_130_80 = as.factor(bp_uncontrolled_130_80),
+    
+    # Hypertension variables
+    htn_accaha = as.factor(htn_accaha),
+    htn_aware = as.factor(htn_aware),
+    htn_resistant_jnc7 = as.factor(htn_resistant_jnc7),
+    htn_resistant_accaha = as.factor(htn_resistant_accaha),
+    htn_resistant_accaha_thz = as.factor(htn_resistant_accaha_thz),
+    htn_resistant_jnc7_thz = as.factor(htn_resistant_jnc7_thz),
+    
+    # Antihypertensive medication variables
+    bp_med_use = as.factor(bp_med_use),
+    bp_med_recommended_jnc7 = as.factor(bp_med_recommended_jnc7),
+    bp_med_recommended_accaha = as.factor(bp_med_recommended_accaha),
+    bp_med_recommended_escesh = as.factor(bp_med_recommended_escesh),
+    bp_med_combination = as.factor(bp_med_combination),
+    bp_med_pills_gteq_2 = as.factor(bp_med_pills_gteq_2),
+    bp_med_ace = as.factor(bp_med_ace),
+    bp_med_aldo = as.factor(bp_med_aldo),
+    bp_med_alpha = as.factor(bp_med_alpha),
+    bp_med_angioten = as.factor(bp_med_angioten),
+    bp_med_beta = as.factor(bp_med_beta),
+    bp_med_ccb = as.factor(bp_med_ccb),
+    bp_med_ccb_dh = as.factor(bp_med_ccb_dh),
+    bp_med_ccb_ndh = as.factor(bp_med_ccb_ndh),
+    bp_med_central = as.factor(bp_med_central),
+    bp_med_renin_inhibitors = as.factor(bp_med_renin_inhibitors),
+    bp_med_vasod = as.factor(bp_med_vasod),
+    bp_med_diur_loop = as.factor(bp_med_diur_loop),
+    bp_med_diur_Ksparing = as.factor(bp_med_diur_Ksparing),
+    bp_med_diur_thz = as.factor(bp_med_diur_thz),
+    
+    # Comorbidities variables
+    cc_diabetes = as.factor(cc_diabetes),
+    cc_ckd = as.factor(cc_ckd),
+    cc_cvd_mi = as.factor(cc_cvd_mi),
+    cc_cvd_chd = as.factor(cc_cvd_chd),
+    cc_cvd_stroke = as.factor(cc_cvd_stroke),
+    cc_cvd_ascvd = as.factor(cc_cvd_ascvd),
+    cc_cvd_hf = as.factor(cc_cvd_hf),
+    cc_cvd_any = as.factor(cc_cvd_any)
+  )
+```
+
 **check variables**
 
 ``` r
@@ -102,23 +163,23 @@ dat %>%
   bold_labels()
 ```
 
-<div id="putupnstgn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#putupnstgn table {
+<div id="jeqexjqrpe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jeqexjqrpe table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#putupnstgn thead, #putupnstgn tbody, #putupnstgn tfoot, #putupnstgn tr, #putupnstgn td, #putupnstgn th {
+#jeqexjqrpe thead, #jeqexjqrpe tbody, #jeqexjqrpe tfoot, #jeqexjqrpe tr, #jeqexjqrpe td, #jeqexjqrpe th {
   border-style: none;
 }
 
-#putupnstgn p {
+#jeqexjqrpe p {
   margin: 0;
   padding: 0;
 }
 
-#putupnstgn .gt_table {
+#jeqexjqrpe .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -144,12 +205,12 @@ dat %>%
   border-left-color: #D3D3D3;
 }
 
-#putupnstgn .gt_caption {
+#jeqexjqrpe .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#putupnstgn .gt_title {
+#jeqexjqrpe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -161,7 +222,7 @@ dat %>%
   border-bottom-width: 0;
 }
 
-#putupnstgn .gt_subtitle {
+#jeqexjqrpe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -173,7 +234,7 @@ dat %>%
   border-top-width: 0;
 }
 
-#putupnstgn .gt_heading {
+#jeqexjqrpe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -185,13 +246,13 @@ dat %>%
   border-right-color: #D3D3D3;
 }
 
-#putupnstgn .gt_bottom_border {
+#jeqexjqrpe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#putupnstgn .gt_col_headings {
+#jeqexjqrpe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -206,7 +267,7 @@ dat %>%
   border-right-color: #D3D3D3;
 }
 
-#putupnstgn .gt_col_heading {
+#jeqexjqrpe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -226,7 +287,7 @@ dat %>%
   overflow-x: hidden;
 }
 
-#putupnstgn .gt_column_spanner_outer {
+#jeqexjqrpe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -238,15 +299,15 @@ dat %>%
   padding-right: 4px;
 }
 
-#putupnstgn .gt_column_spanner_outer:first-child {
+#jeqexjqrpe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#putupnstgn .gt_column_spanner_outer:last-child {
+#jeqexjqrpe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#putupnstgn .gt_column_spanner {
+#jeqexjqrpe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -258,11 +319,11 @@ dat %>%
   width: 100%;
 }
 
-#putupnstgn .gt_spanner_row {
+#jeqexjqrpe .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#putupnstgn .gt_group_heading {
+#jeqexjqrpe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -288,7 +349,7 @@ dat %>%
   text-align: left;
 }
 
-#putupnstgn .gt_empty_group_heading {
+#jeqexjqrpe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -303,15 +364,15 @@ dat %>%
   vertical-align: middle;
 }
 
-#putupnstgn .gt_from_md > :first-child {
+#jeqexjqrpe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#putupnstgn .gt_from_md > :last-child {
+#jeqexjqrpe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#putupnstgn .gt_row {
+#jeqexjqrpe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -330,7 +391,7 @@ dat %>%
   overflow-x: hidden;
 }
 
-#putupnstgn .gt_stub {
+#jeqexjqrpe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -343,7 +404,7 @@ dat %>%
   padding-right: 5px;
 }
 
-#putupnstgn .gt_stub_row_group {
+#jeqexjqrpe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -357,15 +418,15 @@ dat %>%
   vertical-align: top;
 }
 
-#putupnstgn .gt_row_group_first td {
+#jeqexjqrpe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#putupnstgn .gt_row_group_first th {
+#jeqexjqrpe .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#putupnstgn .gt_summary_row {
+#jeqexjqrpe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -375,16 +436,16 @@ dat %>%
   padding-right: 5px;
 }
 
-#putupnstgn .gt_first_summary_row {
+#jeqexjqrpe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#putupnstgn .gt_first_summary_row.thick {
+#jeqexjqrpe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#putupnstgn .gt_last_summary_row {
+#jeqexjqrpe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -394,7 +455,7 @@ dat %>%
   border-bottom-color: #D3D3D3;
 }
 
-#putupnstgn .gt_grand_summary_row {
+#jeqexjqrpe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -404,7 +465,7 @@ dat %>%
   padding-right: 5px;
 }
 
-#putupnstgn .gt_first_grand_summary_row {
+#jeqexjqrpe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -414,7 +475,7 @@ dat %>%
   border-top-color: #D3D3D3;
 }
 
-#putupnstgn .gt_last_grand_summary_row_top {
+#jeqexjqrpe .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -424,11 +485,11 @@ dat %>%
   border-bottom-color: #D3D3D3;
 }
 
-#putupnstgn .gt_striped {
+#jeqexjqrpe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#putupnstgn .gt_table_body {
+#jeqexjqrpe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -437,7 +498,7 @@ dat %>%
   border-bottom-color: #D3D3D3;
 }
 
-#putupnstgn .gt_footnotes {
+#jeqexjqrpe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -451,7 +512,7 @@ dat %>%
   border-right-color: #D3D3D3;
 }
 
-#putupnstgn .gt_footnote {
+#jeqexjqrpe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -460,7 +521,7 @@ dat %>%
   padding-right: 5px;
 }
 
-#putupnstgn .gt_sourcenotes {
+#jeqexjqrpe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -474,7 +535,7 @@ dat %>%
   border-right-color: #D3D3D3;
 }
 
-#putupnstgn .gt_sourcenote {
+#jeqexjqrpe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -482,63 +543,63 @@ dat %>%
   padding-right: 5px;
 }
 
-#putupnstgn .gt_left {
+#jeqexjqrpe .gt_left {
   text-align: left;
 }
 
-#putupnstgn .gt_center {
+#jeqexjqrpe .gt_center {
   text-align: center;
 }
 
-#putupnstgn .gt_right {
+#jeqexjqrpe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#putupnstgn .gt_font_normal {
+#jeqexjqrpe .gt_font_normal {
   font-weight: normal;
 }
 
-#putupnstgn .gt_font_bold {
+#jeqexjqrpe .gt_font_bold {
   font-weight: bold;
 }
 
-#putupnstgn .gt_font_italic {
+#jeqexjqrpe .gt_font_italic {
   font-style: italic;
 }
 
-#putupnstgn .gt_super {
+#jeqexjqrpe .gt_super {
   font-size: 65%;
 }
 
-#putupnstgn .gt_footnote_marks {
+#jeqexjqrpe .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#putupnstgn .gt_asterisk {
+#jeqexjqrpe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#putupnstgn .gt_indent_1 {
+#jeqexjqrpe .gt_indent_1 {
   text-indent: 5px;
 }
 
-#putupnstgn .gt_indent_2 {
+#jeqexjqrpe .gt_indent_2 {
   text-indent: 10px;
 }
 
-#putupnstgn .gt_indent_3 {
+#jeqexjqrpe .gt_indent_3 {
   text-indent: 15px;
 }
 
-#putupnstgn .gt_indent_4 {
+#jeqexjqrpe .gt_indent_4 {
   text-indent: 20px;
 }
 
-#putupnstgn .gt_indent_5 {
+#jeqexjqrpe .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -562,10 +623,18 @@ dat %>%
     <tr><td headers="label" class="gt_row gt_left">    75+</td>
 <td headers="stat_0" class="gt_row gt_center">6,365 (11%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">pregnant</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">57,508 (97%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
 <td headers="stat_0" class="gt_row gt_center">1,620 (2.7%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">671</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">female</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">28,882 (48%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
 <td headers="stat_0" class="gt_row gt_center">30,917 (52%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">bp_med_n_class</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
@@ -582,6 +651,10 @@ dat %>%
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">481</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">htn_accaha</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">31,743 (53%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
 <td headers="stat_0" class="gt_row gt_center">28,056 (47%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">bp_med_n_pills</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
@@ -609,6 +682,133 @@ dat %>%
 
 ### missing values
 
+``` r
+ini = mice(dat, maxit = 0, print = FALSE)
+```
+
+    ## Warning: Number of logged events: 12
+
+``` r
+pred0 = ini$pred
+method0 = ini$method
+method0
+```
+
+    ##                             svy_id                     svy_weight_mec 
+    ##                                 ""                                 "" 
+    ##                            svy_psu                         svy_strata 
+    ##                                 ""                                 "" 
+    ##                           svy_year                     svy_subpop_htn 
+    ##                                 ""                                 "" 
+    ##                    svy_subpop_chol                       demo_age_cat 
+    ##                                 ""                                 "" 
+    ##                          demo_race                    demo_race_black 
+    ##                                 ""                                 "" 
+    ##                     demo_age_years                      demo_pregnant 
+    ##                                 ""                           "logreg" 
+    ##                        demo_gender                        bp_sys_mean 
+    ##                                 ""                              "pmm" 
+    ##                        bp_dia_mean               bp_cat_meds_excluded 
+    ##                              "pmm"                                 "" 
+    ##               bp_cat_meds_included                    bp_control_jnc7 
+    ##                                 ""                                 "" 
+    ##                  bp_control_accaha                bp_control_escesh_1 
+    ##                                 ""                                 "" 
+    ##                bp_control_escesh_2                  bp_control_140_90 
+    ##                                 ""                                 "" 
+    ##                  bp_control_130_80               bp_uncontrolled_jnc7 
+    ##                                 ""                                 "" 
+    ##             bp_uncontrolled_accaha           bp_uncontrolled_escesh_1 
+    ##                                 ""                                 "" 
+    ##           bp_uncontrolled_escesh_2             bp_uncontrolled_140_90 
+    ##                                 ""                                 "" 
+    ##             bp_uncontrolled_130_80                         bp_med_use 
+    ##                                 ""                           "logreg" 
+    ##            bp_med_recommended_jnc7          bp_med_recommended_accaha 
+    ##                                 ""                                 "" 
+    ##          bp_med_recommended_escesh                     bp_med_n_class 
+    ##                                 ""                          "polyreg" 
+    ##                     bp_med_n_pills                 bp_med_combination 
+    ##                          "polyreg"                           "logreg" 
+    ##                bp_med_pills_gteq_2                         bp_med_ace 
+    ##                                 ""                           "logreg" 
+    ##                        bp_med_aldo                       bp_med_alpha 
+    ##                           "logreg"                           "logreg" 
+    ##                    bp_med_angioten                        bp_med_beta 
+    ##                                 ""                           "logreg" 
+    ##                     bp_med_central                         bp_med_ccb 
+    ##                           "logreg"                           "logreg" 
+    ##                      bp_med_ccb_dh                     bp_med_ccb_ndh 
+    ##                           "logreg"                           "logreg" 
+    ##               bp_med_diur_Ksparing                   bp_med_diur_loop 
+    ##                           "logreg"                           "logreg" 
+    ##                    bp_med_diur_thz            bp_med_renin_inhibitors 
+    ##                           "logreg"                           "logreg" 
+    ##                       bp_med_vasod                           htn_jnc7 
+    ##                           "logreg"                                 "" 
+    ##                         htn_accaha                         htn_escesh 
+    ##                                 ""                                 "" 
+    ##                          htn_aware                 htn_resistant_jnc7 
+    ##                           "logreg"                                 "" 
+    ##               htn_resistant_accaha             htn_resistant_jnc7_thz 
+    ##                                 ""                                 "" 
+    ##           htn_resistant_accaha_thz                chol_measured_never 
+    ##                                 ""                           "logreg" 
+    ##                 chol_measured_last                         chol_total 
+    ##                          "polyreg"                              "pmm" 
+    ##                chol_total_gteq_200                chol_total_gteq_240 
+    ##                           "logreg"                           "logreg" 
+    ##                           chol_hdl                       chol_hdl_low 
+    ##                              "pmm"                           "logreg" 
+    ##                          chol_trig                 chol_trig_gteq_150 
+    ##                              "pmm"                           "logreg" 
+    ##                           chol_ldl                      chol_ldl_5cat 
+    ##                              "pmm"                          "polyreg" 
+    ##                     chol_ldl_lt_70                   chol_ldl_gteq_70 
+    ##                           "logreg"                           "logreg" 
+    ##                    chol_ldl_lt_100                  chol_ldl_gteq_100 
+    ##                           "logreg"                           "logreg" 
+    ##                  chol_ldl_gteq_190                chol_ldl_persistent 
+    ##                           "logreg"                           "logreg" 
+    ##                        chol_nonhdl                   chol_nonhdl_5cat 
+    ##                              "pmm"                          "polyreg" 
+    ##                 chol_nonhdl_lt_100               chol_nonhdl_gteq_100 
+    ##                           "logreg"                           "logreg" 
+    ##               chol_nonhdl_gteq_220                       chol_med_use 
+    ##                           "logreg"                           "logreg" 
+    ##                    chol_med_use_sr                    chol_med_statin 
+    ##                           "logreg"                           "logreg" 
+    ##                 chol_med_ezetimibe                    chol_med_pcsk9i 
+    ##                           "logreg"                           "logreg" 
+    ##                      chol_med_bile               chol_med_fibric_acid 
+    ##                           "logreg"                           "logreg" 
+    ##              chol_med_atorvastatin               chol_med_simvastatin 
+    ##                           "logreg"                           "logreg" 
+    ##              chol_med_rosuvastatin               chol_med_pravastatin 
+    ##                           "logreg"                           "logreg" 
+    ##              chol_med_pitavastatin               chol_med_fluvastatin 
+    ##                           "logreg"                           "logreg" 
+    ##                chol_med_lovastatin                     chol_med_other 
+    ##                           "logreg"                           "logreg" 
+    ##                 chol_med_addon_use  chol_med_addon_recommended_ahaacc 
+    ##                           "logreg"                           "logreg" 
+    ## chol_med_statin_recommended_ahaacc          chol_med_recommended_ever 
+    ##                           "logreg"                           "logreg" 
+    ##               ascvd_risk_vh_ahaacc                           cc_smoke 
+    ##                           "logreg"                          "polyreg" 
+    ##                             cc_bmi                        cc_diabetes 
+    ##                          "polyreg"                                 "" 
+    ##                             cc_ckd                          cc_cvd_mi 
+    ##                                 ""                           "logreg" 
+    ##                         cc_cvd_chd                      cc_cvd_stroke 
+    ##                           "logreg"                           "logreg" 
+    ##                       cc_cvd_ascvd                          cc_cvd_hf 
+    ##                                 ""                           "logreg" 
+    ##                         cc_cvd_any                           pregnant 
+    ##                                 ""                                 "" 
+    ##                             female 
+    ##                                 ""
+
 # survey design
 
 **Notes**:
@@ -629,7 +829,8 @@ To simplify this, we first ignore the “must start by using the 4-year
 weights provided by NCHS for 1999-2002”, and use 2-year weights for all
 observations from 1999-2016. Treat 2017-2020Mar as 3.2 years.
 
-Combining nine survey cycles (18+3.2 years: 1999-2016 2017-2020Mar)
+Combining nine survey cycles + one 3.2 year survey cycle (18+3.2 years:
+1999-2016 2017-2020Mar)
 
 ``` r
 dat$svy_weight_mec<-ifelse(dat$svy_year %in% c("2017-2020"),dat$svy_weight_mec*3.2/21.2,dat$svy_weight_mec*2/21.2)
