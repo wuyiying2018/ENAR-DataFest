@@ -38,20 +38,44 @@ dat<-nhanes_data
 
 ## data cleaning
 
-<<<<<<< HEAD
-### missing values
+**combine categories**
 
-Participants with missing pregnancy status were assumed to be
-nonpregnant for these analyses. reference:
-<https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900>
+``` r
+dat <- dat %>%
+  mutate(
+    # Demographics variables
+    # demo_age_cat
+    demo_age_cat = factor(case_when(
+      demo_age_cat == "65 to 74" ~ "65+",  
+      demo_age_cat == "75+" ~ "65+", 
+      TRUE ~ demo_age_cat
+    )),
+    # demo_race
+    demo_race=factor(case_when(
+      demo_race == "Non-Hispanic Asian" ~ "Hispanic/Asian/Other",
+      demo_race == "Hispanic" ~ "Hispanic/Asian/Other",
+      demo_race == "Other" ~ "Hispanic/Asian/Other",
+      TRUE ~ demo_race
+    )),
+    
+    # Antihypertensive medication variables
+    # bp_med_n_class
+    bp_med_n_class=factor(case_when(
+      bp_med_n_class == "Two" ~ "Two or more",
+      bp_med_n_class == "Three" ~ "Two or more",
+      bp_med_n_class == "Four or more" ~ "Two or more",
+      TRUE ~ bp_med_n_class
+    )),
+    # bp_med_n_pills
+    bp_med_n_pills=factor(case_when(
+      bp_med_n_pills == "Two" ~ "Two or more",
+      bp_med_n_pills == "Three" ~ "Two or more",
+      bp_med_n_pills == "Four or more" ~ "Two or more",
+      TRUE ~ bp_med_n_pills
+    ))
+  )
+```
 
-survey weights are calibrated within race, gender, and age groups to
-account for missing information on SBP, DBP or self-reported
-antihypertensive medication use:
-<https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ>
-
-=======
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
 ### recode categorical data
 
 ``` r
@@ -167,6 +191,33 @@ dat = dat %>%
   )
 ```
 
+### select the relavent variables
+
+``` r
+dat=dat%>%select(
+  # Survey variables
+  svy_id, svy_psu,svy_strata, svy_weight_mec, svy_subpop_htn,
+  svy_year,
+  # Demographics variables
+  demo_age_cat, demo_race, pregnant, female, 
+  # Blood pressure variables
+  bp_uncontrolled_140_90,bp_uncontrolled_130_80,
+  # Hypertension variables
+  htn_accaha, htn_aware, htn_resistant_accaha,
+  htn_resistant_accaha_thz,
+  # Antihypertensive medication variables
+  bp_med_use, bp_med_recommended_accaha, bp_med_n_class,
+  bp_med_n_pills, bp_med_combination, bp_med_pills_gteq_2,
+  bp_med_ace, bp_med_aldo, bp_med_alpha, bp_med_angioten,
+  bp_med_beta, bp_med_ccb, bp_med_ccb_dh, bp_med_ccb_ndh, 
+  bp_med_central, bp_med_renin_inhibitors, bp_med_vasod,
+  bp_med_diur_loop, bp_med_diur_Ksparing, bp_med_diur_thz, 
+  # Comorbidities variables
+  cc_smoke, cc_bmi, cc_diabetes, cc_ckd, cc_cvd_mi, cc_cvd_chd, 
+  cc_cvd_stroke, cc_cvd_ascvd, cc_cvd_hf, cc_cvd_any
+)
+```
+
 **check variables**
 
 ``` r
@@ -177,39 +228,23 @@ dat %>%
   bold_labels()
 ```
 
-<<<<<<< HEAD
-<div id="alapypommj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#alapypommj table {
-=======
-<div id="jeqexjqrpe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jeqexjqrpe table {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+<div id="pzhopsxrob" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pzhopsxrob table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-<<<<<<< HEAD
-&#10;#alapypommj thead, #alapypommj tbody, #alapypommj tfoot, #alapypommj tr, #alapypommj td, #alapypommj th {
-  border-style: none;
-}
-&#10;#alapypommj p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#alapypommj .gt_table {
-=======
 
-#jeqexjqrpe thead, #jeqexjqrpe tbody, #jeqexjqrpe tfoot, #jeqexjqrpe tr, #jeqexjqrpe td, #jeqexjqrpe th {
+#pzhopsxrob thead, #pzhopsxrob tbody, #pzhopsxrob tfoot, #pzhopsxrob tr, #pzhopsxrob td, #pzhopsxrob th {
   border-style: none;
 }
 
-#jeqexjqrpe p {
+#pzhopsxrob p {
   margin: 0;
   padding: 0;
 }
 
-#jeqexjqrpe .gt_table {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -234,21 +269,13 @@ dat %>%
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#alapypommj .gt_title {
-=======
 
-#jeqexjqrpe .gt_caption {
+#pzhopsxrob .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jeqexjqrpe .gt_title {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -259,12 +286,8 @@ dat %>%
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_subtitle {
-=======
 
-#jeqexjqrpe .gt_subtitle {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -275,12 +298,8 @@ dat %>%
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_heading {
-=======
 
-#jeqexjqrpe .gt_heading {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -291,22 +310,14 @@ dat %>%
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_bottom_border {
-=======
 
-#jeqexjqrpe .gt_bottom_border {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_col_headings {
-=======
 
-#jeqexjqrpe .gt_col_headings {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -320,12 +331,8 @@ dat %>%
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_col_heading {
-=======
 
-#jeqexjqrpe .gt_col_heading {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -344,12 +351,8 @@ dat %>%
   padding-right: 5px;
   overflow-x: hidden;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_column_spanner_outer {
-=======
 
-#jeqexjqrpe .gt_column_spanner_outer {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -360,26 +363,16 @@ dat %>%
   padding-left: 4px;
   padding-right: 4px;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#alapypommj .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#alapypommj .gt_column_spanner {
-=======
 
-#jeqexjqrpe .gt_column_spanner_outer:first-child {
+#pzhopsxrob .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jeqexjqrpe .gt_column_spanner_outer:last-child {
+#pzhopsxrob .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jeqexjqrpe .gt_column_spanner {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -390,19 +383,12 @@ dat %>%
   display: inline-block;
   width: 100%;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#alapypommj .gt_group_heading {
-=======
 
-#jeqexjqrpe .gt_spanner_row {
+#pzhopsxrob .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jeqexjqrpe .gt_group_heading {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -427,12 +413,8 @@ dat %>%
   vertical-align: middle;
   text-align: left;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_empty_group_heading {
-=======
 
-#jeqexjqrpe .gt_empty_group_heading {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -446,26 +428,16 @@ dat %>%
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#alapypommj .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#alapypommj .gt_row {
-=======
 
-#jeqexjqrpe .gt_from_md > :first-child {
+#pzhopsxrob .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jeqexjqrpe .gt_from_md > :last-child {
+#pzhopsxrob .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jeqexjqrpe .gt_row {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -483,12 +455,8 @@ dat %>%
   vertical-align: middle;
   overflow-x: hidden;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_stub {
-=======
 
-#jeqexjqrpe .gt_stub {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -500,12 +468,8 @@ dat %>%
   padding-left: 5px;
   padding-right: 5px;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_stub_row_group {
-=======
 
-#jeqexjqrpe .gt_stub_row_group {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -518,26 +482,16 @@ dat %>%
   padding-right: 5px;
   vertical-align: top;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#alapypommj .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#alapypommj .gt_summary_row {
-=======
 
-#jeqexjqrpe .gt_row_group_first td {
+#pzhopsxrob .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jeqexjqrpe .gt_row_group_first th {
+#pzhopsxrob .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jeqexjqrpe .gt_summary_row {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -546,28 +500,17 @@ dat %>%
   padding-left: 5px;
   padding-right: 5px;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#alapypommj .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#alapypommj .gt_last_summary_row {
-=======
 
-#jeqexjqrpe .gt_first_summary_row {
+#pzhopsxrob .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jeqexjqrpe .gt_first_summary_row.thick {
+#pzhopsxrob .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jeqexjqrpe .gt_last_summary_row {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -576,12 +519,8 @@ dat %>%
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_grand_summary_row {
-=======
 
-#jeqexjqrpe .gt_grand_summary_row {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -590,12 +529,8 @@ dat %>%
   padding-left: 5px;
   padding-right: 5px;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_first_grand_summary_row {
-=======
 
-#jeqexjqrpe .gt_first_grand_summary_row {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -604,12 +539,8 @@ dat %>%
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_last_grand_summary_row_top {
-=======
 
-#jeqexjqrpe .gt_last_grand_summary_row_top {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -618,19 +549,12 @@ dat %>%
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#alapypommj .gt_table_body {
-=======
 
-#jeqexjqrpe .gt_striped {
+#pzhopsxrob .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jeqexjqrpe .gt_table_body {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -638,12 +562,8 @@ dat %>%
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_footnotes {
-=======
 
-#jeqexjqrpe .gt_footnotes {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -656,12 +576,8 @@ dat %>%
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_footnote {
-=======
 
-#jeqexjqrpe .gt_footnote {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -669,12 +585,8 @@ dat %>%
   padding-left: 5px;
   padding-right: 5px;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_sourcenotes {
-=======
 
-#jeqexjqrpe .gt_sourcenotes {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -687,122 +599,72 @@ dat %>%
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_sourcenote {
-=======
 
-#jeqexjqrpe .gt_sourcenote {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_left {
-  text-align: left;
-}
-&#10;#alapypommj .gt_center {
-  text-align: center;
-}
-&#10;#alapypommj .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#alapypommj .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#alapypommj .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#alapypommj .gt_font_italic {
-  font-style: italic;
-}
-&#10;#alapypommj .gt_super {
-  font-size: 65%;
-}
-&#10;#alapypommj .gt_footnote_marks {
-=======
 
-#jeqexjqrpe .gt_left {
+#pzhopsxrob .gt_left {
   text-align: left;
 }
 
-#jeqexjqrpe .gt_center {
+#pzhopsxrob .gt_center {
   text-align: center;
 }
 
-#jeqexjqrpe .gt_right {
+#pzhopsxrob .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jeqexjqrpe .gt_font_normal {
+#pzhopsxrob .gt_font_normal {
   font-weight: normal;
 }
 
-#jeqexjqrpe .gt_font_bold {
+#pzhopsxrob .gt_font_bold {
   font-weight: bold;
 }
 
-#jeqexjqrpe .gt_font_italic {
+#pzhopsxrob .gt_font_italic {
   font-style: italic;
 }
 
-#jeqexjqrpe .gt_super {
+#pzhopsxrob .gt_super {
   font-size: 65%;
 }
 
-#jeqexjqrpe .gt_footnote_marks {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-<<<<<<< HEAD
-&#10;#alapypommj .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#alapypommj .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#alapypommj .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#alapypommj .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#alapypommj .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#alapypommj .gt_indent_5 {
-=======
 
-#jeqexjqrpe .gt_asterisk {
+#pzhopsxrob .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jeqexjqrpe .gt_indent_1 {
+#pzhopsxrob .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jeqexjqrpe .gt_indent_2 {
+#pzhopsxrob .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jeqexjqrpe .gt_indent_3 {
+#pzhopsxrob .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jeqexjqrpe .gt_indent_4 {
+#pzhopsxrob .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jeqexjqrpe .gt_indent_5 {
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
+#pzhopsxrob .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -821,10 +683,8 @@ dat %>%
 <td headers="stat_0" class="gt_row gt_center">27,935 (47%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    45 to 64</td>
 <td headers="stat_0" class="gt_row gt_center">18,082 (30%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    65 to 74</td>
-<td headers="stat_0" class="gt_row gt_center">7,417 (12%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    75+</td>
-<td headers="stat_0" class="gt_row gt_center">6,365 (11%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    65+</td>
+<td headers="stat_0" class="gt_row gt_center">13,782 (23%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">pregnant</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0</td>
@@ -845,12 +705,8 @@ dat %>%
 <td headers="stat_0" class="gt_row gt_center">42,088 (71%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    One</td>
 <td headers="stat_0" class="gt_row gt_center">7,347 (12%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Two</td>
-<td headers="stat_0" class="gt_row gt_center">5,740 (9.7%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Three</td>
-<td headers="stat_0" class="gt_row gt_center">2,895 (4.9%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Four or more</td>
-<td headers="stat_0" class="gt_row gt_center">1,248 (2.1%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Two or more</td>
+<td headers="stat_0" class="gt_row gt_center">9,883 (17%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">481</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">htn_accaha</td>
@@ -865,12 +721,8 @@ dat %>%
 <td headers="stat_0" class="gt_row gt_center">42,088 (71%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    One</td>
 <td headers="stat_0" class="gt_row gt_center">8,995 (15%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Two</td>
-<td headers="stat_0" class="gt_row gt_center">5,165 (8.7%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Three</td>
-<td headers="stat_0" class="gt_row gt_center">2,200 (3.7%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Four or more</td>
-<td headers="stat_0" class="gt_row gt_center">870 (1.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Two or more</td>
+<td headers="stat_0" class="gt_row gt_center">8,235 (14%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">481</td></tr>
   </tbody>
@@ -885,132 +737,46 @@ dat %>%
 
 ### missing values
 
-``` r
-ini = mice(dat, maxit = 0, print = FALSE)
-```
+Participants with missing pregnancy status were assumed to be
+nonpregnant for these analyses. reference:
+<https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900>
 
-    ## Warning: Number of logged events: 12
+survey weights are calibrated within race, gender, and age groups to
+account for missing information on SBP, DBP or self-reported
+antihypertensive medication use:
+<https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ>
 
 ``` r
+# adj for pregnant missing
+my_dat <- dat %>% 
+  mutate(pregnant = ifelse(is.na(pregnant), 0, pregnant))
+
+# Initial imputation
+ini = mice(my_dat, maxit = 0, print = FALSE)
 pred0 = ini$pred
 method0 = ini$method
 method0
-```
+ini$nmis
 
-    ##                             svy_id                     svy_weight_mec 
-    ##                                 ""                                 "" 
-    ##                            svy_psu                         svy_strata 
-    ##                                 ""                                 "" 
-    ##                           svy_year                     svy_subpop_htn 
-    ##                                 ""                                 "" 
-    ##                    svy_subpop_chol                       demo_age_cat 
-    ##                                 ""                                 "" 
-    ##                          demo_race                    demo_race_black 
-    ##                                 ""                                 "" 
-    ##                     demo_age_years                      demo_pregnant 
-    ##                                 ""                           "logreg" 
-    ##                        demo_gender                        bp_sys_mean 
-    ##                                 ""                              "pmm" 
-    ##                        bp_dia_mean               bp_cat_meds_excluded 
-    ##                              "pmm"                                 "" 
-    ##               bp_cat_meds_included                    bp_control_jnc7 
-    ##                                 ""                                 "" 
-    ##                  bp_control_accaha                bp_control_escesh_1 
-    ##                                 ""                                 "" 
-    ##                bp_control_escesh_2                  bp_control_140_90 
-    ##                                 ""                                 "" 
-    ##                  bp_control_130_80               bp_uncontrolled_jnc7 
-    ##                                 ""                                 "" 
-    ##             bp_uncontrolled_accaha           bp_uncontrolled_escesh_1 
-    ##                                 ""                                 "" 
-    ##           bp_uncontrolled_escesh_2             bp_uncontrolled_140_90 
-    ##                                 ""                                 "" 
-    ##             bp_uncontrolled_130_80                         bp_med_use 
-    ##                                 ""                           "logreg" 
-    ##            bp_med_recommended_jnc7          bp_med_recommended_accaha 
-    ##                                 ""                                 "" 
-    ##          bp_med_recommended_escesh                     bp_med_n_class 
-    ##                                 ""                          "polyreg" 
-    ##                     bp_med_n_pills                 bp_med_combination 
-    ##                          "polyreg"                           "logreg" 
-    ##                bp_med_pills_gteq_2                         bp_med_ace 
-    ##                                 ""                           "logreg" 
-    ##                        bp_med_aldo                       bp_med_alpha 
-    ##                           "logreg"                           "logreg" 
-    ##                    bp_med_angioten                        bp_med_beta 
-    ##                                 ""                           "logreg" 
-    ##                     bp_med_central                         bp_med_ccb 
-    ##                           "logreg"                           "logreg" 
-    ##                      bp_med_ccb_dh                     bp_med_ccb_ndh 
-    ##                           "logreg"                           "logreg" 
-    ##               bp_med_diur_Ksparing                   bp_med_diur_loop 
-    ##                           "logreg"                           "logreg" 
-    ##                    bp_med_diur_thz            bp_med_renin_inhibitors 
-    ##                           "logreg"                           "logreg" 
-    ##                       bp_med_vasod                           htn_jnc7 
-    ##                           "logreg"                                 "" 
-    ##                         htn_accaha                         htn_escesh 
-    ##                                 ""                                 "" 
-    ##                          htn_aware                 htn_resistant_jnc7 
-    ##                           "logreg"                                 "" 
-    ##               htn_resistant_accaha             htn_resistant_jnc7_thz 
-    ##                                 ""                                 "" 
-    ##           htn_resistant_accaha_thz                chol_measured_never 
-    ##                                 ""                           "logreg" 
-    ##                 chol_measured_last                         chol_total 
-    ##                          "polyreg"                              "pmm" 
-    ##                chol_total_gteq_200                chol_total_gteq_240 
-    ##                           "logreg"                           "logreg" 
-    ##                           chol_hdl                       chol_hdl_low 
-    ##                              "pmm"                           "logreg" 
-    ##                          chol_trig                 chol_trig_gteq_150 
-    ##                              "pmm"                           "logreg" 
-    ##                           chol_ldl                      chol_ldl_5cat 
-    ##                              "pmm"                          "polyreg" 
-    ##                     chol_ldl_lt_70                   chol_ldl_gteq_70 
-    ##                           "logreg"                           "logreg" 
-    ##                    chol_ldl_lt_100                  chol_ldl_gteq_100 
-    ##                           "logreg"                           "logreg" 
-    ##                  chol_ldl_gteq_190                chol_ldl_persistent 
-    ##                           "logreg"                           "logreg" 
-    ##                        chol_nonhdl                   chol_nonhdl_5cat 
-    ##                              "pmm"                          "polyreg" 
-    ##                 chol_nonhdl_lt_100               chol_nonhdl_gteq_100 
-    ##                           "logreg"                           "logreg" 
-    ##               chol_nonhdl_gteq_220                       chol_med_use 
-    ##                           "logreg"                           "logreg" 
-    ##                    chol_med_use_sr                    chol_med_statin 
-    ##                           "logreg"                           "logreg" 
-    ##                 chol_med_ezetimibe                    chol_med_pcsk9i 
-    ##                           "logreg"                           "logreg" 
-    ##                      chol_med_bile               chol_med_fibric_acid 
-    ##                           "logreg"                           "logreg" 
-    ##              chol_med_atorvastatin               chol_med_simvastatin 
-    ##                           "logreg"                           "logreg" 
-    ##              chol_med_rosuvastatin               chol_med_pravastatin 
-    ##                           "logreg"                           "logreg" 
-    ##              chol_med_pitavastatin               chol_med_fluvastatin 
-    ##                           "logreg"                           "logreg" 
-    ##                chol_med_lovastatin                     chol_med_other 
-    ##                           "logreg"                           "logreg" 
-    ##                 chol_med_addon_use  chol_med_addon_recommended_ahaacc 
-    ##                           "logreg"                           "logreg" 
-    ## chol_med_statin_recommended_ahaacc          chol_med_recommended_ever 
-    ##                           "logreg"                           "logreg" 
-    ##               ascvd_risk_vh_ahaacc                           cc_smoke 
-    ##                           "logreg"                          "polyreg" 
-    ##                             cc_bmi                        cc_diabetes 
-    ##                          "polyreg"                                 "" 
-    ##                             cc_ckd                          cc_cvd_mi 
-    ##                                 ""                           "logreg" 
-    ##                         cc_cvd_chd                      cc_cvd_stroke 
-    ##                           "logreg"                           "logreg" 
-    ##                       cc_cvd_ascvd                          cc_cvd_hf 
-    ##                                 ""                           "logreg" 
-    ##                         cc_cvd_any                           pregnant 
-    ##                                 ""                                 "" 
-    ##                             female 
-    ##                                 ""
+# Study missing patterns in more details
+md.pattern(my_dat,plot = FALSE)
+
+# Modify the imputation predictor matrix
+# and generate 5 imputations with 5 iterations 
+# in each imputation using the modified predictor matrix
+pred1 = pred0
+pred1[, c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn","svy_subpop_chol")] = 0
+pred1
+
+# to Speed Up the Process, subset the data
+my_dat<-my_dat%>%filter(svy_subpop_chol == 1)
+ini_1 = mice(my_dat, pred = pred1, m = 1, maxit = 1, print = FALSE, seed = 123)
+
+# using quickpred instead
+my_dat<-my_dat%>%filter(svy_subpop_htn == 1, svy_year=="1999-2000")
+pred2 = quickpred(my_dat, mincor = .1,  exclude = c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn","svy_subpop_chol"), method = "pearson")
+ini_2 = mice(my_dat, pred = pred2, m = 5, maxit = 5, print = FALSE, seed = 123)
+```
 
 # survey design
 

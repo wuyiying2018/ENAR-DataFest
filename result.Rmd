@@ -42,6 +42,44 @@ dat<-nhanes_data
 
 ## data cleaning
 
+**combine categories**
+```{r}
+dat <- dat %>%
+  mutate(
+    # Demographics variables
+    # demo_age_cat
+    demo_age_cat = factor(case_when(
+      demo_age_cat == "65 to 74" ~ "65+",  
+      demo_age_cat == "75+" ~ "65+", 
+      TRUE ~ demo_age_cat
+    )),
+    # demo_race
+    demo_race=factor(case_when(
+      demo_race == "Non-Hispanic Asian" ~ "Hispanic/Asian/Other",
+      demo_race == "Hispanic" ~ "Hispanic/Asian/Other",
+      demo_race == "Other" ~ "Hispanic/Asian/Other",
+      TRUE ~ demo_race
+    )),
+    
+    # Antihypertensive medication variables
+    # bp_med_n_class
+    bp_med_n_class=factor(case_when(
+      bp_med_n_class == "Two" ~ "Two or more",
+      bp_med_n_class == "Three" ~ "Two or more",
+      bp_med_n_class == "Four or more" ~ "Two or more",
+      TRUE ~ bp_med_n_class
+    )),
+    # bp_med_n_pills
+    bp_med_n_pills=factor(case_when(
+      bp_med_n_pills == "Two" ~ "Two or more",
+      bp_med_n_pills == "Three" ~ "Two or more",
+      bp_med_n_pills == "Four or more" ~ "Two or more",
+      TRUE ~ bp_med_n_pills
+    ))
+  )
+
+```
+
 ### recode categorical data
 ```{r}
 dat <- dat %>% mutate(
@@ -155,6 +193,32 @@ dat = dat %>%
   )
 ```
 
+### select the relavent variables
+```{r}
+dat=dat%>%select(
+  # Survey variables
+  svy_id, svy_psu,svy_strata, svy_weight_mec, svy_subpop_htn,
+  svy_year,
+  # Demographics variables
+  demo_age_cat, demo_race, pregnant, female, 
+  # Blood pressure variables
+  bp_uncontrolled_140_90,bp_uncontrolled_130_80,
+  # Hypertension variables
+  htn_accaha, htn_aware, htn_resistant_accaha,
+  htn_resistant_accaha_thz,
+  # Antihypertensive medication variables
+  bp_med_use, bp_med_recommended_accaha, bp_med_n_class,
+  bp_med_n_pills, bp_med_combination, bp_med_pills_gteq_2,
+  bp_med_ace, bp_med_aldo, bp_med_alpha, bp_med_angioten,
+  bp_med_beta, bp_med_ccb, bp_med_ccb_dh, bp_med_ccb_ndh, 
+  bp_med_central, bp_med_renin_inhibitors, bp_med_vasod,
+  bp_med_diur_loop, bp_med_diur_Ksparing, bp_med_diur_thz, 
+  # Comorbidities variables
+  cc_smoke, cc_bmi, cc_diabetes, cc_ckd, cc_cvd_mi, cc_cvd_chd, 
+  cc_cvd_stroke, cc_cvd_ascvd, cc_cvd_hf, cc_cvd_any
+)
+```
+
 **check variables**
 ```{r}
 ## Summary Statistics
@@ -164,18 +228,19 @@ dat %>%
   bold_labels()
 ```
 
+
+
 ### missing values
-<<<<<<< HEAD
+
 Participants with missing pregnancy status were assumed to be nonpregnant for these analyses.
 reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
 
 
 survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
 https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
-=======
->>>>>>> d99d458a011341ee2bae88595527ed5458e972cd
 
-```{r}
+
+```{r,eval=FALSE}
 # adj for pregnant missing
 my_dat <- dat %>% 
   mutate(pregnant = ifelse(is.na(pregnant), 0, pregnant))
@@ -194,10 +259,17 @@ md.pattern(my_dat,plot = FALSE)
 # and generate 5 imputations with 5 iterations 
 # in each imputation using the modified predictor matrix
 pred1 = pred0
-pred1[, c("svy_id")] = 0
+pred1[, c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn","svy_subpop_chol")] = 0
 pred1
-ini_1 = mice(my_dat, pred = pred1, m = 5, maxit = 5, print = FALSE, seed = 8123)
 
+# to Speed Up the Process, subset the data
+my_dat<-my_dat%>%filter(svy_subpop_chol == 1)
+ini_1 = mice(my_dat, pred = pred1, m = 1, maxit = 1, print = FALSE, seed = 123)
+
+# using quickpred instead
+my_dat<-my_dat%>%filter(svy_subpop_htn == 1, svy_year=="1999-2000")
+pred2 = quickpred(my_dat, mincor = .1,  exclude = c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn","svy_subpop_chol"), method = "pearson")
+ini_2 = mice(my_dat, pred = pred2, m = 5, maxit = 5, print = FALSE, seed = 123)
 ```
 
 
