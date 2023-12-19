@@ -4,7 +4,9 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
 ```
 
 ## This document shows the result of the code
@@ -35,6 +37,12 @@ dat<-nhanes_data
 ## data cleaning
 
 ### missing values
+Participants with missing pregnancy status were assumed to be nonpregnant for these analyses.
+reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
+
+
+survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
+https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
 
 ### recode categorical data
 ```{r}
