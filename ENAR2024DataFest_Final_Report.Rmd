@@ -1,0 +1,55 @@
+---
+title: 'ENAR 2024 DataFest Project Report'
+author: "Yi Huang, Yiying Wu"
+date: "Dec 20, 2023"
+output:
+  pdf_document:
+    number_section: yes
+    extra_dependencies: float
+subtitle: 'Mailman School of Public Health at Columbia University'
+header-includes:
+- \usepackage{caption}
+- \usepackage{makecell}
+- \captionsetup[figure]{labelformat=empty}
+- \captionsetup[table]{labelformat=empty}
+abstract: "Hypertension..."
+editor_options:
+  chunk_output_type: console
+---
+\thispagestyle{empty}
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+
+# Introduction
+
+
+
+
+# Methodology
+
+
+
+
+# Results
+
+
+
+
+
+# Conclusion
+
+
+
+
+\newpage
+# References
+
+
+
+
+\newpage
+# Appendix
