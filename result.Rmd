@@ -25,11 +25,22 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 
 ## R packages
 ```{r,warning=FALSE,message=FALSE}
-library(cardioStatsUSA)
-library(tidyverse)
-library(survey)
-library(gtsummary)
-library(mice)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+# INSTALL PACKAGES
+packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "pROC")
+
+# Install missing packages
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages], dependencies = TRUE)
+}
+
+# Load packages invisibly
+invisible(lapply(packages, library, character.only = TRUE))
+
+# Remove variables associated with package installation
+rm(packages, installed_packages)
 ```
 
 
@@ -307,7 +318,7 @@ lm_svy_mi <- function(formula, imputations) {
   
   #setting up null objects allows us to easily add results
   #later
-  b <- se <-  NULL
+  b <- se <- NULL
   
   #now loop through our imputations and run the model
   for(i in 1:imputations$m) {
@@ -321,6 +332,17 @@ lm_svy_mi <- function(formula, imputations) {
     #collect the results
     b <- cbind(b, coef(model))
     se <- cbind(se, summary(model)$coef[,2])
+    
+    # # McFadden's R-squared
+    # null_model <- svyglm(response~1, design = imputation.svy, family = quasibinomial)
+    # ll_full <- logLik(model)
+    # ll_null <- logLik(null_model)
+    # R2 <- c(R2, 1 - (ll_full/ll_null))
+    
+    # # Logistic Regression AUC calculation
+    # predictions <- predict(model, type = "response")
+    # ROC_res <- roc(imputation$dependent_variable, predictions)  # Replace with dependent variable
+    # AUC <- c(AUC, auc(ROC_res))
   }
   
   #now pool the results
@@ -336,29 +358,54 @@ lm_svy_mi <- function(formula, imputations) {
   #they should be the same across all iterations
   n <- nobs(model)
   p <- length(model$coefficients)-1
+  # mean.R2 <- mean(R2)
+  # mean.AUC <- mean(AUC)
   
   #return everything in a list
   return(list(coef=coefficients,
-              n=n))
+              n=n
+              # , 
+              # R2 = mean.R2, 
+              # AUC = mean.AUC
+              )
+         )
+}
+```
+
+```{r}
+#now lets try the model out
+model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
+
+# check model fit based on SL
+convertModel <- function(model) {
+  tr <- createTexreg(
+    coef.names = rownames(model$coef), 
+    coef = model$coef$b.pool, 
+    se = model$coef$se.pool, 
+    pvalues = model$coef$pvalue.pool,
+    # gof.names = c("Mean AUC"),
+    # gof = c( model$AUC),
+    # gof.decimal = c(TRUE)
+  )
 }
 
-#now lets try the model out
-lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
+#To show how this looks lets create a few models
+model2 <- lm_svy_mi(bp_uncontrolled_140_90~demo_age_years+demo_race+female+cc_bmi+cc_diabetes
+                    +cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
 
+screenreg(convertModel(model1))
+screenreg(convertModel(model2))
 ```
 
 if not doing imputation
 ```{r}
-fit<-svyglm(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, 
+fit<-svyglm(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+
+              cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke,
             design=nhanes,family=quasibinomial)
 
 summary(fit)
 ```
 
 
-# Lasso
+# Lasso logistic
 
-
-
-
-# Fit model
