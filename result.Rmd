@@ -151,60 +151,6 @@ dat <- dat %>% mutate(
 )
 ```
 
-**Transform categorical data into factor type**
-```{r}
-dat = dat %>% 
-  mutate(
-    # Demographics variables
-    pregnant = as.factor(pregnant),
-    female = as.factor(female),
-    
-    # Blood pressure variables
-    bp_uncontrolled_140_90 = as.factor(bp_uncontrolled_140_90),
-    bp_uncontrolled_130_80 = as.factor(bp_uncontrolled_130_80),
-    
-    # Hypertension variables
-    htn_accaha = as.factor(htn_accaha),
-    htn_aware = as.factor(htn_aware),
-    htn_resistant_jnc7 = as.factor(htn_resistant_jnc7),
-    htn_resistant_accaha = as.factor(htn_resistant_accaha),
-    htn_resistant_accaha_thz = as.factor(htn_resistant_accaha_thz),
-    htn_resistant_jnc7_thz = as.factor(htn_resistant_jnc7_thz),
-    
-    # Antihypertensive medication variables
-    bp_med_use = as.factor(bp_med_use),
-    bp_med_recommended_jnc7 = as.factor(bp_med_recommended_jnc7),
-    bp_med_recommended_accaha = as.factor(bp_med_recommended_accaha),
-    bp_med_recommended_escesh = as.factor(bp_med_recommended_escesh),
-    bp_med_combination = as.factor(bp_med_combination),
-    bp_med_pills_gteq_2 = as.factor(bp_med_pills_gteq_2),
-    bp_med_ace = as.factor(bp_med_ace),
-    bp_med_aldo = as.factor(bp_med_aldo),
-    bp_med_alpha = as.factor(bp_med_alpha),
-    bp_med_angioten = as.factor(bp_med_angioten),
-    bp_med_beta = as.factor(bp_med_beta),
-    bp_med_ccb = as.factor(bp_med_ccb),
-    bp_med_ccb_dh = as.factor(bp_med_ccb_dh),
-    bp_med_ccb_ndh = as.factor(bp_med_ccb_ndh),
-    bp_med_central = as.factor(bp_med_central),
-    bp_med_renin_inhibitors = as.factor(bp_med_renin_inhibitors),
-    bp_med_vasod = as.factor(bp_med_vasod),
-    bp_med_diur_loop = as.factor(bp_med_diur_loop),
-    bp_med_diur_Ksparing = as.factor(bp_med_diur_Ksparing),
-    bp_med_diur_thz = as.factor(bp_med_diur_thz),
-    
-    # Comorbidities variables
-    cc_diabetes = as.factor(cc_diabetes),
-    cc_ckd = as.factor(cc_ckd),
-    cc_cvd_mi = as.factor(cc_cvd_mi),
-    cc_cvd_chd = as.factor(cc_cvd_chd),
-    cc_cvd_stroke = as.factor(cc_cvd_stroke),
-    cc_cvd_ascvd = as.factor(cc_cvd_ascvd),
-    cc_cvd_hf = as.factor(cc_cvd_hf),
-    cc_cvd_any = as.factor(cc_cvd_any)
-  )
-```
-
 ### select the relavent variables
 ```{r}
 dat=dat%>%select(
@@ -240,17 +186,6 @@ dat %>%
   bold_labels()
 ```
 
-
-
-### missing values
-
-Participants with missing pregnancy status were assumed to be nonpregnant for these analyses.
-reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
-
-
-survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
-https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
-
 ### Create a new data frame that contains 11 predictors
 ```{r}
 my_dat <- dat %>% select(# Survey variables 
@@ -270,7 +205,23 @@ my_dat %>%
   bold_labels()
 ```
 
+
+
+### missing values
+
+Participants with missing pregnancy status were assumed to be nonpregnant for these analyses.
+reference: https://www.ahajournals.org/doi/10.1161/HYPERTENSIONAHA.123.20900
+
+
+survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
+https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
+
+
+
 ```{r,eval=FALSE}
+# Check the distribution of demo_age_years
+hist(my_dat$demo_age_years, main="demo_age_years")
+
 # adj for pregnant missing
 my_dat <- my_dat %>% 
   mutate(pregnant = ifelse(is.na(pregnant), 0, pregnant))
@@ -290,19 +241,25 @@ md.pattern(my_dat,plot = FALSE)
 # in each imputation using the modified predictor matrix
 pred1 = pred0
 pred1[, c("svy_id", "svy_weight_mec", "svy_psu", "svy_strata", "svy_year", "svy_subpop_htn")] = 0
-# pred1[, c("bp_uncontrolled_140_90")] = 0
 pred1
 
 # to Speed Up the Process, subset the data
 # my_dat<-my_dat%>%filter(svy_subpop_chol == 1)
 ini_1 = mice(my_dat, pred = pred1, m = 5, maxit = 5, print = FALSE, seed = 1)
 
-# using quickpred instead
-# my_dat<-my_dat%>%filter(svy_subpop_htn == 1, svy_year=="1999-2000")
-pred2 = quickpred(my_dat, mincor = .1,  exclude = c("svy_id","svy_weight_mec","svy_psu","svy_subpop_htn"), 
-                  method = "pearson")
-ini_2 = mice(my_dat, pred = pred2, m = 5, maxit = 5, print = FALSE, seed = 123)
+# get the first imputed data set, use the complete( ) function
+imp1 =  complete(ini_1, 1)
+
+## Check the convergence of the model
+plot(ini_1)
+
+## Summary Statistics
+imp1 %>% 
+  select(everything()) %>% 
+  tbl_summary() %>% 
+  bold_labels()
 ```
+
 
 
 # survey design
@@ -317,12 +274,12 @@ To simplify this, we first ignore the "must start by using the 4-year weights pr
 
 Combining nine survey cycles + one 3.2 year survey cycle (18+3.2 years: 1999-2016 2017-2020Mar)
 ```{r}
-dat$svy_weight_mec<-ifelse(dat$svy_year %in% c("2017-2020"),dat$svy_weight_mec*3.2/21.2,dat$svy_weight_mec*2/21.2)
+my_dat$svy_weight_mec<-ifelse(my_dat$svy_year %in% c("2017-2020"),my_dat$svy_weight_mec*3.2/21.2,my_dat$svy_weight_mec*2/21.2)
 ```
 
 ## define survey design
 ```{r}
-nhanes_all<-svydesign(data=dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
+nhanes_all<-svydesign(data=my_dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
 ```
 
 ## for blood pressure and hypertension sub-population
@@ -335,6 +292,68 @@ nhanes<-subset(nhanes_all,svy_subpop_htn == 1)
 ```
 
 
+
+# Doing Imputation and logistic regression at the Same Time
+```{r}
+# adj for pregnant missing
+my_dat <- my_dat %>% 
+  mutate(pregnant = ifelse(is.na(pregnant), 0, pregnant))
+
+#create five imputations. The imputations object contains all five
+#complete datasets.
+imputations <- mice(my_dat, 5, printFlag=FALSE)
+
+lm_svy_mi <- function(formula, imputations) {
+  
+  #setting up null objects allows us to easily add results
+  #later
+  b <- se <-  NULL
+  
+  #now loop through our imputations and run the model
+  for(i in 1:imputations$m) {
+    #grab the complete dataset
+    imputation <- complete(imputations, i)
+    #create the design effect object
+    svy <- svydesign(data=my_dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
+    imputation.svy<-subset(svy,svy_subpop_htn == 1)
+    #run the model
+    model <- svyglm(formula, design=imputation.svy,family=quasibinomial)
+    #collect the results
+    b <- cbind(b, coef(model))
+    se <- cbind(se, summary(model)$coef[,2])
+  }
+  
+  #now pool the results
+  b.pool <- apply(b, 1, mean)
+  between.var <- apply(b, 1, var)
+  within.var <- apply(se^2, 1, mean)
+  se.pool <- sqrt(within.var+between.var+between.var/imputations$m) 
+  t.pool <- b.pool/se.pool 
+  pvalue.pool <- (1-pnorm(abs(t.pool)))*2 
+  coefficients <- data.frame(b.pool, se.pool, t.pool, pvalue.pool)
+  
+  #we can also grap n and p from the last model since 
+  #they should be the same across all iterations
+  n <- nobs(model)
+  p <- length(model$coefficients)-1
+  
+  #return everything in a list
+  return(list(coef=coefficients,
+              n=n))
+}
+
+#now lets try the model out
+lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
+
+```
+
+if not doing imputation
+```{r}
+fit<-svyglm(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, 
+            design=nhanes,family=quasibinomial)
+
+summary(fit)
+```
 
 
 # Lasso
