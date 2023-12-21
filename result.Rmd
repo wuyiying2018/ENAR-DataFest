@@ -386,9 +386,6 @@ lm_svy_mi <- function(formula, imputations) {
 ```
 
 ```{r}
-#now lets try the model out
-model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
-
 # check model fit based on SL
 convertModel <- function(model) {
   tr <- createTexreg(
@@ -399,10 +396,14 @@ convertModel <- function(model) {
     ci.up = model$coef$upper.ci,
     pvalues = model$coef$pvalue.pool,
     gof.names=c("McFadden's R-squared", "Ragg-Uhler's R-squared","Mean AIC"),
-    gof = c(model$R2MF, model$R2CU, model$aic),
+    gof = c(model$R2MF, model$R2CU,model$aic),
     gof.decimal = c(TRUE,TRUE,TRUE)
   )
 }
+
+# Stage 2 Hypertension
+#now lets try the model out
+model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
 
 # create a few models to compare model fit
 # 11 predictors
@@ -412,11 +413,20 @@ model2 <- lm_svy_mi(bp_uncontrolled_140_90 ~ demo_age_years + demo_race + female
 # 9 predictors
 model3 <- lm_svy_mi(bp_uncontrolled_140_90 ~ demo_age_years + demo_race + female + cc_bmi + cc_diabetes 
                     + cc_ckd + cc_cvd_any + bp_med_use + htn_aware, imputations)
+
+# Stage 1 Hypertension
+#now lets try the model out
+model_s1 <- lm_svy_mi(bp_uncontrolled_130_80 ~ svy_year + demo_age_years + demo_race + female + cc_bmi + 
+                        cc_diabetes + cc_ckd + cc_cvd_any + bp_med_use + htn_aware + cc_smoke, imputations)
+model_s1
 ```
 
 ```{r model 1}
-# kable(booktabs = T, model1$coef)
+# stage 2 hypertension
 screenreg(convertModel(model1))
+
+# stage 1 hypertension
+screenreg(convertModel(models1))
 ```
 
 ```{r model 3}
