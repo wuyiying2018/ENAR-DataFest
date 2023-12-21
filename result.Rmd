@@ -410,14 +410,14 @@ model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+fem
 model2 <- lm_svy_mi(bp_uncontrolled_140_90 ~ demo_age_years + demo_race + female + pregnant + cc_bmi +
                       cc_diabetes + cc_ckd + cc_cvd_any + bp_med_use + htn_aware + 
                       cc_smoke, imputations)
-# 9 predictors
-model3 <- lm_svy_mi(bp_uncontrolled_140_90 ~ demo_age_years + demo_race + female + cc_bmi + cc_diabetes 
-                    + cc_ckd + cc_cvd_any + bp_med_use + htn_aware, imputations)
+# final 10 predictors
+model3 <- lm_svy_mi(bp_uncontrolled_140_90 ~ svy_year + demo_age_years + demo_race + female + cc_bmi + 
+                      cc_diabetes + cc_ckd + cc_cvd_any + bp_med_use + htn_aware, imputations)
 
 # Stage 1 Hypertension
 #now lets try the model out
 model_s1 <- lm_svy_mi(bp_uncontrolled_130_80 ~ svy_year + demo_age_years + demo_race + female + cc_bmi + 
-                        cc_diabetes + cc_ckd + cc_cvd_any + bp_med_use + htn_aware + cc_smoke, imputations)
+                        cc_diabetes + cc_ckd + cc_cvd_any + bp_med_use + htn_aware, imputations)
 model_s1
 ```
 
@@ -435,12 +435,17 @@ screenreg(convertModel(model3))
 
 if not doing imputation
 ```{r}
-fit<-svyglm(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+
+fit1<-svyglm(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+
               cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke,
             design=nhanes,family=quasibinomial)
 
-summary(fit)
+summary(fit1)
 
+fit2<-svyglm(bp_uncontrolled_130_80~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+
+              cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke,
+            design=nhanes,family=quasibinomial)
+
+summary(fit2)
 ```
 
 
