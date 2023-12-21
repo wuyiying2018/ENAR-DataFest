@@ -485,7 +485,7 @@ model_s1
 
 ```{r model 1}
 # stage 2 hypertension
-screenreg(convertModel(model1))
+screenreg(convertModel(model3))
 
 # stage 1 hypertension
 screenreg(convertModel(model_s1))
@@ -494,6 +494,39 @@ screenreg(convertModel(model_s1))
 ```{r model 3}
 screenreg(convertModel(model3))
 ```
+
+# plot OR and 95% CI
+```{r}
+# first create res dataframe
+res_df<-function(model){
+    coef.names = rownames(model$coef)
+    OR = exp(model$coef$b.pool)
+    ci.low = exp(model$coef$lower.ci)
+    ci.up = exp(model$coef$upper.ci)
+    res<-data_frame(coef.names,OR,ci.low,ci.up)
+    return(res)
+}
+res_m1<-res_df(model_s1)
+res_m2<-res_df(model3)
+
+# plot
+plot_or<-function(df,title){
+  res<-ggplot(df, aes(x = coef.names, y = OR)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = ci.low, ymax = ci.up), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dotted", color = "red") +  # Add vertical line
+  coord_flip() +  # Flip the axes for a horizontal plot
+  theme_minimal() +
+  labs(title = title,
+       x = "Variables",
+       y = "Odds Ratio")
+  return(res)
+}
+  
+plot_or(res_m1,"Odds Ratios and 95% Confidence Intervals for Model1")
+plot_or(res_m2,"Odds Ratios and 95% Confidence Intervals for Model2")
+```
+
 
 if not doing imputation
 ```{r}
@@ -509,6 +542,7 @@ fit2<-svyglm(bp_uncontrolled_130_80~svy_year+demo_age_years+demo_race+female+pre
 
 summary(fit2)
 ```
+
 
 
 # Lasso logistic
