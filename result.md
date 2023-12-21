@@ -25,7 +25,7 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
-              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools")
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools","haven")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -52,23 +52,23 @@ invisible(lapply(packages, library, character.only = TRUE))
 
 **check variables**
 
-<div id="qfnfbnrtya" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qfnfbnrtya table {
+<div id="wnjhyfxetb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wnjhyfxetb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qfnfbnrtya thead, #qfnfbnrtya tbody, #qfnfbnrtya tfoot, #qfnfbnrtya tr, #qfnfbnrtya td, #qfnfbnrtya th {
+#wnjhyfxetb thead, #wnjhyfxetb tbody, #wnjhyfxetb tfoot, #wnjhyfxetb tr, #wnjhyfxetb td, #wnjhyfxetb th {
   border-style: none;
 }
 
-#qfnfbnrtya p {
+#wnjhyfxetb p {
   margin: 0;
   padding: 0;
 }
 
-#qfnfbnrtya .gt_table {
+#wnjhyfxetb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -94,12 +94,12 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-left-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_caption {
+#wnjhyfxetb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qfnfbnrtya .gt_title {
+#wnjhyfxetb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -111,7 +111,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-width: 0;
 }
 
-#qfnfbnrtya .gt_subtitle {
+#wnjhyfxetb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -123,7 +123,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-top-width: 0;
 }
 
-#qfnfbnrtya .gt_heading {
+#wnjhyfxetb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -135,13 +135,13 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_bottom_border {
+#wnjhyfxetb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_col_headings {
+#wnjhyfxetb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -156,7 +156,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_col_heading {
+#wnjhyfxetb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -176,7 +176,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   overflow-x: hidden;
 }
 
-#qfnfbnrtya .gt_column_spanner_outer {
+#wnjhyfxetb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -188,15 +188,15 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 4px;
 }
 
-#qfnfbnrtya .gt_column_spanner_outer:first-child {
+#wnjhyfxetb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qfnfbnrtya .gt_column_spanner_outer:last-child {
+#wnjhyfxetb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qfnfbnrtya .gt_column_spanner {
+#wnjhyfxetb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -208,11 +208,11 @@ invisible(lapply(packages, library, character.only = TRUE))
   width: 100%;
 }
 
-#qfnfbnrtya .gt_spanner_row {
+#wnjhyfxetb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qfnfbnrtya .gt_group_heading {
+#wnjhyfxetb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -238,7 +238,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   text-align: left;
 }
 
-#qfnfbnrtya .gt_empty_group_heading {
+#wnjhyfxetb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -253,15 +253,15 @@ invisible(lapply(packages, library, character.only = TRUE))
   vertical-align: middle;
 }
 
-#qfnfbnrtya .gt_from_md > :first-child {
+#wnjhyfxetb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qfnfbnrtya .gt_from_md > :last-child {
+#wnjhyfxetb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qfnfbnrtya .gt_row {
+#wnjhyfxetb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -280,7 +280,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   overflow-x: hidden;
 }
 
-#qfnfbnrtya .gt_stub {
+#wnjhyfxetb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -293,7 +293,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#qfnfbnrtya .gt_stub_row_group {
+#wnjhyfxetb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -307,15 +307,15 @@ invisible(lapply(packages, library, character.only = TRUE))
   vertical-align: top;
 }
 
-#qfnfbnrtya .gt_row_group_first td {
+#wnjhyfxetb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qfnfbnrtya .gt_row_group_first th {
+#wnjhyfxetb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qfnfbnrtya .gt_summary_row {
+#wnjhyfxetb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -325,16 +325,16 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#qfnfbnrtya .gt_first_summary_row {
+#wnjhyfxetb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_first_summary_row.thick {
+#wnjhyfxetb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qfnfbnrtya .gt_last_summary_row {
+#wnjhyfxetb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -344,7 +344,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_grand_summary_row {
+#wnjhyfxetb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -354,7 +354,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#qfnfbnrtya .gt_first_grand_summary_row {
+#wnjhyfxetb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -364,7 +364,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-top-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_last_grand_summary_row_top {
+#wnjhyfxetb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -374,11 +374,11 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_striped {
+#wnjhyfxetb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qfnfbnrtya .gt_table_body {
+#wnjhyfxetb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -387,7 +387,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_footnotes {
+#wnjhyfxetb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -401,7 +401,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_footnote {
+#wnjhyfxetb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -410,7 +410,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#qfnfbnrtya .gt_sourcenotes {
+#wnjhyfxetb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -424,7 +424,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#qfnfbnrtya .gt_sourcenote {
+#wnjhyfxetb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -432,63 +432,63 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#qfnfbnrtya .gt_left {
+#wnjhyfxetb .gt_left {
   text-align: left;
 }
 
-#qfnfbnrtya .gt_center {
+#wnjhyfxetb .gt_center {
   text-align: center;
 }
 
-#qfnfbnrtya .gt_right {
+#wnjhyfxetb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qfnfbnrtya .gt_font_normal {
+#wnjhyfxetb .gt_font_normal {
   font-weight: normal;
 }
 
-#qfnfbnrtya .gt_font_bold {
+#wnjhyfxetb .gt_font_bold {
   font-weight: bold;
 }
 
-#qfnfbnrtya .gt_font_italic {
+#wnjhyfxetb .gt_font_italic {
   font-style: italic;
 }
 
-#qfnfbnrtya .gt_super {
+#wnjhyfxetb .gt_super {
   font-size: 65%;
 }
 
-#qfnfbnrtya .gt_footnote_marks {
+#wnjhyfxetb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qfnfbnrtya .gt_asterisk {
+#wnjhyfxetb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qfnfbnrtya .gt_indent_1 {
+#wnjhyfxetb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qfnfbnrtya .gt_indent_2 {
+#wnjhyfxetb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qfnfbnrtya .gt_indent_3 {
+#wnjhyfxetb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qfnfbnrtya .gt_indent_4 {
+#wnjhyfxetb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qfnfbnrtya .gt_indent_5 {
+#wnjhyfxetb .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -721,23 +721,23 @@ invisible(lapply(packages, library, character.only = TRUE))
 
 ### Create a new data frame that contains 11 predictors
 
-<div id="yowuzijnfs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#yowuzijnfs table {
+<div id="ndbpjtrtvj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ndbpjtrtvj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#yowuzijnfs thead, #yowuzijnfs tbody, #yowuzijnfs tfoot, #yowuzijnfs tr, #yowuzijnfs td, #yowuzijnfs th {
+#ndbpjtrtvj thead, #ndbpjtrtvj tbody, #ndbpjtrtvj tfoot, #ndbpjtrtvj tr, #ndbpjtrtvj td, #ndbpjtrtvj th {
   border-style: none;
 }
 
-#yowuzijnfs p {
+#ndbpjtrtvj p {
   margin: 0;
   padding: 0;
 }
 
-#yowuzijnfs .gt_table {
+#ndbpjtrtvj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -763,12 +763,12 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-left-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_caption {
+#ndbpjtrtvj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yowuzijnfs .gt_title {
+#ndbpjtrtvj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -780,7 +780,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-width: 0;
 }
 
-#yowuzijnfs .gt_subtitle {
+#ndbpjtrtvj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -792,7 +792,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-top-width: 0;
 }
 
-#yowuzijnfs .gt_heading {
+#ndbpjtrtvj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -804,13 +804,13 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_bottom_border {
+#ndbpjtrtvj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_col_headings {
+#ndbpjtrtvj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -825,7 +825,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_col_heading {
+#ndbpjtrtvj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -845,7 +845,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   overflow-x: hidden;
 }
 
-#yowuzijnfs .gt_column_spanner_outer {
+#ndbpjtrtvj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -857,15 +857,15 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 4px;
 }
 
-#yowuzijnfs .gt_column_spanner_outer:first-child {
+#ndbpjtrtvj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yowuzijnfs .gt_column_spanner_outer:last-child {
+#ndbpjtrtvj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yowuzijnfs .gt_column_spanner {
+#ndbpjtrtvj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -877,11 +877,11 @@ invisible(lapply(packages, library, character.only = TRUE))
   width: 100%;
 }
 
-#yowuzijnfs .gt_spanner_row {
+#ndbpjtrtvj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#yowuzijnfs .gt_group_heading {
+#ndbpjtrtvj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -907,7 +907,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   text-align: left;
 }
 
-#yowuzijnfs .gt_empty_group_heading {
+#ndbpjtrtvj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -922,15 +922,15 @@ invisible(lapply(packages, library, character.only = TRUE))
   vertical-align: middle;
 }
 
-#yowuzijnfs .gt_from_md > :first-child {
+#ndbpjtrtvj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yowuzijnfs .gt_from_md > :last-child {
+#ndbpjtrtvj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yowuzijnfs .gt_row {
+#ndbpjtrtvj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -949,7 +949,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   overflow-x: hidden;
 }
 
-#yowuzijnfs .gt_stub {
+#ndbpjtrtvj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -962,7 +962,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#yowuzijnfs .gt_stub_row_group {
+#ndbpjtrtvj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -976,15 +976,15 @@ invisible(lapply(packages, library, character.only = TRUE))
   vertical-align: top;
 }
 
-#yowuzijnfs .gt_row_group_first td {
+#ndbpjtrtvj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yowuzijnfs .gt_row_group_first th {
+#ndbpjtrtvj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#yowuzijnfs .gt_summary_row {
+#ndbpjtrtvj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -994,16 +994,16 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#yowuzijnfs .gt_first_summary_row {
+#ndbpjtrtvj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_first_summary_row.thick {
+#ndbpjtrtvj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yowuzijnfs .gt_last_summary_row {
+#ndbpjtrtvj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1013,7 +1013,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_grand_summary_row {
+#ndbpjtrtvj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1023,7 +1023,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#yowuzijnfs .gt_first_grand_summary_row {
+#ndbpjtrtvj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1033,7 +1033,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-top-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_last_grand_summary_row_top {
+#ndbpjtrtvj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1043,11 +1043,11 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_striped {
+#ndbpjtrtvj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yowuzijnfs .gt_table_body {
+#ndbpjtrtvj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1056,7 +1056,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-bottom-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_footnotes {
+#ndbpjtrtvj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1070,7 +1070,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_footnote {
+#ndbpjtrtvj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1079,7 +1079,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#yowuzijnfs .gt_sourcenotes {
+#ndbpjtrtvj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1093,7 +1093,7 @@ invisible(lapply(packages, library, character.only = TRUE))
   border-right-color: #D3D3D3;
 }
 
-#yowuzijnfs .gt_sourcenote {
+#ndbpjtrtvj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1101,63 +1101,63 @@ invisible(lapply(packages, library, character.only = TRUE))
   padding-right: 5px;
 }
 
-#yowuzijnfs .gt_left {
+#ndbpjtrtvj .gt_left {
   text-align: left;
 }
 
-#yowuzijnfs .gt_center {
+#ndbpjtrtvj .gt_center {
   text-align: center;
 }
 
-#yowuzijnfs .gt_right {
+#ndbpjtrtvj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yowuzijnfs .gt_font_normal {
+#ndbpjtrtvj .gt_font_normal {
   font-weight: normal;
 }
 
-#yowuzijnfs .gt_font_bold {
+#ndbpjtrtvj .gt_font_bold {
   font-weight: bold;
 }
 
-#yowuzijnfs .gt_font_italic {
+#ndbpjtrtvj .gt_font_italic {
   font-style: italic;
 }
 
-#yowuzijnfs .gt_super {
+#ndbpjtrtvj .gt_super {
   font-size: 65%;
 }
 
-#yowuzijnfs .gt_footnote_marks {
+#ndbpjtrtvj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#yowuzijnfs .gt_asterisk {
+#ndbpjtrtvj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yowuzijnfs .gt_indent_1 {
+#ndbpjtrtvj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yowuzijnfs .gt_indent_2 {
+#ndbpjtrtvj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yowuzijnfs .gt_indent_3 {
+#ndbpjtrtvj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yowuzijnfs .gt_indent_4 {
+#ndbpjtrtvj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yowuzijnfs .gt_indent_5 {
+#ndbpjtrtvj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1299,9 +1299,11 @@ antihypertensive medication use:
 
 ## weight adjustment for years
 
-To simplify this, we first ignore the “must start by using the 4-year
-weights provided by NCHS for 1999-2002”, and use 2-year weights for all
-observations from 1999-2016. Treat 2017-2020Mar as 3.2 years.
+Since we must start by using the 4-year weights provided by NCHS for
+1999-2002”, and use 2-year weights for all observations from 1999-2016.
+Treat 2017-2020Mar as 3.2 years.
+
+We refer to NHANES 1999-2000 and 2001-2002 and get the 4-year weights
 
 Combining nine survey cycles + one 3.2 year survey cycle (18+3.2 years:
 1999-2016 2017-2020Mar)
@@ -1328,112 +1330,112 @@ All the variables used in plotting don’t have any missing values.
 show the trend of uncontrolled blood pressure over the years, accounting
 for survey design and weights.
 
-<img src="result_files/figure-gfm/unnamed-chunk-14-1.png" width="80%" />
+<img src="result_files/figure-gfm/unnamed-chunk-15-1.png" width="80%" />
 
 ## plot 2: Weighted Distribution of Blood Pressure Control by race
 
-<img src="result_files/figure-gfm/unnamed-chunk-15-1.png" width="80%" />
+<img src="result_files/figure-gfm/unnamed-chunk-16-1.png" width="80%" />
 
 # Doing Imputation and logistic regression at the Same Time
 
     ## $coef
-    ##                                    b.pool      se.pool    lower.ci     upper.ci
-    ## (Intercept)                   -2.44807816 0.0636983008 -2.57292683 -2.323229491
-    ## svy_year2001-2002             -0.10813933 0.0588520165 -0.22348928  0.007210622
-    ## svy_year2003-2004             -0.25817618 0.0601052217 -0.37598241 -0.140369946
-    ## svy_year2005-2006             -0.34705774 0.0596524474 -0.46397654 -0.230138948
-    ## svy_year2007-2008             -0.46490820 0.0583596008 -0.57929301 -0.350523378
-    ## svy_year2009-2010             -0.56814824 0.0576327336 -0.68110840 -0.455188083
-    ## svy_year2011-2012             -0.49816069 0.0634965507 -0.62261393 -0.373707454
-    ## svy_year2013-2014             -0.67170670 0.0585570853 -0.78647859 -0.556934817
-    ## svy_year2015-2016             -0.52420856 0.0622569211 -0.64623213 -0.402184999
-    ## svy_year2017-2020             -0.53076369 0.0593755668 -0.64713980 -0.414387575
-    ## demo_age_years                 0.04012975 0.0008813868  0.03840223  0.041857265
-    ## demo_raceHispanic/Asian/Other  0.07750654 0.0299449236  0.01881449  0.136198591
-    ## demo_raceNon-Hispanic Black    0.46736869 0.0298075398  0.40894591  0.525791470
-    ## female                        -0.45342597 0.0270331349 -0.50641092 -0.400441030
-    ## cc_bmi25 to <30                0.20650175 0.0335790311  0.14068685  0.272316651
-    ## cc_bmi30+                      0.54658098 0.0339537507  0.48003163  0.613130332
-    ## cc_diabetes                   -0.09605957 0.0448548499 -0.18397507 -0.008144059
-    ## cc_ckd                         0.33744871 0.0390002170  0.26100828  0.413889133
-    ## cc_cvd_any                    -0.37239239 0.0499352520 -0.47026549 -0.274519300
-    ## bp_med_use                    -0.56925487 0.0536573137 -0.67442321 -0.464086540
-    ## htn_aware                      1.21443968 0.0463888064  1.12351762  1.305361737
-    ##                                   t.pool  pvalue.pool
-    ## (Intercept)                   -38.432393 0.000000e+00
-    ## svy_year2001-2002              -1.837479 6.613925e-02
-    ## svy_year2003-2004              -4.295404 1.743759e-05
-    ## svy_year2005-2006              -5.817997 5.955706e-09
-    ## svy_year2007-2008              -7.966268 1.554312e-15
-    ## svy_year2009-2010              -9.858082 0.000000e+00
-    ## svy_year2011-2012              -7.845476 4.218847e-15
-    ## svy_year2013-2014             -11.470972 0.000000e+00
-    ## svy_year2015-2016              -8.420085 0.000000e+00
-    ## svy_year2017-2020              -8.939093 0.000000e+00
-    ## demo_age_years                 45.530231 0.000000e+00
-    ## demo_raceHispanic/Asian/Other   2.588303 9.645005e-03
-    ## demo_raceNon-Hispanic Black    15.679546 0.000000e+00
-    ## female                        -16.772970 0.000000e+00
-    ## cc_bmi25 to <30                 6.149723 7.761825e-10
-    ## cc_bmi30+                      16.097809 0.000000e+00
-    ## cc_diabetes                    -2.141565 3.222852e-02
-    ## cc_ckd                          8.652483 0.000000e+00
-    ## cc_cvd_any                     -7.457505 8.815171e-14
-    ## bp_med_use                    -10.609083 0.000000e+00
-    ## htn_aware                      26.179584 0.000000e+00
+    ##                                    b.pool      se.pool    lower.ci
+    ## (Intercept)                   -2.43432479 0.0632463433 -2.55828762
+    ## svy_year2001-2002             -0.11426637 0.0582901921 -0.22851515
+    ## svy_year2003-2004             -0.27028170 0.0595461635 -0.38699218
+    ## svy_year2005-2006             -0.35906489 0.0590863286 -0.47487409
+    ## svy_year2007-2008             -0.47684329 0.0577682660 -0.59006909
+    ## svy_year2009-2010             -0.57991023 0.0570344508 -0.69169775
+    ## svy_year2011-2012             -0.50998998 0.0629380504 -0.63334855
+    ## svy_year2013-2014             -0.68354020 0.0579745847 -0.79717039
+    ## svy_year2015-2016             -0.53593027 0.0616834810 -0.65682989
+    ## svy_year2017-2020             -0.54238975 0.0587591256 -0.65755764
+    ## demo_age_years                 0.04005547 0.0008778757  0.03833483
+    ## demo_raceHispanic/Asian/Other  0.07740199 0.0298540176  0.01888811
+    ## demo_raceNon-Hispanic Black    0.46664621 0.0297253511  0.40838452
+    ## female                        -0.44871428 0.0269597755 -0.50155544
+    ## cc_bmi25 to <30                0.20602748 0.0334690896  0.14042806
+    ## cc_bmi30+                      0.54458914 0.0338678220  0.47820820
+    ## cc_diabetes                   -0.09730799 0.0447127416 -0.18494496
+    ## cc_ckd                         0.33756791 0.0388750077  0.26137289
+    ## cc_cvd_any                    -0.37132604 0.0497795209 -0.46889390
+    ## bp_med_use                    -0.56980796 0.0535171856 -0.67470164
+    ## htn_aware                      1.21636197 0.0462906274  1.12563234
+    ##                                    upper.ci     t.pool  pvalue.pool
+    ## (Intercept)                   -2.310362e+00 -38.489574 0.000000e+00
+    ## svy_year2001-2002             -1.759359e-05  -1.960302 4.996052e-02
+    ## svy_year2003-2004             -1.535712e-01  -4.539028 5.651414e-06
+    ## svy_year2005-2006             -2.432557e-01  -6.076954 1.224871e-09
+    ## svy_year2007-2008             -3.636175e-01  -8.254416 2.220446e-16
+    ## svy_year2009-2010             -4.681227e-01 -10.167718 0.000000e+00
+    ## svy_year2011-2012             -3.866314e-01  -8.103047 4.440892e-16
+    ## svy_year2013-2014             -5.699100e-01 -11.790342 0.000000e+00
+    ## svy_year2015-2016             -4.150306e-01  -8.688392 0.000000e+00
+    ## svy_year2017-2020             -4.272219e-01  -9.230732 0.000000e+00
+    ## demo_age_years                 4.177610e-02  45.627720 0.000000e+00
+    ## demo_raceHispanic/Asian/Other  1.359159e-01   2.592682 9.523065e-03
+    ## demo_raceNon-Hispanic Black    5.249079e-01  15.698594 0.000000e+00
+    ## female                        -3.958731e-01 -16.643843 0.000000e+00
+    ## cc_bmi25 to <30                2.716269e-01   6.155754 7.472123e-10
+    ## cc_bmi30+                      6.109701e-01  16.079839 0.000000e+00
+    ## cc_diabetes                   -9.671017e-03  -2.176292 2.953342e-02
+    ## cc_ckd                         4.137629e-01   8.683417 0.000000e+00
+    ## cc_cvd_any                    -2.737582e-01  -7.459414 8.681944e-14
+    ## bp_med_use                    -4.649143e-01 -10.647196 0.000000e+00
+    ## htn_aware                      1.307092e+00  26.276636 0.000000e+00
     ## 
     ## $n
     ## [1] 54862
     ## 
     ## $R2MF
-    ## [1] 0.1383178
+    ## [1] 0.138856
     ## 
     ## $R2CU
-    ## [1] 0.2267674
+    ## [1] 0.2277175
     ## 
     ## $aic
-    ## [1] 61841.74
+    ## [1] 61895.47
 
     ## 
     ## =============================================
     ##                                Model 1       
     ## ---------------------------------------------
-    ## (Intercept)                       -4.53 *    
-    ##                                [-4.70; -4.37]
-    ## svy_year2001-2002                 -0.13      
-    ##                                [-0.27;  0.01]
-    ## svy_year2003-2004                 -0.18 *    
-    ##                                [-0.32; -0.03]
-    ## svy_year2005-2006                 -0.31 *    
-    ##                                [-0.45; -0.16]
-    ## svy_year2007-2008                 -0.42 *    
-    ##                                [-0.56; -0.28]
-    ## svy_year2009-2010                 -0.60 *    
-    ##                                [-0.74; -0.46]
-    ## svy_year2011-2012                 -0.58 *    
-    ##                                [-0.73; -0.42]
-    ## svy_year2013-2014                 -0.66 *    
-    ##                                [-0.80; -0.51]
-    ## svy_year2015-2016                 -0.50 *    
-    ##                                [-0.65; -0.35]
-    ## svy_year2017-2020                 -0.46 *    
-    ##                                [-0.60; -0.32]
+    ## (Intercept)                       -4.52 *    
+    ##                                [-4.69; -4.36]
+    ## svy_year2001-2002                 -0.14      
+    ##                                [-0.27;  0.00]
+    ## svy_year2003-2004                 -0.19 *    
+    ##                                [-0.33; -0.05]
+    ## svy_year2005-2006                 -0.32 *    
+    ##                                [-0.46; -0.18]
+    ## svy_year2007-2008                 -0.43 *    
+    ##                                [-0.57; -0.30]
+    ## svy_year2009-2010                 -0.61 *    
+    ##                                [-0.75; -0.48]
+    ## svy_year2011-2012                 -0.59 *    
+    ##                                [-0.74; -0.44]
+    ## svy_year2013-2014                 -0.67 *    
+    ##                                [-0.81; -0.53]
+    ## svy_year2015-2016                 -0.51 *    
+    ##                                [-0.66; -0.36]
+    ## svy_year2017-2020                 -0.47 *    
+    ##                                [-0.61; -0.33]
     ## demo_age_years                     0.05 *    
     ##                                [ 0.05;  0.05]
     ## demo_raceHispanic/Asian/Other      0.22 *    
     ##                                [ 0.14;  0.30]
     ## demo_raceNon-Hispanic Black        0.67 *    
-    ##                                [ 0.60;  0.75]
+    ##                                [ 0.60;  0.74]
     ## female                            -0.20 *    
-    ##                                [-0.27; -0.14]
+    ##                                [-0.26; -0.13]
     ## cc_bmi25 to <30                    0.05      
     ##                                [-0.03;  0.14]
-    ## cc_bmi30+                          0.26 *    
+    ## cc_bmi30+                          0.25 *    
     ##                                [ 0.17;  0.34]
     ## cc_diabetes                       -0.06      
     ##                                [-0.15;  0.03]
-    ## cc_ckd                             0.47 *    
-    ##                                [ 0.38;  0.55]
+    ## cc_ckd                             0.46 *    
+    ##                                [ 0.38;  0.54]
     ## cc_cvd_any                        -0.31 *    
     ##                                [-0.41; -0.21]
     ## bp_med_use                        -0.62 *    
@@ -1443,7 +1445,7 @@ for survey design and weights.
     ## ---------------------------------------------
     ## McFadden's R-squared               0.18      
     ## Ragg-Uhler's R-squared             0.25      
-    ## Mean AIC                       39757.23      
+    ## Mean AIC                       39924.09      
     ## =============================================
     ## * 0 outside the confidence interval.
 
@@ -1451,37 +1453,37 @@ for survey design and weights.
     ## =============================================
     ##                                Model 1       
     ## ---------------------------------------------
-    ## (Intercept)                       -2.45 *    
-    ##                                [-2.57; -2.32]
-    ## svy_year2001-2002                 -0.11      
-    ##                                [-0.22;  0.01]
-    ## svy_year2003-2004                 -0.26 *    
-    ##                                [-0.38; -0.14]
-    ## svy_year2005-2006                 -0.35 *    
-    ##                                [-0.46; -0.23]
-    ## svy_year2007-2008                 -0.46 *    
-    ##                                [-0.58; -0.35]
-    ## svy_year2009-2010                 -0.57 *    
-    ##                                [-0.68; -0.46]
-    ## svy_year2011-2012                 -0.50 *    
-    ##                                [-0.62; -0.37]
-    ## svy_year2013-2014                 -0.67 *    
-    ##                                [-0.79; -0.56]
-    ## svy_year2015-2016                 -0.52 *    
-    ##                                [-0.65; -0.40]
-    ## svy_year2017-2020                 -0.53 *    
-    ##                                [-0.65; -0.41]
+    ## (Intercept)                       -2.43 *    
+    ##                                [-2.56; -2.31]
+    ## svy_year2001-2002                 -0.11 *    
+    ##                                [-0.23; -0.00]
+    ## svy_year2003-2004                 -0.27 *    
+    ##                                [-0.39; -0.15]
+    ## svy_year2005-2006                 -0.36 *    
+    ##                                [-0.47; -0.24]
+    ## svy_year2007-2008                 -0.48 *    
+    ##                                [-0.59; -0.36]
+    ## svy_year2009-2010                 -0.58 *    
+    ##                                [-0.69; -0.47]
+    ## svy_year2011-2012                 -0.51 *    
+    ##                                [-0.63; -0.39]
+    ## svy_year2013-2014                 -0.68 *    
+    ##                                [-0.80; -0.57]
+    ## svy_year2015-2016                 -0.54 *    
+    ##                                [-0.66; -0.42]
+    ## svy_year2017-2020                 -0.54 *    
+    ##                                [-0.66; -0.43]
     ## demo_age_years                     0.04 *    
     ##                                [ 0.04;  0.04]
     ## demo_raceHispanic/Asian/Other      0.08 *    
     ##                                [ 0.02;  0.14]
     ## demo_raceNon-Hispanic Black        0.47 *    
-    ##                                [ 0.41;  0.53]
+    ##                                [ 0.41;  0.52]
     ## female                            -0.45 *    
-    ##                                [-0.51; -0.40]
+    ##                                [-0.50; -0.40]
     ## cc_bmi25 to <30                    0.21 *    
     ##                                [ 0.14;  0.27]
-    ## cc_bmi30+                          0.55 *    
+    ## cc_bmi30+                          0.54 *    
     ##                                [ 0.48;  0.61]
     ## cc_diabetes                       -0.10 *    
     ##                                [-0.18; -0.01]
@@ -1491,12 +1493,12 @@ for survey design and weights.
     ##                                [-0.47; -0.27]
     ## bp_med_use                        -0.57 *    
     ##                                [-0.67; -0.46]
-    ## htn_aware                          1.21 *    
-    ##                                [ 1.12;  1.31]
+    ## htn_aware                          1.22 *    
+    ##                                [ 1.13;  1.31]
     ## ---------------------------------------------
     ## McFadden's R-squared               0.14      
     ## Ragg-Uhler's R-squared             0.23      
-    ## Mean AIC                       61841.74      
+    ## Mean AIC                       61895.47      
     ## =============================================
     ## * 0 outside the confidence interval.
 
@@ -1504,42 +1506,42 @@ for survey design and weights.
     ## =============================================
     ##                                Model 1       
     ## ---------------------------------------------
-    ## (Intercept)                       -4.53 *    
-    ##                                [-4.70; -4.37]
-    ## svy_year2001-2002                 -0.13      
-    ##                                [-0.27;  0.01]
-    ## svy_year2003-2004                 -0.18 *    
-    ##                                [-0.32; -0.03]
-    ## svy_year2005-2006                 -0.31 *    
-    ##                                [-0.45; -0.16]
-    ## svy_year2007-2008                 -0.42 *    
-    ##                                [-0.56; -0.28]
-    ## svy_year2009-2010                 -0.60 *    
-    ##                                [-0.74; -0.46]
-    ## svy_year2011-2012                 -0.58 *    
-    ##                                [-0.73; -0.42]
-    ## svy_year2013-2014                 -0.66 *    
-    ##                                [-0.80; -0.51]
-    ## svy_year2015-2016                 -0.50 *    
-    ##                                [-0.65; -0.35]
-    ## svy_year2017-2020                 -0.46 *    
-    ##                                [-0.60; -0.32]
+    ## (Intercept)                       -4.52 *    
+    ##                                [-4.69; -4.36]
+    ## svy_year2001-2002                 -0.14      
+    ##                                [-0.27;  0.00]
+    ## svy_year2003-2004                 -0.19 *    
+    ##                                [-0.33; -0.05]
+    ## svy_year2005-2006                 -0.32 *    
+    ##                                [-0.46; -0.18]
+    ## svy_year2007-2008                 -0.43 *    
+    ##                                [-0.57; -0.30]
+    ## svy_year2009-2010                 -0.61 *    
+    ##                                [-0.75; -0.48]
+    ## svy_year2011-2012                 -0.59 *    
+    ##                                [-0.74; -0.44]
+    ## svy_year2013-2014                 -0.67 *    
+    ##                                [-0.81; -0.53]
+    ## svy_year2015-2016                 -0.51 *    
+    ##                                [-0.66; -0.36]
+    ## svy_year2017-2020                 -0.47 *    
+    ##                                [-0.61; -0.33]
     ## demo_age_years                     0.05 *    
     ##                                [ 0.05;  0.05]
     ## demo_raceHispanic/Asian/Other      0.22 *    
     ##                                [ 0.14;  0.30]
     ## demo_raceNon-Hispanic Black        0.67 *    
-    ##                                [ 0.60;  0.75]
+    ##                                [ 0.60;  0.74]
     ## female                            -0.20 *    
-    ##                                [-0.27; -0.14]
+    ##                                [-0.26; -0.13]
     ## cc_bmi25 to <30                    0.05      
     ##                                [-0.03;  0.14]
-    ## cc_bmi30+                          0.26 *    
+    ## cc_bmi30+                          0.25 *    
     ##                                [ 0.17;  0.34]
     ## cc_diabetes                       -0.06      
     ##                                [-0.15;  0.03]
-    ## cc_ckd                             0.47 *    
-    ##                                [ 0.38;  0.55]
+    ## cc_ckd                             0.46 *    
+    ##                                [ 0.38;  0.54]
     ## cc_cvd_any                        -0.31 *    
     ##                                [-0.41; -0.21]
     ## bp_med_use                        -0.62 *    
@@ -1549,13 +1551,13 @@ for survey design and weights.
     ## ---------------------------------------------
     ## McFadden's R-squared               0.18      
     ## Ragg-Uhler's R-squared             0.25      
-    ## Mean AIC                       39757.23      
+    ## Mean AIC                       39924.09      
     ## =============================================
     ## * 0 outside the confidence interval.
 
 # plot OR and 95% CI
 
-<img src="result_files/figure-gfm/unnamed-chunk-18-1.png" width="80%" /><img src="result_files/figure-gfm/unnamed-chunk-18-2.png" width="80%" />
+<img src="result_files/figure-gfm/unnamed-chunk-19-1.png" width="80%" /><img src="result_files/figure-gfm/unnamed-chunk-19-2.png" width="80%" />
 
 if not doing imputation
 
@@ -1571,34 +1573,34 @@ if not doing imputation
     ## 
     ## Coefficients:
     ##                                Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)                   -4.420546   0.091135 -48.505  < 2e-16 ***
-    ## svy_year2001-2002             -0.135449   0.072356  -1.872 0.061215 .  
-    ## svy_year2003-2004             -0.182981   0.074160  -2.467 0.013614 *  
-    ## svy_year2005-2006             -0.317329   0.074286  -4.272 1.94e-05 ***
-    ## svy_year2007-2008             -0.432924   0.071837  -6.026 1.69e-09 ***
-    ## svy_year2009-2010             -0.609670   0.072319  -8.430  < 2e-16 ***
-    ## svy_year2011-2012             -0.591365   0.079155  -7.471 8.09e-14 ***
-    ## svy_year2013-2014             -0.670095   0.074272  -9.022  < 2e-16 ***
-    ## svy_year2015-2016             -0.512703   0.076790  -6.677 2.47e-11 ***
-    ## svy_year2017-2020             -0.470863   0.072468  -6.498 8.24e-11 ***
-    ## demo_age_years                 0.052319   0.001217  42.979  < 2e-16 ***
-    ## demo_raceHispanic/Asian/Other  0.215024   0.039978   5.379 7.54e-08 ***
-    ## demo_raceNon-Hispanic Black    0.657556   0.037595  17.491  < 2e-16 ***
-    ## female                        -0.193626   0.034620  -5.593 2.24e-08 ***
-    ## pregnant                      -1.604582   0.430422  -3.728 0.000193 ***
-    ## cc_bmi25 to <30                0.056414   0.044227   1.276 0.202111    
-    ## cc_bmi30+                      0.254977   0.043829   5.818 6.01e-09 ***
-    ## cc_diabetes                   -0.056871   0.048163  -1.181 0.237686    
-    ## cc_ckd                         0.470512   0.041788  11.259  < 2e-16 ***
-    ## cc_cvd_any                    -0.300270   0.050128  -5.990 2.11e-09 ***
-    ## bp_med_use                    -0.609418   0.057493 -10.600  < 2e-16 ***
-    ## htn_aware                      1.387195   0.053578  25.891  < 2e-16 ***
-    ## cc_smokeFormer                -0.172175   0.052829  -3.259 0.001118 ** 
-    ## cc_smokeNever                 -0.073871   0.046607  -1.585 0.112975    
+    ## (Intercept)                   -4.410833   0.090491 -48.743  < 2e-16 ***
+    ## svy_year2001-2002             -0.143977   0.071464  -2.015 0.043944 *  
+    ## svy_year2003-2004             -0.197119   0.073304  -2.689 0.007168 ** 
+    ## svy_year2005-2006             -0.331430   0.073425  -4.514 6.38e-06 ***
+    ## svy_year2007-2008             -0.446999   0.070930  -6.302 2.96e-10 ***
+    ## svy_year2009-2010             -0.623664   0.071405  -8.734  < 2e-16 ***
+    ## svy_year2011-2012             -0.605334   0.078307  -7.730 1.09e-14 ***
+    ## svy_year2013-2014             -0.684010   0.073395  -9.320  < 2e-16 ***
+    ## svy_year2015-2016             -0.526553   0.075908  -6.937 4.06e-12 ***
+    ## svy_year2017-2020             -0.484679   0.071515  -6.777 1.24e-11 ***
+    ## demo_age_years                 0.052346   0.001213  43.140  < 2e-16 ***
+    ## demo_raceHispanic/Asian/Other  0.213948   0.039826   5.372 7.82e-08 ***
+    ## demo_raceNon-Hispanic Black    0.656509   0.037494  17.510  < 2e-16 ***
+    ## female                        -0.188065   0.034507  -5.450 5.06e-08 ***
+    ## pregnant                      -1.586540   0.429971  -3.690 0.000225 ***
+    ## cc_bmi25 to <30                0.057178   0.044039   1.298 0.194176    
+    ## cc_bmi30+                      0.251124   0.043689   5.748 9.08e-09 ***
+    ## cc_diabetes                   -0.056716   0.047941  -1.183 0.236802    
+    ## cc_ckd                         0.467857   0.041605  11.245  < 2e-16 ***
+    ## cc_cvd_any                    -0.299633   0.049955  -5.998 2.01e-09 ***
+    ## bp_med_use                    -0.611200   0.057343 -10.659  < 2e-16 ***
+    ## htn_aware                      1.388046   0.053428  25.980  < 2e-16 ***
+    ## cc_smokeFormer                -0.170163   0.052661  -3.231 0.001233 ** 
+    ## cc_smokeNever                 -0.070443   0.046484  -1.515 0.129668    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for quasibinomial family taken to be 0.9547216)
+    ## (Dispersion parameter for quasibinomial family taken to be 0.9557377)
     ## 
     ## Number of Fisher Scoring iterations: 6
 
@@ -1614,34 +1616,34 @@ if not doing imputation
     ## 
     ## Coefficients:
     ##                                 Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)                   -2.3655887  0.0686774 -34.445  < 2e-16 ***
-    ## svy_year2001-2002             -0.1225967  0.0604512  -2.028  0.04256 *  
-    ## svy_year2003-2004             -0.2658986  0.0617622  -4.305 1.67e-05 ***
-    ## svy_year2005-2006             -0.3604827  0.0612376  -5.887 3.97e-09 ***
-    ## svy_year2007-2008             -0.4874795  0.0596806  -8.168 3.20e-16 ***
-    ## svy_year2009-2010             -0.5759890  0.0589192  -9.776  < 2e-16 ***
-    ## svy_year2011-2012             -0.5123154  0.0650251  -7.879 3.37e-15 ***
-    ## svy_year2013-2014             -0.6964451  0.0595787 -11.689  < 2e-16 ***
-    ## svy_year2015-2016             -0.5440311  0.0632681  -8.599  < 2e-16 ***
-    ## svy_year2017-2020             -0.5569675  0.0603479  -9.229  < 2e-16 ***
-    ## demo_age_years                 0.0390878  0.0009398  41.592  < 2e-16 ***
-    ## demo_raceHispanic/Asian/Other  0.0817118  0.0305246   2.677  0.00743 ** 
-    ## demo_raceNon-Hispanic Black    0.4605535  0.0304555  15.122  < 2e-16 ***
-    ## female                        -0.4285834  0.0278269 -15.402  < 2e-16 ***
-    ## pregnant                      -1.3704981  0.2015947  -6.798 1.07e-11 ***
-    ## cc_bmi25 to <30                0.2053250  0.0340941   6.022 1.73e-09 ***
-    ## cc_bmi30+                      0.5406682  0.0345360  15.655  < 2e-16 ***
-    ## cc_diabetes                   -0.0949491  0.0449054  -2.114  0.03448 *  
-    ## cc_ckd                         0.3441739  0.0393422   8.748  < 2e-16 ***
-    ## cc_cvd_any                    -0.3579590  0.0498725  -7.177 7.20e-13 ***
-    ## bp_med_use                    -0.5679460  0.0542738 -10.464  < 2e-16 ***
-    ## htn_aware                      1.2121090  0.0472786  25.638  < 2e-16 ***
-    ## cc_smokeFormer                -0.0621779  0.0418029  -1.487  0.13691    
-    ## cc_smokeNever                  0.0074106  0.0349898   0.212  0.83227    
+    ## (Intercept)                   -2.3512522  0.0681959 -34.478  < 2e-16 ***
+    ## svy_year2001-2002             -0.1292008  0.0598613  -2.158  0.03091 *  
+    ## svy_year2003-2004             -0.2783926  0.0611689  -4.551 5.35e-06 ***
+    ## svy_year2005-2006             -0.3729010  0.0606375  -6.150 7.82e-10 ***
+    ## svy_year2007-2008             -0.4998897  0.0590562  -8.465  < 2e-16 ***
+    ## svy_year2009-2010             -0.5882123  0.0582864 -10.092  < 2e-16 ***
+    ## svy_year2011-2012             -0.5246217  0.0644360  -8.142 3.98e-16 ***
+    ## svy_year2013-2014             -0.7088162  0.0589636 -12.021  < 2e-16 ***
+    ## svy_year2015-2016             -0.5562614  0.0626654  -8.877  < 2e-16 ***
+    ## svy_year2017-2020             -0.5691151  0.0597016  -9.533  < 2e-16 ***
+    ## demo_age_years                 0.0390177  0.0009366  41.660  < 2e-16 ***
+    ## demo_raceHispanic/Asian/Other  0.0814556  0.0304314   2.677  0.00744 ** 
+    ## demo_raceNon-Hispanic Black    0.4598587  0.0303757  15.139  < 2e-16 ***
+    ## female                        -0.4239655  0.0277516 -15.277  < 2e-16 ***
+    ## pregnant                      -1.3734660  0.2002189  -6.860 6.97e-12 ***
+    ## cc_bmi25 to <30                0.2046542  0.0339852   6.022 1.74e-09 ***
+    ## cc_bmi30+                      0.5387338  0.0344525  15.637  < 2e-16 ***
+    ## cc_diabetes                   -0.0958242  0.0447700  -2.140  0.03233 *  
+    ## cc_ckd                         0.3444126  0.0392234   8.781  < 2e-16 ***
+    ## cc_cvd_any                    -0.3571268  0.0497160  -7.183 6.90e-13 ***
+    ## bp_med_use                    -0.5690089  0.0541361 -10.511  < 2e-16 ***
+    ## htn_aware                      1.2146333  0.0471828  25.743  < 2e-16 ***
+    ## cc_smokeFormer                -0.0636273  0.0416863  -1.526  0.12693    
+    ## cc_smokeNever                  0.0076039  0.0349039   0.218  0.82755    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for quasibinomial family taken to be 1.011617)
+    ## (Dispersion parameter for quasibinomial family taken to be 1.01161)
     ## 
     ## Number of Fisher Scoring iterations: 5
 

@@ -31,7 +31,7 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
-              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools")
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools","haven")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -284,11 +284,36 @@ imp1 %>%
 * However, for all analyses that combine 1999-2000 with other survey cycles, you must start by using the 4-year weights provided by NCHS for 1999-2002, then include the 2-year weights for each additional 2-year cycle that is combined. (refer to larger nhance dataset to find 4-year weights???)
 
 ## weight adjustment for years
-To simplify this, we first ignore the "must start by using the 4-year weights provided by NCHS for 1999-2002", and use 2-year weights for all observations from 1999-2016. Treat 2017-2020Mar as 3.2 years.
+Since we must start by using the 4-year weights provided by NCHS for 1999-2002", and use 2-year weights for all observations from 1999-2016. Treat 2017-2020Mar as 3.2 years.
+
+We refer to NHANES 1999-2000 and 2001-2002 and get the 4-year weights
+```{r}
+dat1<-read_xpt("./data/DEMO1999-2000.XPT")%>%
+  janitor::clean_names()%>%
+  select(seqn,wtmec4yr)%>%
+  rename(svy_id=seqn)
+dat2<-read_xpt("./data/DEMO2001-2002.XPT")%>%
+  janitor::clean_names()%>%
+  select(seqn,wtmec4yr)%>%
+  rename(svy_id=seqn)
+dat12<-rbind(dat1,dat2)
+
+# dat12 %>% distinct(svy_id) %>% nrow()
+
+# dat_new<-dat%>%filter(svy_year %in% c("1999-2000","2001-2002"))
+my_dat <- my_dat %>% left_join(dat12, by = "svy_id")
+
+#summary(dat$wtmec4yr)
+#sum(is.na(dat$wtmec4yr))
+
+my_dat<-my_dat%>%mutate(svy_weight_mec=ifelse(svy_year %in% c("1999-2000","2001-2002"),wtmec4yr,svy_weight_mec))
+
+```
+
 
 Combining nine survey cycles + one 3.2 year survey cycle (18+3.2 years: 1999-2016 2017-2020Mar)
 ```{r}
-my_dat$svy_weight_mec<-ifelse(my_dat$svy_year %in% c("2017-2020"),my_dat$svy_weight_mec*3.2/21.2,my_dat$svy_weight_mec*2/21.2)
+my_dat$svy_weight_mec<-ifelse(my_dat$svy_year %in% c("2017-2020"),my_dat$svy_weight_mec*3.2/21.2,ifelse(my_dat$svy_year %in% c("1999-2000","2001-2002"),my_dat$svy_weight_mec*4/21.2,my_dat$svy_weight_mec*2/21.2))
 ```
 
 ## define survey design

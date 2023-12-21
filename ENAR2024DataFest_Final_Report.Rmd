@@ -32,8 +32,34 @@ Effective blood pressure (BP) management is essential for reducing the risk of c
 # Methodology
 
 ## Weighting the Survey Data
+The dataset employs 'Full Sample 2 Year Mobile Examination Center weights.' Each survey cycle spans two years, except for the 2017-2020 cycle, which extends from 2017 to March 2020, covering approximately 3.2 years. The weighting process involves several steps\footnotemark:
 
-### Multi-year Adjustment
+* **Base Weight Calculation**: This initial step accounts for unequal selection probabilities, especially considering the over-sampling of certain demographic groups.
+* **Non-Response Adjustment**: The weights are adjusted to compensate for non-response, ensuring that the sample represents the target population accurately.
+* **Post-Stratification Adjustment**: Finally, the weights undergo post-stratification adjustments. This aligns the survey estimates with the U.S. civilian non-institutionalized population figures provided by the Census Bureau. 
+
+\footnotetext{Centers for Disease Control and Prevention. Nhanes tutorials - weighting module. Centers for Disease Control and Prevention. https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx }
+
+### Multi-year Adjustment 
+When analyzing data spanning multiple two-year NHANES cycles from 2001–2002 onwards, new multi-year weights can be calculated by dividing the existing two-year sample weights by the number of two-year cycles included in the analysis. However, due to differences in population bases, the two-year weights for the 1999-2000 cycle are not directly comparable to those for subsequent cycles. Therefore, when combining data from 1999-2000 with 2001-2002, it’s necessary to use the special 4-year sample weights provided by the NCHS, which have been adjusted for the differing reference populations.\footnotemark
+
+In our dataset, only 2-year weights are available. To correctly adjust for multi-year analysis, especially when including 1999-2000 and 2001-2002, we must source and apply the 4-year weights for these cycles. The adjustment process for combining ten survey cycles is as follows:
+
+* For 1999-2000 and 2001-2002 cycles: Multiply the 4-year sample weights by (4/21.2).
+* For the 2017-March 2020 cycle: Multiply the 2-year sample weights by (3.2/21.2), as this cycle covers approximately 3.2 years.
+* For all other survey cycles: Multiply the 2-year sample weights by (2/21.2).
+
+This method ensures that the weights are appropriately adjusted for the total span of 21.2 years covered by the ten survey cycles.
+
+
+\footnotetext{Centers for Disease Control and Prevention. Nhanes tutorials - weighting module. Centers for Disease Control and Prevention. https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx }
+
+### adjust weight for blood pressure and hypertension sub-population
+Our focus is on the sub-population with blood pressure and hypertension issues. When working with complex survey data such as NHANES, it's crucial not to exclude records from the dataset before conducting analyses. Instead, to ensure accurate variance estimates, subgroup analyses should be performed using specific functionalities within the analysis software.\footnotemark
+
+In the context of R and the survey package, we achieve this by employing the subset function. This approach allows us to correctly execute subgroup analyses on the blood pressure and hypertension population, ensuring that the variance estimates are appropriate for the complex survey design of NHANES.
+
+\footnotetext{Centers for Disease Control and Prevention. Nhanes tutorials - Variance Estimation module. Centers for Disease Control and Prevention. https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx}
 
 ### Multiple Imputations
 
