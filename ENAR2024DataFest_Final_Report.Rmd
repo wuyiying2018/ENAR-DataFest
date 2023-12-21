@@ -12,7 +12,7 @@ header-includes:
 - \usepackage{makecell}
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
-abstract: "Hypertension..."
+abstract: "This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) data to investigate hypertension risk factors in the U.S. adult population. We aim to identify the potential causes or correlates of worsening BP control among US adults with hypertension over the past decade. Logistic regression analysis incorporated multi-year dataset weighting and multiple imputations for missing data. Key variables included survey year, age, race, gender, BMI, diabetes, CKD, CVD, medication use, and hypertension awareness."
 editor_options:
   chunk_output_type: console
 ---
