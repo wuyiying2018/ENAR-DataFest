@@ -28,7 +28,7 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
-              "survey", "gtsummary", "mice", "stargazer", "texreg", "pROC")
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -39,8 +39,8 @@ if (any(installed_packages == FALSE)) {
 # Load packages invisibly
 invisible(lapply(packages, library, character.only = TRUE))
 
-# Remove variables associated with package installation
-rm(packages, installed_packages)
+# # Remove variables associated with package installation
+# rm(packages, installed_packages)
 ```
 
 
@@ -318,9 +318,9 @@ lm_svy_mi <- function(formula, imputations) {
   
   #setting up null objects allows us to easily add results
   #later
-  b <- se <- NULL
-  R2 <- aic <- NULL
-  mean.R2 <- mean.aic <- NULL
+  b <- se <- R2MF <- R2CU <-NULL
+  aic <- NULL
+  mean.aic <- NULL
   # AUC <- mean.AUC <-NULL
   
   #now loop through our imputations and run the model
@@ -336,12 +336,13 @@ lm_svy_mi <- function(formula, imputations) {
     b <- cbind(b, coef(model))
     se <- cbind(se, summary(model)$coef[,2])
     
+    summ_model <- summ(model)
+      
     # # McFadden's R-squared
-    null_model <- svyglm(bp_uncontrolled_140_90~1, design = imputation.svy, family = quasibinomial)
-    R2 <- c(R2,1 - (logLik(model)/logLik(null_model)))
-    # ll_full <- logLik(model)
-    # ll_null <- logLik(null_model)
-    # R2 <- c(R2, 1 - (ll_full/ll_null))
+    R2MF <- attr(summ_model, which = "rsqmc")
+    
+    # # CRagg-Uhler R-squared
+    R2CU <- attr(summ_model, which = "rsq")
     
     # AIC
     aic <- c(aic,(-2) * logLik(model) + 2 * length(coef(model)))
@@ -358,25 +359,27 @@ lm_svy_mi <- function(formula, imputations) {
   between.var <- apply(b, 1, var)
   within.var <- apply(se^2, 1, mean)
   se.pool <- sqrt(within.var+between.var+between.var/imputations$m) 
+  lower.ci <- b.pool - 1.96 * se.pool  # Lower bound of 95% CI
+  upper.ci <- b.pool + 1.96 * se.pool  # Upper bound of 95% CI
   t.pool <- b.pool/se.pool 
   pvalue.pool <- (1-pnorm(abs(t.pool)))*2 
-  coefficients <- data.frame(b.pool, se.pool, t.pool, pvalue.pool)
+  coefficients <- data.frame(b.pool, se.pool, lower.ci, upper.ci, t.pool, pvalue.pool)
   
   #we can also grap n and p from the last model since 
   #they should be the same across all iterations
   n <- nobs(model)
   p <- length(model$coefficients)-1
-  mean.R2 <- mean(R2)
+  mean.R2MF <- mean(R2MF)
+  mean.R2CU <- mean(R2CU)
   mean.aic <- mean(aic)
   #mean.AUC <- mean(AUC)
   
   #return everything in a list
   return(list(coef=coefficients,
               n=n,
-              R2 = mean.R2, 
+              R2MF = mean.R2MF,
+              R2CU = mean.R2CU,
               aic = mean.aic
-              #,
-              #AUC = mean.AUC
               )
          )
 }
@@ -389,25 +392,35 @@ model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+fem
 # check model fit based on SL
 convertModel <- function(model) {
   tr <- createTexreg(
-    coef.names = rownames(model$coef), 
-    coef = model$coef$b.pool, 
-    se = model$coef$se.pool, 
+    coef.names = rownames(model$coef),
+    coef = model$coef$b.pool,
+    se = model$coef$se.pool,
+    ci.low = model$coef$lower.ci,
+    ci.up = model$coef$upper.ci,
     pvalues = model$coef$pvalue.pool,
-    gof.names=c("Mean R2","Mean AIC"),
-    gof = c( model$R2,model$aic),
-    gof.decimal = c(TRUE,TRUE)
-    # gof.names = c("Mean AUC"),
-    # gof = c( model$AUC),
-    # gof.decimal = c(TRUE)
+    gof.names=c("McFadden's R-squared", "Ragg-Uhler's R-squared","Mean AIC"),
+    gof = c(model$R2MF, model$R2CU, model$aic),
+    gof.decimal = c(TRUE,TRUE,TRUE)
   )
 }
 
-#To show how this looks lets create a few models
-model2 <- lm_svy_mi(bp_uncontrolled_140_90~demo_age_years+demo_race+female+cc_bmi+cc_diabetes
-                    +cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
+# create a few models to compare model fit
+# 11 predictors
+model2 <- lm_svy_mi(bp_uncontrolled_140_90 ~ demo_age_years + demo_race + female + pregnant + cc_bmi +
+                      cc_diabetes + cc_ckd + cc_cvd_any + bp_med_use + htn_aware + 
+                      cc_smoke, imputations)
+# 9 predictors
+model3 <- lm_svy_mi(bp_uncontrolled_140_90 ~ demo_age_years + demo_race + female + cc_bmi + cc_diabetes 
+                    + cc_ckd + cc_cvd_any + bp_med_use + htn_aware, imputations)
+```
 
+```{r model 1}
+# kable(booktabs = T, model1$coef)
 screenreg(convertModel(model1))
-screenreg(convertModel(model2))
+```
+
+```{r model 3}
+screenreg(convertModel(model3))
 ```
 
 if not doing imputation

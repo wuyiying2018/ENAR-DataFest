@@ -25,7 +25,7 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
-              "survey", "gtsummary", "mice", "stargazer", "texreg", "pROC")
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -36,8 +36,8 @@ if (any(installed_packages == FALSE)) {
 # Load packages invisibly
 invisible(lapply(packages, library, character.only = TRUE))
 
-# Remove variables associated with package installation
-rm(packages, installed_packages)
+# # Remove variables associated with package installation
+# rm(packages, installed_packages)
 ```
 
 ## data
@@ -52,23 +52,20 @@ rm(packages, installed_packages)
 
 **check variables**
 
-<div id="wshbsbknte" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wshbsbknte table {
+<div id="whxfpqfwnd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#whxfpqfwnd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-#wshbsbknte thead, #wshbsbknte tbody, #wshbsbknte tfoot, #wshbsbknte tr, #wshbsbknte td, #wshbsbknte th {
+&#10;#whxfpqfwnd thead, #whxfpqfwnd tbody, #whxfpqfwnd tfoot, #whxfpqfwnd tr, #whxfpqfwnd td, #whxfpqfwnd th {
   border-style: none;
 }
-
-#wshbsbknte p {
+&#10;#whxfpqfwnd p {
   margin: 0;
   padding: 0;
 }
-
-#wshbsbknte .gt_table {
+&#10;#whxfpqfwnd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -93,13 +90,11 @@ rm(packages, installed_packages)
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_caption {
+&#10;#whxfpqfwnd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-
-#wshbsbknte .gt_title {
+&#10;#whxfpqfwnd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -110,8 +105,7 @@ rm(packages, installed_packages)
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-
-#wshbsbknte .gt_subtitle {
+&#10;#whxfpqfwnd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -122,8 +116,7 @@ rm(packages, installed_packages)
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-
-#wshbsbknte .gt_heading {
+&#10;#whxfpqfwnd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -134,14 +127,12 @@ rm(packages, installed_packages)
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_bottom_border {
+&#10;#whxfpqfwnd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_col_headings {
+&#10;#whxfpqfwnd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -155,8 +146,7 @@ rm(packages, installed_packages)
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_col_heading {
+&#10;#whxfpqfwnd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -175,8 +165,7 @@ rm(packages, installed_packages)
   padding-right: 5px;
   overflow-x: hidden;
 }
-
-#wshbsbknte .gt_column_spanner_outer {
+&#10;#whxfpqfwnd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -187,16 +176,13 @@ rm(packages, installed_packages)
   padding-left: 4px;
   padding-right: 4px;
 }
-
-#wshbsbknte .gt_column_spanner_outer:first-child {
+&#10;#whxfpqfwnd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-
-#wshbsbknte .gt_column_spanner_outer:last-child {
+&#10;#whxfpqfwnd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-
-#wshbsbknte .gt_column_spanner {
+&#10;#whxfpqfwnd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -207,12 +193,10 @@ rm(packages, installed_packages)
   display: inline-block;
   width: 100%;
 }
-
-#wshbsbknte .gt_spanner_row {
+&#10;#whxfpqfwnd .gt_spanner_row {
   border-bottom-style: hidden;
 }
-
-#wshbsbknte .gt_group_heading {
+&#10;#whxfpqfwnd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -237,8 +221,7 @@ rm(packages, installed_packages)
   vertical-align: middle;
   text-align: left;
 }
-
-#wshbsbknte .gt_empty_group_heading {
+&#10;#whxfpqfwnd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -252,16 +235,13 @@ rm(packages, installed_packages)
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-
-#wshbsbknte .gt_from_md > :first-child {
+&#10;#whxfpqfwnd .gt_from_md > :first-child {
   margin-top: 0;
 }
-
-#wshbsbknte .gt_from_md > :last-child {
+&#10;#whxfpqfwnd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-
-#wshbsbknte .gt_row {
+&#10;#whxfpqfwnd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -279,8 +259,7 @@ rm(packages, installed_packages)
   vertical-align: middle;
   overflow-x: hidden;
 }
-
-#wshbsbknte .gt_stub {
+&#10;#whxfpqfwnd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -292,8 +271,7 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#wshbsbknte .gt_stub_row_group {
+&#10;#whxfpqfwnd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -306,16 +284,13 @@ rm(packages, installed_packages)
   padding-right: 5px;
   vertical-align: top;
 }
-
-#wshbsbknte .gt_row_group_first td {
+&#10;#whxfpqfwnd .gt_row_group_first td {
   border-top-width: 2px;
 }
-
-#wshbsbknte .gt_row_group_first th {
+&#10;#whxfpqfwnd .gt_row_group_first th {
   border-top-width: 2px;
 }
-
-#wshbsbknte .gt_summary_row {
+&#10;#whxfpqfwnd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -324,17 +299,14 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#wshbsbknte .gt_first_summary_row {
+&#10;#whxfpqfwnd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_first_summary_row.thick {
+&#10;#whxfpqfwnd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-
-#wshbsbknte .gt_last_summary_row {
+&#10;#whxfpqfwnd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -343,8 +315,7 @@ rm(packages, installed_packages)
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_grand_summary_row {
+&#10;#whxfpqfwnd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -353,8 +324,7 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#wshbsbknte .gt_first_grand_summary_row {
+&#10;#whxfpqfwnd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -363,8 +333,7 @@ rm(packages, installed_packages)
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_last_grand_summary_row_top {
+&#10;#whxfpqfwnd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -373,12 +342,10 @@ rm(packages, installed_packages)
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_striped {
+&#10;#whxfpqfwnd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-
-#wshbsbknte .gt_table_body {
+&#10;#whxfpqfwnd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -386,8 +353,7 @@ rm(packages, installed_packages)
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_footnotes {
+&#10;#whxfpqfwnd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -400,8 +366,7 @@ rm(packages, installed_packages)
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_footnote {
+&#10;#whxfpqfwnd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -409,8 +374,7 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#wshbsbknte .gt_sourcenotes {
+&#10;#whxfpqfwnd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -423,79 +387,63 @@ rm(packages, installed_packages)
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-
-#wshbsbknte .gt_sourcenote {
+&#10;#whxfpqfwnd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#wshbsbknte .gt_left {
+&#10;#whxfpqfwnd .gt_left {
   text-align: left;
 }
-
-#wshbsbknte .gt_center {
+&#10;#whxfpqfwnd .gt_center {
   text-align: center;
 }
-
-#wshbsbknte .gt_right {
+&#10;#whxfpqfwnd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-
-#wshbsbknte .gt_font_normal {
+&#10;#whxfpqfwnd .gt_font_normal {
   font-weight: normal;
 }
-
-#wshbsbknte .gt_font_bold {
+&#10;#whxfpqfwnd .gt_font_bold {
   font-weight: bold;
 }
-
-#wshbsbknte .gt_font_italic {
+&#10;#whxfpqfwnd .gt_font_italic {
   font-style: italic;
 }
-
-#wshbsbknte .gt_super {
+&#10;#whxfpqfwnd .gt_super {
   font-size: 65%;
 }
-
-#wshbsbknte .gt_footnote_marks {
+&#10;#whxfpqfwnd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-
-#wshbsbknte .gt_asterisk {
+&#10;#whxfpqfwnd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-
-#wshbsbknte .gt_indent_1 {
+&#10;#whxfpqfwnd .gt_indent_1 {
   text-indent: 5px;
 }
-
-#wshbsbknte .gt_indent_2 {
+&#10;#whxfpqfwnd .gt_indent_2 {
   text-indent: 10px;
 }
-
-#wshbsbknte .gt_indent_3 {
+&#10;#whxfpqfwnd .gt_indent_3 {
   text-indent: 15px;
 }
-
-#wshbsbknte .gt_indent_4 {
+&#10;#whxfpqfwnd .gt_indent_4 {
   text-indent: 20px;
 }
-
-#wshbsbknte .gt_indent_5 {
+&#10;#whxfpqfwnd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
-    
-    <tr class="gt_col_headings">
+    &#10;    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;N = 59,799&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>N = 59,799</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
     </tr>
@@ -504,7 +452,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Respondent sequence number</td>
 <td headers="stat_0" class="gt_row gt_center">56,171 (29,381, 83,307)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Masked Variance Pseudo-PSU</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1</td>
 <td headers="stat_0" class="gt_row gt_center">29,272 (49%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2</td>
@@ -518,7 +466,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Subpopulation for hypertension</td>
 <td headers="stat_0" class="gt_row gt_center">56,017 (94%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">NHANES cycle</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1999-2000</td>
 <td headers="stat_0" class="gt_row gt_center">4,976 (8.3%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2001-2002</td>
@@ -540,7 +488,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    2017-2020</td>
 <td headers="stat_0" class="gt_row gt_center">8,965 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">demo_age_cat</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    18 to 44</td>
 <td headers="stat_0" class="gt_row gt_center">27,935 (47%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    45 to 64</td>
@@ -550,7 +498,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age at Screening Adjudicated - Recode</td>
 <td headers="stat_0" class="gt_row gt_center">47 (31, 63)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">demo_race</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Non-Hispanic White</td>
 <td headers="stat_0" class="gt_row gt_center">25,254 (42%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Hispanic/Asian/Other</td>
@@ -584,7 +532,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">bp_med_recommended_accaha</td>
 <td headers="stat_0" class="gt_row gt_center">23,082 (39%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">bp_med_n_class</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    None</td>
 <td headers="stat_0" class="gt_row gt_center">42,088 (71%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    One</td>
@@ -594,7 +542,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">481</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">bp_med_n_pills</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    None</td>
 <td headers="stat_0" class="gt_row gt_center">42,088 (71%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    One</td>
@@ -666,7 +614,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">481</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">cc_smoke</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Never</td>
 <td headers="stat_0" class="gt_row gt_center">31,331 (55%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Former/Current</td>
@@ -674,7 +622,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">3,159</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">cc_bmi</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    &lt;25</td>
 <td headers="stat_0" class="gt_row gt_center">18,364 (32%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    25 to &lt;30</td>
@@ -708,8 +656,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">cc_cvd_any</td>
 <td headers="stat_0" class="gt_row gt_center">5,823 (9.7%)</td></tr>
   </tbody>
-  
-  <tfoot class="gt_footnotes">
+  &#10;  <tfoot class="gt_footnotes">
     <tr>
       <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Median (IQR); n (%)</td>
     </tr>
@@ -719,23 +666,20 @@ rm(packages, installed_packages)
 
 ### Create a new data frame that contains 11 predictors
 
-<div id="nxfihozomn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nxfihozomn table {
+<div id="ifikpopdob" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ifikpopdob table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-#nxfihozomn thead, #nxfihozomn tbody, #nxfihozomn tfoot, #nxfihozomn tr, #nxfihozomn td, #nxfihozomn th {
+&#10;#ifikpopdob thead, #ifikpopdob tbody, #ifikpopdob tfoot, #ifikpopdob tr, #ifikpopdob td, #ifikpopdob th {
   border-style: none;
 }
-
-#nxfihozomn p {
+&#10;#ifikpopdob p {
   margin: 0;
   padding: 0;
 }
-
-#nxfihozomn .gt_table {
+&#10;#ifikpopdob .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -760,13 +704,11 @@ rm(packages, installed_packages)
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_caption {
+&#10;#ifikpopdob .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-
-#nxfihozomn .gt_title {
+&#10;#ifikpopdob .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -777,8 +719,7 @@ rm(packages, installed_packages)
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-
-#nxfihozomn .gt_subtitle {
+&#10;#ifikpopdob .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -789,8 +730,7 @@ rm(packages, installed_packages)
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-
-#nxfihozomn .gt_heading {
+&#10;#ifikpopdob .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -801,14 +741,12 @@ rm(packages, installed_packages)
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_bottom_border {
+&#10;#ifikpopdob .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_col_headings {
+&#10;#ifikpopdob .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -822,8 +760,7 @@ rm(packages, installed_packages)
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_col_heading {
+&#10;#ifikpopdob .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -842,8 +779,7 @@ rm(packages, installed_packages)
   padding-right: 5px;
   overflow-x: hidden;
 }
-
-#nxfihozomn .gt_column_spanner_outer {
+&#10;#ifikpopdob .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -854,16 +790,13 @@ rm(packages, installed_packages)
   padding-left: 4px;
   padding-right: 4px;
 }
-
-#nxfihozomn .gt_column_spanner_outer:first-child {
+&#10;#ifikpopdob .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-
-#nxfihozomn .gt_column_spanner_outer:last-child {
+&#10;#ifikpopdob .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-
-#nxfihozomn .gt_column_spanner {
+&#10;#ifikpopdob .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -874,12 +807,10 @@ rm(packages, installed_packages)
   display: inline-block;
   width: 100%;
 }
-
-#nxfihozomn .gt_spanner_row {
+&#10;#ifikpopdob .gt_spanner_row {
   border-bottom-style: hidden;
 }
-
-#nxfihozomn .gt_group_heading {
+&#10;#ifikpopdob .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -904,8 +835,7 @@ rm(packages, installed_packages)
   vertical-align: middle;
   text-align: left;
 }
-
-#nxfihozomn .gt_empty_group_heading {
+&#10;#ifikpopdob .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -919,16 +849,13 @@ rm(packages, installed_packages)
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-
-#nxfihozomn .gt_from_md > :first-child {
+&#10;#ifikpopdob .gt_from_md > :first-child {
   margin-top: 0;
 }
-
-#nxfihozomn .gt_from_md > :last-child {
+&#10;#ifikpopdob .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-
-#nxfihozomn .gt_row {
+&#10;#ifikpopdob .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -946,8 +873,7 @@ rm(packages, installed_packages)
   vertical-align: middle;
   overflow-x: hidden;
 }
-
-#nxfihozomn .gt_stub {
+&#10;#ifikpopdob .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -959,8 +885,7 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#nxfihozomn .gt_stub_row_group {
+&#10;#ifikpopdob .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -973,16 +898,13 @@ rm(packages, installed_packages)
   padding-right: 5px;
   vertical-align: top;
 }
-
-#nxfihozomn .gt_row_group_first td {
+&#10;#ifikpopdob .gt_row_group_first td {
   border-top-width: 2px;
 }
-
-#nxfihozomn .gt_row_group_first th {
+&#10;#ifikpopdob .gt_row_group_first th {
   border-top-width: 2px;
 }
-
-#nxfihozomn .gt_summary_row {
+&#10;#ifikpopdob .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -991,17 +913,14 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#nxfihozomn .gt_first_summary_row {
+&#10;#ifikpopdob .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_first_summary_row.thick {
+&#10;#ifikpopdob .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-
-#nxfihozomn .gt_last_summary_row {
+&#10;#ifikpopdob .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1010,8 +929,7 @@ rm(packages, installed_packages)
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_grand_summary_row {
+&#10;#ifikpopdob .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1020,8 +938,7 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#nxfihozomn .gt_first_grand_summary_row {
+&#10;#ifikpopdob .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1030,8 +947,7 @@ rm(packages, installed_packages)
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_last_grand_summary_row_top {
+&#10;#ifikpopdob .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1040,12 +956,10 @@ rm(packages, installed_packages)
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_striped {
+&#10;#ifikpopdob .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-
-#nxfihozomn .gt_table_body {
+&#10;#ifikpopdob .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1053,8 +967,7 @@ rm(packages, installed_packages)
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_footnotes {
+&#10;#ifikpopdob .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1067,8 +980,7 @@ rm(packages, installed_packages)
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_footnote {
+&#10;#ifikpopdob .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1076,8 +988,7 @@ rm(packages, installed_packages)
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#nxfihozomn .gt_sourcenotes {
+&#10;#ifikpopdob .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1090,79 +1001,63 @@ rm(packages, installed_packages)
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-
-#nxfihozomn .gt_sourcenote {
+&#10;#ifikpopdob .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-
-#nxfihozomn .gt_left {
+&#10;#ifikpopdob .gt_left {
   text-align: left;
 }
-
-#nxfihozomn .gt_center {
+&#10;#ifikpopdob .gt_center {
   text-align: center;
 }
-
-#nxfihozomn .gt_right {
+&#10;#ifikpopdob .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-
-#nxfihozomn .gt_font_normal {
+&#10;#ifikpopdob .gt_font_normal {
   font-weight: normal;
 }
-
-#nxfihozomn .gt_font_bold {
+&#10;#ifikpopdob .gt_font_bold {
   font-weight: bold;
 }
-
-#nxfihozomn .gt_font_italic {
+&#10;#ifikpopdob .gt_font_italic {
   font-style: italic;
 }
-
-#nxfihozomn .gt_super {
+&#10;#ifikpopdob .gt_super {
   font-size: 65%;
 }
-
-#nxfihozomn .gt_footnote_marks {
+&#10;#ifikpopdob .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-
-#nxfihozomn .gt_asterisk {
+&#10;#ifikpopdob .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-
-#nxfihozomn .gt_indent_1 {
+&#10;#ifikpopdob .gt_indent_1 {
   text-indent: 5px;
 }
-
-#nxfihozomn .gt_indent_2 {
+&#10;#ifikpopdob .gt_indent_2 {
   text-indent: 10px;
 }
-
-#nxfihozomn .gt_indent_3 {
+&#10;#ifikpopdob .gt_indent_3 {
   text-indent: 15px;
 }
-
-#nxfihozomn .gt_indent_4 {
+&#10;#ifikpopdob .gt_indent_4 {
   text-indent: 20px;
 }
-
-#nxfihozomn .gt_indent_5 {
+&#10;#ifikpopdob .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
-    
-    <tr class="gt_col_headings">
+    &#10;    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;N = 59,799&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>N = 59,799</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
     </tr>
@@ -1173,7 +1068,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Full Sample 2 Year MEC Exam Weight</td>
 <td headers="stat_0" class="gt_row gt_center">25,473 (14,775, 50,242)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Masked Variance Pseudo-PSU</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1</td>
 <td headers="stat_0" class="gt_row gt_center">29,272 (49%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2</td>
@@ -1183,7 +1078,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Masked Variance Pseudo-Stratum</td>
 <td headers="stat_0" class="gt_row gt_center">80 (40, 118)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">NHANES cycle</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1999-2000</td>
 <td headers="stat_0" class="gt_row gt_center">4,976 (8.3%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2001-2002</td>
@@ -1213,7 +1108,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age at Screening Adjudicated - Recode</td>
 <td headers="stat_0" class="gt_row gt_center">47 (31, 63)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">demo_race</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Non-Hispanic White</td>
 <td headers="stat_0" class="gt_row gt_center">25,254 (42%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Hispanic/Asian/Other</td>
@@ -1227,7 +1122,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">671</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">cc_bmi</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    &lt;25</td>
 <td headers="stat_0" class="gt_row gt_center">18,364 (32%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    25 to &lt;30</td>
@@ -1251,7 +1146,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">268</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">cc_smoke</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Never</td>
 <td headers="stat_0" class="gt_row gt_center">31,331 (55%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Former/Current</td>
@@ -1259,8 +1154,7 @@ rm(packages, installed_packages)
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">3,159</td></tr>
   </tbody>
-  
-  <tfoot class="gt_footnotes">
+  &#10;  <tfoot class="gt_footnotes">
     <tr>
       <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Median (IQR); n (%)</td>
     </tr>
@@ -1283,15 +1177,15 @@ antihypertensive medication use:
 
 **Notes**:
 
--   combine weight in many years, refer to
-    <https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx>
--   The weight in the dataset is: **Full sample 2 year MEC exam weight**
-    (2-year weight?)
--   However, for all analyses that combine 1999-2000 with other survey
-    cycles, you must start by using the 4-year weights provided by NCHS
-    for 1999-2002, then include the 2-year weights for each additional
-    2-year cycle that is combined. (refer to larger nhance dataset to
-    find 4-year weights???)
+- combine weight in many years, refer to
+  <https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx>
+- The weight in the dataset is: **Full sample 2 year MEC exam weight**
+  (2-year weight?)
+- However, for all analyses that combine 1999-2000 with other survey
+  cycles, you must start by using the 4-year weights provided by NCHS
+  for 1999-2002, then include the 2-year weights for each additional
+  2-year cycle that is combined. (refer to larger nhance dataset to find
+  4-year weights???)
 
 ## weight adjustment for years
 
@@ -1318,94 +1212,94 @@ We can use `subset` to produce correct variance estimates.
 # Doing Imputation and logistic regression at the Same Time
 
     ## 
-    ## ===========================================
-    ##                                Model 1     
-    ## -------------------------------------------
-    ## (Intercept)                       -4.48 ***
-    ##                                   (0.09)   
-    ## svy_year2001-2002                 -0.13    
-    ##                                   (0.07)   
-    ## svy_year2003-2004                 -0.17 *  
-    ##                                   (0.07)   
-    ## svy_year2005-2006                 -0.31 ***
-    ##                                   (0.07)   
-    ## svy_year2007-2008                 -0.42 ***
-    ##                                   (0.07)   
-    ## svy_year2009-2010                 -0.60 ***
-    ##                                   (0.07)   
-    ## svy_year2011-2012                 -0.58 ***
-    ##                                   (0.08)   
-    ## svy_year2013-2014                 -0.66 ***
-    ##                                   (0.07)   
-    ## svy_year2015-2016                 -0.50 ***
-    ##                                   (0.08)   
-    ## svy_year2017-2020                 -0.46 ***
-    ##                                   (0.07)   
-    ## demo_age_years                     0.05 ***
-    ##                                   (0.00)   
-    ## demo_raceHispanic/Asian/Other      0.22 ***
-    ##                                   (0.04)   
-    ## demo_raceNon-Hispanic Black        0.67 ***
-    ##                                   (0.04)   
-    ## female                            -0.20 ***
-    ##                                   (0.03)   
-    ## cc_bmi25 to <30                    0.04    
-    ##                                   (0.04)   
-    ## cc_bmi30+                          0.24 ***
-    ##                                   (0.04)   
-    ## cc_diabetes                       -0.06    
-    ##                                   (0.05)   
-    ## cc_ckd                             0.47 ***
-    ##                                   (0.04)   
-    ## cc_cvd_any                        -0.30 ***
-    ##                                   (0.05)   
-    ## bp_med_use                        -0.61 ***
-    ##                                   (0.06)   
-    ## htn_aware                          1.39 ***
-    ##                                   (0.05)   
-    ## cc_smokeFormer/Current            -0.03    
-    ##                                   (0.03)   
-    ## -------------------------------------------
-    ## Mean R2                            0.21    
-    ## Mean AIC                       39524.43    
-    ## ===========================================
-    ## *** p < 0.001; ** p < 0.01; * p < 0.05
+    ## =============================================
+    ##                                Model 1       
+    ## ---------------------------------------------
+    ## (Intercept)                       -4.48 *    
+    ##                                [-4.66; -4.31]
+    ## svy_year2001-2002                 -0.13      
+    ##                                [-0.27;  0.01]
+    ## svy_year2003-2004                 -0.17 *    
+    ##                                [-0.32; -0.03]
+    ## svy_year2005-2006                 -0.31 *    
+    ##                                [-0.45; -0.16]
+    ## svy_year2007-2008                 -0.42 *    
+    ##                                [-0.56; -0.28]
+    ## svy_year2009-2010                 -0.60 *    
+    ##                                [-0.74; -0.46]
+    ## svy_year2011-2012                 -0.58 *    
+    ##                                [-0.74; -0.43]
+    ## svy_year2013-2014                 -0.66 *    
+    ##                                [-0.81; -0.52]
+    ## svy_year2015-2016                 -0.50 *    
+    ##                                [-0.65; -0.35]
+    ## svy_year2017-2020                 -0.46 *    
+    ##                                [-0.60; -0.32]
+    ## demo_age_years                     0.05 *    
+    ##                                [ 0.05;  0.05]
+    ## demo_raceHispanic/Asian/Other      0.22 *    
+    ##                                [ 0.14;  0.30]
+    ## demo_raceNon-Hispanic Black        0.67 *    
+    ##                                [ 0.60;  0.74]
+    ## female                            -0.20 *    
+    ##                                [-0.27; -0.14]
+    ## cc_bmi25 to <30                    0.04      
+    ##                                [-0.04;  0.13]
+    ## cc_bmi30+                          0.24 *    
+    ##                                [ 0.16;  0.33]
+    ## cc_diabetes                       -0.06      
+    ##                                [-0.15;  0.04]
+    ## cc_ckd                             0.47 *    
+    ##                                [ 0.39;  0.55]
+    ## cc_cvd_any                        -0.30 *    
+    ##                                [-0.40; -0.20]
+    ## bp_med_use                        -0.61 *    
+    ##                                [-0.72; -0.50]
+    ## htn_aware                          1.39 *    
+    ##                                [ 1.29;  1.50]
+    ## cc_smokeFormer/Current            -0.03      
+    ##                                [-0.10;  0.04]
+    ## ---------------------------------------------
+    ## McFadden's R-squared               0.15      
+    ## Ragg-Uhler's R-squared             0.21      
+    ## Mean AIC                       39524.43      
+    ## =============================================
+    ## * 0 outside the confidence interval.
 
     ## 
-    ## ===========================================
-    ##                                Model 1     
-    ## -------------------------------------------
-    ## (Intercept)                       -4.81 ***
-    ##                                   (0.08)   
-    ## demo_age_years                     0.05 ***
-    ##                                   (0.00)   
-    ## demo_raceHispanic/Asian/Other      0.19 ***
-    ##                                   (0.04)   
-    ## demo_raceNon-Hispanic Black        0.66 ***
-    ##                                   (0.04)   
-    ## female                            -0.20 ***
-    ##                                   (0.03)   
-    ## cc_bmi25 to <30                    0.04    
-    ##                                   (0.04)   
-    ## cc_bmi30+                          0.22 ***
-    ##                                   (0.04)   
-    ## cc_diabetes                       -0.07    
-    ##                                   (0.05)   
-    ## cc_ckd                             0.48 ***
-    ##                                   (0.04)   
-    ## cc_cvd_any                        -0.29 ***
-    ##                                   (0.05)   
-    ## bp_med_use                        -0.63 ***
-    ##                                   (0.06)   
-    ## htn_aware                          1.38 ***
-    ##                                   (0.05)   
-    ## cc_smokeFormer/Current            -0.02    
-    ##                                   (0.03)   
-    ## -------------------------------------------
-    ## Mean R2                            0.20    
-    ## Mean AIC                       39748.06    
-    ## ===========================================
-    ## *** p < 0.001; ** p < 0.01; * p < 0.05
+    ## =============================================
+    ##                                Model 1       
+    ## ---------------------------------------------
+    ## (Intercept)                       -4.85 *    
+    ##                                [-5.00; -4.71]
+    ## demo_age_years                     0.05 *    
+    ##                                [ 0.05;  0.05]
+    ## demo_raceHispanic/Asian/Other      0.19 *    
+    ##                                [ 0.11;  0.27]
+    ## demo_raceNon-Hispanic Black        0.66 *    
+    ##                                [ 0.58;  0.73]
+    ## female                            -0.20 *    
+    ##                                [-0.26; -0.13]
+    ## cc_bmi25 to <30                    0.05      
+    ##                                [-0.04;  0.13]
+    ## cc_bmi30+                          0.24 *    
+    ##                                [ 0.15;  0.32]
+    ## cc_diabetes                       -0.07      
+    ##                                [-0.17;  0.02]
+    ## cc_ckd                             0.47 *    
+    ##                                [ 0.39;  0.55]
+    ## cc_cvd_any                        -0.30 *    
+    ##                                [-0.39; -0.20]
+    ## bp_med_use                        -0.64 *    
+    ##                                [-0.75; -0.52]
+    ## htn_aware                          1.39 *    
+    ##                                [ 1.29;  1.49]
+    ## ---------------------------------------------
+    ## McFadden's R-squared               0.18      
+    ## Ragg-Uhler's R-squared             0.24      
+    ## Mean AIC                       39978.81      
+    ## =============================================
+    ## * 0 outside the confidence interval.
 
 if not doing imputation
 
