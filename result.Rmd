@@ -95,8 +95,8 @@ dat <- dat %>%
     )),
     # cc_smoke
     cc_smoke=factor(case_when(
-      cc_smoke == "Former" ~ "Former/Current",
-      cc_smoke == "Current" ~ "Former/Current",
+      cc_smoke == "Former" ~ "Former",
+      cc_smoke == "Current" ~ "Current",
       TRUE ~ cc_smoke
     ))
   )
@@ -149,7 +149,7 @@ dat <- dat %>% mutate(
   bp_med_diur_thz=ifelse(bp_med_diur_thz=="Yes",1,ifelse(bp_med_diur_thz=="No",0,NA)),
   
   # Comorbidities variables
-  cc_smoke=relevel(cc_smoke,ref="Never"),
+  cc_smoke=relevel(cc_smoke,ref="Current"),
   cc_bmi=relevel(cc_bmi,ref="<25"),
   cc_diabetes=ifelse(cc_diabetes=="Yes",1,ifelse(cc_diabetes=="No",0,NA)),
   cc_ckd=ifelse(cc_ckd=="Yes",1,ifelse(cc_ckd=="No",0,NA)),
@@ -426,7 +426,7 @@ model_s1
 screenreg(convertModel(model1))
 
 # stage 1 hypertension
-screenreg(convertModel(models1))
+screenreg(convertModel(model_s1))
 ```
 
 ```{r model 3}
