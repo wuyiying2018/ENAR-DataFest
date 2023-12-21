@@ -319,6 +319,9 @@ lm_svy_mi <- function(formula, imputations) {
   #setting up null objects allows us to easily add results
   #later
   b <- se <- NULL
+  R2 <- aic <- NULL
+  mean.R2 <- mean.aic <- NULL
+  # AUC <- mean.AUC <-NULL
   
   #now loop through our imputations and run the model
   for(i in 1:imputations$m) {
@@ -334,15 +337,20 @@ lm_svy_mi <- function(formula, imputations) {
     se <- cbind(se, summary(model)$coef[,2])
     
     # # McFadden's R-squared
-    # null_model <- svyglm(response~1, design = imputation.svy, family = quasibinomial)
+    null_model <- svyglm(bp_uncontrolled_140_90~1, design = imputation.svy, family = quasibinomial)
+    R2 <- c(R2,1 - (logLik(model)/logLik(null_model)))
     # ll_full <- logLik(model)
     # ll_null <- logLik(null_model)
     # R2 <- c(R2, 1 - (ll_full/ll_null))
     
+    # AIC
+    aic <- c(aic,(-2) * logLik(model) + 2 * length(coef(model)))
+    
     # # Logistic Regression AUC calculation
-    # predictions <- predict(model, type = "response")
-    # ROC_res <- roc(imputation$dependent_variable, predictions)  # Replace with dependent variable
-    # AUC <- c(AUC, auc(ROC_res))
+    #predictions <- predict(model, type = "response")
+    #ROC_res <- roc(imputation.svy$variables$bp_uncontrolled_140_90, predictions)  # Replace with dependent variable
+    #AUC <- c(AUC, auc(ROC_res))
+    
   }
   
   #now pool the results
@@ -358,15 +366,17 @@ lm_svy_mi <- function(formula, imputations) {
   #they should be the same across all iterations
   n <- nobs(model)
   p <- length(model$coefficients)-1
-  # mean.R2 <- mean(R2)
-  # mean.AUC <- mean(AUC)
+  mean.R2 <- mean(R2)
+  mean.aic <- mean(aic)
+  #mean.AUC <- mean(AUC)
   
   #return everything in a list
   return(list(coef=coefficients,
-              n=n
-              # , 
-              # R2 = mean.R2, 
-              # AUC = mean.AUC
+              n=n,
+              R2 = mean.R2, 
+              aic = mean.aic
+              #,
+              #AUC = mean.AUC
               )
          )
 }
@@ -374,7 +384,7 @@ lm_svy_mi <- function(formula, imputations) {
 
 ```{r}
 #now lets try the model out
-model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+pregnant+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
+model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any+bp_med_use+htn_aware+cc_smoke, imputations)
 
 # check model fit based on SL
 convertModel <- function(model) {
@@ -383,6 +393,9 @@ convertModel <- function(model) {
     coef = model$coef$b.pool, 
     se = model$coef$se.pool, 
     pvalues = model$coef$pvalue.pool,
+    gof.names=c("Mean R2","Mean AIC"),
+    gof = c( model$R2,model$aic),
+    gof.decimal = c(TRUE,TRUE)
     # gof.names = c("Mean AUC"),
     # gof = c( model$AUC),
     # gof.decimal = c(TRUE)
@@ -404,6 +417,7 @@ fit<-svyglm(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+preg
             design=nhanes,family=quasibinomial)
 
 summary(fit)
+
 ```
 
 
