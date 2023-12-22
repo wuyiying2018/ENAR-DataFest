@@ -32,6 +32,8 @@ knitr::opts_chunk$set(echo = TRUE,
 library(gtsummary)
 library(tidyverse)
 library(dplyr)
+library(knitr)
+library(kableExtra)
 ```
 
 
@@ -64,14 +66,16 @@ dat <- my_dat %>%
   )
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 dat %>% 
   select(svy_year, bp_uncontrolled_140_90, bp_uncontrolled_130_80,
                demo_age_years, demo_race, gender, cc_bmi, cc_diabetes, 
                cc_ckd, cc_cvd_any, bp_med_use, htn_aware) %>%
   tbl_summary(by = gender) %>%
   bold_labels() %>%
-  modify_caption("**Table 1: Summary of Dataset by Gender**")
+  # modify_caption("**Table 1: Summary of Dataset by Gender**") %>%
+  as_gt(include = everything()) %>%
+  gt::tab_header("Table 1: Summary of Dataset by Gender")
 ```
 
 # Methodology
