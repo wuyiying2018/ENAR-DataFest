@@ -12,7 +12,11 @@ header-includes:
 - \usepackage{makecell}
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
-abstract: "This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) data to investigate hypertension risk factors in the U.S. adult population. We aim to identify the potential causes or correlates of worsening BP control among US adults with hypertension over the past decade. Logistic regression analysis incorporated multi-year dataset weighting and multiple imputations for missing data. Key variables included survey year, age, race, gender, BMI, diabetes, CKD, CVD, medication use, and hypertension awareness."
+abstract: "This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) data to investigate hypertension risk factors in the U.S. adult population. We aim to identify the potential causes or correlates of worsening BP control among US adults with hypertension over the past decade. Logistic regression analysis incorporated multi-year dataset weighting and multiple imputations for missing data. Key variables included survey year, age, race, gender, BMI, diabetes, CKD, CVD, medication use, and hypertension awareness.\\
+
+
+Keywords: blood pressure, hypertension risk, cardiovascular, risk analysis"
+
 editor_options:
   chunk_output_type: console
 ---
@@ -40,7 +44,7 @@ library(kableExtra)
 # Introduction
 
 ## Background
-Effective blood pressure (BP) management is essential for reducing the risk of cardiovascular diseases. However, since 2013, there has been a concerning decline in BP control among U.S. adults with hypertension. Our study, utilizing data from the National Health and Nutrition Examination Survey (NHANES) from 1999 to 2020, investigates the potential factors contributing to this trend. The NHANES dataset, encompassing demographics, BP measurements, hypertension status, antihypertensive medication use, and co-morbidities of 59,799 U.S. adults, provides insight into the shifts in hypertension management over twenty years. We approach this analysis by handling missing data through multiple imputations and exploring relationships between various factors and BP control trends using logistic regression. The goal is to address the key elements linked to the decline in BP  and enhance health outcomes for individuals with hypertension across the U.S.
+Effective blood pressure (BP) management is essential for reducing the risk of cardiovascular diseases. However, since 2013, there has been a concerning decline in BP control among U.S. adults with hypertension. Our study, utilizing data from the National Health and Nutrition Examination Survey (NHANES) from 1999 to 2020, investigates the potential factors contributing to this trend. The NHANES dataset, encompassing demographics, BP measurements, hypertension status, antihypertensive medication use, and co-morbidities of 59,799 U.S. adults, provides insight into the shifts in hypertension management over twenty years. We utilize logistic regression to explore the implications of co-morbidities. Given that aspects of the prevalence of BP control among US adults with hypertension have decreased since 2013, we hypothesize that uncontrolled indicator outcomes may differ on the measures related to personal lifestyles and comorbidities. We approach this analysis by handling missing data through multiple imputations and exploring relationships between various factors and BP control trends using logistic regression. The goal is to address the key elements linked to the decline in BP  and enhance health outcomes for individuals with hypertension across the U.S.
 
 ## Data Description
 
@@ -143,6 +147,7 @@ knitr::include_graphics("result_files/model_results.pdf")
 
 # Conclusion
 
+From our analysis, we observe survey year, age, race, gender, bmi, diabetes, chronic kidney disease, cardiovascular disease, medication use, hypertension awareness are statistically significant in our model. In contrast, our first hypothesis where 
 
 
 
