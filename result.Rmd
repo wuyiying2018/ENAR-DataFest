@@ -31,7 +31,8 @@ remotes::install_github("jhs-hwg/CardioStatsUSA")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
-              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools","haven")
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools", 
+              "haven", "gridExtra")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -548,8 +549,68 @@ plot_or<-function(df,title){
   return(res)
 }
   
-plot_or(res_m1,"Odds Ratios and 95% Confidence Intervals for Model1")
-plot_or(res_m2,"Odds Ratios and 95% Confidence Intervals for Model2")
+p1 <- plot_or(res_m1,"Odds Ratios and 95% Confidence Intervals for Model1")
+p2 <- plot_or(res_m2,"Odds Ratios and 95% Confidence Intervals for Model2")
+
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+# result table
+
+```{r}
+df <- read_csv("result_files/results.csv")
+# Select and rename columns for the table
+df_table <- df %>%
+  mutate(`M1_OR (95% CI)`= str_c(exactDec(M1_OR, decimals), " (", exactDec(`M1_OR Lower CI`, decimals), ", ", exactDec(`M1_OR Upper CI`, decimals), ")"),
+         `M1_p-value` = pvalue_rounder(M1_pvalue.pool),
+         `M2_OR (95% CI)`= str_c(exactDec(M2_OR, decimals), " (", exactDec(`M2_OR Lower CI`, decimals), ", ", exactDec(`M2_OR Upper CI`, decimals), ")"),
+         `M2_p-value` = pvalue_rounder(M2_pvalue.pool),
+         Variable = ...1) %>%
+  select(Variable,
+    `M1_OR (95% CI)`,
+    `M1_p-value`,
+    `M2_OR (95% CI)`,
+    `M2_p-value`
+  )
+
+df_table <- df_table[-1,] %>%
+  mutate(var_label = c(rep("svy_year", 9), "Age (Years)", "Race", "Race",
+                        "Gender", rep("BMI",2), "Diabetes", "CKD", 
+                        "CVD", "Medication Use", "Hypertension Awareness"),
+         Variable = c("Survey year 2001-2002", "Survey year 2003-2004", "Survey year 2004-2006",
+                      "Survey year 2007-2008", "Survey year 2009-2010", "Survey year 2011-2012",
+                      "Survey year 2013-2014", "Survey year 2015-2016", "Survey year 2017-2020",
+                      "Age (Years)", "Race Hispanic/Asian/Other", "Race Non-Hispanic Black", 
+                      "Gender Female", "BMI 25 to <30", "BMI 30+", "Diabetes", "CKD", "CVD", 
+                      "Medication Use", "Hypertension Awareness"))
+
+# Convert to rtf format
+rtf_table <- df_table %>%
+  rtf_page(width = 9.5,
+           height = 11) %>%
+  rtf_title("Table 1: Summary of Logistic Regression Models") %>%
+  rtf_colheader(" |BP Systolic >130 and Diastolic >80 | BP Systolic >140 and Diastolic >90",
+                col_rel_width = c(rep(2, 3))) %>%
+  rtf_colheader("Variable | OR (95% CI) | P-value | OR (95% CI) | P-value ",
+                col_rel_width = c(2, 1, 1, 1, 1),
+                border_top = c(rep("single", 5)),
+                border_left = c("single")) %>%
+  rtf_body(
+    page_by = "var_label",
+    text_font = 8,
+    text_font_size = c(8, rep(8, 5)),
+    col_rel_width = c(2, 1, 1, 1, 1),
+    text_justification = c("l", rep("c",5)),
+    border_left = c("single", rep("single",5)),
+    border_right = c(rep("single", 5), "single")
+  ) %>%
+  rtf_footnote("This is a footnote") %>%
+  rtf_source("Source: xxx") %>%
+  rtf_encode()
+
+# Write to an RTF file
+write_rtf(rtf_table, file = "logistic_regression_output.rtf")
 ```
 
 

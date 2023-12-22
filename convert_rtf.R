@@ -67,31 +67,6 @@ library(dplyr)
 library(tidyr)
 
 names(model1$coef)
-block_0 <- values_con %>%
-  rowwise() %>%
-  ungroup() %>%
-  select(contrast, estimate, conf.low, conf.high) %>%
-  mutate(values = str_c(exactDec(estimate, decimals), " (", exactDec(conf.low, decimals), ", ", exactDec(conf.high, decimals), ")")) %>%
-  select(contrast, values) %>%
-  pivot_wider(names_from = contrast, values_from = values) %>%
-  mutate(label = "Difference from placebo, LS mean (95% CI)")
-
-block_7_adj <- values_con %>%
-  select(contrast, p.value) %>%
-  mutate(p = pvalue_rounder(p.value)) %>%
-  select(-p.value) %>%
-  pivot_wider(names_from = contrast, values_from = p) %>%
-  
-  mutate(label = "p-value")
-
-# Combine all blocks
-master_block <- do.call(bind_rows, lapply(ls(pattern = "^block_"), function(x) get(x))) %>%
-  # mutate(!!sym(trt_ref) := replace_na(!!sym(trt_ref), "-")) %>%
-  # mutate(N = overall_count$count) %>%
-  # rename_with(~str_c(.x, "\nN=", overall_count$count), .cols = 1:3) %>%
-  relocate(starts_with(trt_ref), .before = label) %>%
-  relocate(label, 1) %>%
-  rename("Statistic" = label)
 
 
 decimals <- 2
@@ -101,6 +76,16 @@ df1 <- model_s1$coef %>% rename_with(~paste0("M1_", .)) # stage 1
 df2 <- model3$coef %>% rename_with(~paste0("M2_", .)) # stage 2
 
 df <- cbind(df1, df2)
+
+gof <- data.frame(
+  M1_r2mf=model_s1$R2MF,
+  M1_r2cu=model_s1$R2CU,
+  M2_r2mf=model3$R2MF,
+  M2_r2cu=model3$R2CU
+)
+
+# write.csv(df, "results.csv", row.names=TRUE)
+# write.csv(gof, "gof_results.csv", row.names=TRUE)
 
 # Calculate OR and 95% CI for OR
 df <- df %>%
@@ -130,7 +115,10 @@ df_table <- df %>%
     `M2_p-value`
   )
 
-df_table <- cbind(Variable = rownames(df_table), df_table)
+df_table <- cbind(Variable = rownames(df_table), df_table) %>%
+  mutate( var_label = c(rep("svy_year", 9), "Age", "Race", "Race",
+                        "Gender", rep("BMI",2), "Diabetes", "CKD", 
+                        "CVD", "Medication", "Hypertension Awareness"))
 
 # Convert to rtf format
 rtf_table <- df_table %>%
@@ -148,8 +136,8 @@ rtf_table <- df_table %>%
     text_font_size = c(rep(8, 5)),
     col_rel_width = c(2, 1, 1, 1, 1),
     text_justification = c("l", rep("c",4)),
-    border_left = c("single", rep("", 4)),
-    border_right = c(rep("", 4), "single")
+    border_left = c("single", rep("single",4)),
+    border_right = c(rep("single", 4), "single")
   ) %>%
   rtf_footnote("This is a footnote") %>%
   rtf_source("Source: xxx") %>%
