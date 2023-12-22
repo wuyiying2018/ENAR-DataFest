@@ -110,18 +110,16 @@ In the context of R and the survey package, we achieve this by employing the sub
 
 \footnotetext{Centers for Disease Control and Prevention. Nhanes tutorials - Variance Estimation module. Centers for Disease Control and Prevention. https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx}
 
-### Multiple Imputations
+### Multiple Imputation
 
 To handle missing data in our NHANES dataset, we utilize Multiple Imputation (MI) to generate multiple datasets by imputing missing values repeatedly. This method retains the advantages of single imputation, such as consistent analyses and data collector’s knowledge, while also accurately reflecting uncertainty and accounting for imputation error. We implemented it using the MICE (Multivariate Imputation by Chained Equations) package in R, which allows for flexible and efficient imputation of missing values. This ensures that the imputed values are plausible and improves statistical efficiency.
 
 ## Logistic Regression
 
-In our analysis, as we are dealing with binary outcomes, specifically `bp_uncontrolled_130_80` for stage 1 hypertension (1: Yes, 0: No) and `bp_uncontrolled_140_90` for stage 2 hypertension (1: Yes, 0: No), we chose logistic regression as our statistical model. 
-
-Consider a logistic regression model with $n$ covariates $X_i, i=1,\ ...\ n$, the model can be expressed as:
+Given two binary outcomes, `bp_uncontrolled_130_80` for stage 1 hypertension (1: Yes, 0: No) and `bp_uncontrolled_140_90` for stage 2 hypertension (1: Yes, 0: No), we chose logistic regression as our statistical model. Suppose there are $n$ covariates $X_i, i=1,\ ...\ n$, the model can be expressed as:
 
 $$
-log(\frac{\pi}{1-\pi})=X\beta = \beta_0+\beta_1X_1+...+B_nX_n
+log(\frac{\pi}{1-\pi})=X\beta = \beta_0+\beta_1X_1+...+\beta_nX_n
 $$
 
 - $\pi$ is the risk
@@ -130,7 +128,9 @@ $$
 
 - $\beta_0$ is the log odds for $X_i's=0$
 
-- $\beta_1$ is the log odds ratio per unit change of X_1, holding all other covariates fixed
+- $\beta_i$ is the log odds ratio per unit change of $X_i$, holding all other covariates fixed
+
+In our logistic regression analysis for survey data, we have integrated multiple imputation and design effects. This approach started with performing multiple imputations using `MICE` to create complete datasets for missing data. Each imputed dataset was then individually analyzed with logistic regression models, incorporating essential survey design elements like stratification and weights via the survey package. Lastly, aggregating these results to derive final estimates. 
 
 # Results
 
