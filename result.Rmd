@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
               "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools", 
-              "haven", "gridExtra", "r2rtf")
+              "haven", "gridExtra", "r2rtf","gt","officer","flextable")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -274,8 +274,6 @@ imp1 %>%
   tbl_summary() %>% 
   bold_labels()
 ```
-
-
 
 # survey design
 **Notes**: 
@@ -615,6 +613,54 @@ rtf_table <- df_table %>%
 write_rtf(rtf_table, file = "logistic_regression_output.rtf")
 ```
 
+# Data Description table
+```{r}
+my_dat <- read_csv("data/my_dat.csv")
+
+dat_temp <- my_dat %>%mutate(
+    # Converting to factor
+    bp_uncontrolled_140_90 = factor(bp_uncontrolled_140_90, levels = c("0", "1"), labels = c("Controlled", "Uncontrolled")),
+    bp_uncontrolled_130_80 = factor(bp_uncontrolled_130_80, levels = c("0", "1"), labels = c("Controlled", "Uncontrolled")),
+    # Demographics variables
+    gender = factor(case_when(
+      female == "1" ~ "female",  
+      female == "0" ~ "male"),
+      levels = c("male", "female")
+    ),
+    # demo_race
+    demo_race=factor(demo_race, levels=c("Non-Hispanic White", 
+                                         "Hispanic/Asian/Other", 
+                                         "Non-Hispanic Black")),
+    # cc_bmi
+    cc_bmi=factor(cc_bmi,
+                  levels = c("<25", "25 to <30","30+")
+                  )
+    )
+
+# Creating summary tables for each blood pressure control status
+table_bp_140_90 <- dat_temp %>%
+  tbl_summary(by = bp_uncontrolled_140_90, 
+              include = c(svy_year, demo_age_years, demo_race, gender, cc_bmi, cc_diabetes, cc_ckd, cc_cvd_any, bp_med_use, htn_aware)) %>%
+  bold_labels()
+
+table_bp_130_80 <- dat_temp %>%
+  tbl_summary(by = bp_uncontrolled_130_80,
+              include = c(svy_year, demo_age_years, demo_race, gender, cc_bmi, cc_diabetes, cc_ckd, cc_cvd_any, bp_med_use, htn_aware)) %>%
+  bold_labels()
+
+# Merging the tables
+combined_table <- tbl_merge(
+  list(table_bp_140_90, table_bp_130_80),
+  tab_spanner = c("BP 140/90", "BP 130/80")
+)
+
+# Convert to gt for additional customization and print
+combined_table_gt <- combined_table %>%
+  as_gt() %>%
+  gt::tab_header(title = "Combined Table: Summary of Dataset by Blood Pressure Control Status")
+
+# combined_table_gt
+```
 
 if not doing imputation
 ```{r}
