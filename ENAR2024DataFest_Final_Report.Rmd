@@ -54,7 +54,7 @@ This method ensures that the weights are appropriately adjusted for the total sp
 
 \footnotetext{Centers for Disease Control and Prevention. Nhanes tutorials - weighting module. Centers for Disease Control and Prevention. https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx }
 
-### adjust weight for blood pressure and hypertension sub-population
+### Adjust weight for blood pressure and hypertension sub-population
 Our focus is on the sub-population with blood pressure and hypertension issues. When working with complex survey data such as NHANES, it's crucial not to exclude records from the dataset before conducting analyses. Instead, to ensure accurate variance estimates, subgroup analyses should be performed using specific functionalities within the analysis software.\footnotemark
 
 In the context of R and the survey package, we achieve this by employing the subset function. This approach allows us to correctly execute subgroup analyses on the blood pressure and hypertension population, ensuring that the variance estimates are appropriate for the complex survey design of NHANES.
@@ -63,8 +63,25 @@ In the context of R and the survey package, we achieve this by employing the sub
 
 ### Multiple Imputations
 
+To handle missing data in our NHANES dataset, we utilize Multiple Imputation (MI) to generate multiple datasets by imputing missing values repeatedly. This method retains the advantages of single imputation, such as consistent analyses and data collector’s knowledge, while also accurately reflecting uncertainty and accounting for imputation error. We implemented it using the MICE (Multivariate Imputation by Chained Equations) package in R, which allows for flexible and efficient imputation of missing values. This ensures that the imputed values are plausible and improves statistical efficiency.
+
 ## Logistic Regression
 
+In our analysis, as we are dealing with binary outcomes, specifically `bp_uncontrolled_130_80` for stage 1 hypertension (1: Yes, 0: No) and `bp_uncontrolled_140_90` for stage 2 hypertension (1: Yes, 0: No), we chose logistic regression as our statistical model. 
+
+Consider a logistic regression model with $n$ covariates $X_i,\ \ i=1,\ ...\ n$, the model can be expressed as:
+
+$$
+log(\frac{\pi}{1-\pi})=X\beta = \beta_0+\beta_1X_1+...+B_nX_n
+$$
+
+- $\pi$ is the risk
+
+- $\frac{\pi}{1-\pi}$ is the odds
+
+- $\beta_0$ is the log odds for $X_i's=0$
+
+- $\beta_1$ is the log odds ratio per unit change of X_1, holding all other covariates fixed
 
 # Results
 
