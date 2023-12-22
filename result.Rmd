@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
               "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools", 
-              "haven", "gridExtra")
+              "haven", "gridExtra", "r2rtf")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -559,6 +559,8 @@ grid.arrange(p1, p2, ncol=2)
 # result table
 
 ```{r}
+source("shared_code.R", local = TRUE)
+decimals <- 2
 df <- read_csv("result_files/results.csv")
 # Select and rename columns for the table
 df_table <- df %>%
