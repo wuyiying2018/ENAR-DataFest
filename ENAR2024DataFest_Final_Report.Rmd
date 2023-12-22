@@ -1,7 +1,7 @@
 ---
 title: 'ENAR 2024 DataFest Project Report'
 author: "Yi Huang, Yiying Wu"
-date: "Dec 21, 2023"
+date: "Dec 22, 2023"
 output:
   pdf_document:
     number_section: yes
@@ -24,10 +24,55 @@ editor_options:
 \setcounter{page}{1}
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(gtsummary)
+library(tidyverse)
+library(dplyr)
+```
+
+
 # Introduction
 
+## Background
 Effective blood pressure (BP) management is essential for reducing the risk of cardiovascular diseases. However, since 2013, there has been a concerning decline in BP control among U.S. adults with hypertension. Our study, utilizing data from the National Health and Nutrition Examination Survey (NHANES) from 1999 to 2020, investigates the potential factors contributing to this trend. The NHANES dataset, encompassing demographics, BP measurements, hypertension status, antihypertensive medication use, and co-morbidities of 59,799 U.S. adults, provides insight into the shifts in hypertension management over twenty years. We approach this analysis by handling missing data through multiple imputations and exploring relationships between various factors and BP control trends using logistic regression. The goal is to address the key elements linked to the decline in BP  and enhance health outcomes for individuals with hypertension across the U.S.
 
+## Data Description
+
+```{r echo=FALSE, messgae=FALSE, warning=FALSE}
+my_dat <- read_csv("data/my_dat.csv")
+
+dat <- my_dat %>%
+  mutate(
+    # Demographics variables
+    gender = factor(case_when(
+      female == "1" ~ "female",  
+      female == "0" ~ "male"),
+      levels = c("male", "female")
+    ),
+    # demo_race
+    demo_race=factor(demo_race, levels=c("Non-Hispanic White", 
+                                         "Hispanic/Asian/Other", 
+                                         "Non-Hispanic Black")),
+    # cc_bmi
+    cc_bmi=factor(cc_bmi,
+      levels = c("<25", "25 to <30","30+")
+    )
+  )
+```
+
+```{r echo=FALSE}
+dat %>% 
+  select(svy_year, bp_uncontrolled_140_90, bp_uncontrolled_130_80,
+               demo_age_years, demo_race, gender, cc_bmi, cc_diabetes, 
+               cc_ckd, cc_cvd_any, bp_med_use, htn_aware) %>%
+  tbl_summary(by = gender) %>%
+  bold_labels() %>%
+  modify_caption("**Table 1: Summary of Dataset by Gender**")
+```
 
 # Methodology
 
@@ -69,7 +114,7 @@ To handle missing data in our NHANES dataset, we utilize Multiple Imputation (MI
 
 In our analysis, as we are dealing with binary outcomes, specifically `bp_uncontrolled_130_80` for stage 1 hypertension (1: Yes, 0: No) and `bp_uncontrolled_140_90` for stage 2 hypertension (1: Yes, 0: No), we chose logistic regression as our statistical model. 
 
-Consider a logistic regression model with $n$ covariates $X_i,\ \ i=1,\ ...\ n$, the model can be expressed as:
+Consider a logistic regression model with $n$ covariates $X_i, i=1,\ ...\ n$, the model can be expressed as:
 
 $$
 log(\frac{\pi}{1-\pi})=X\beta = \beta_0+\beta_1X_1+...+B_nX_n
@@ -86,8 +131,11 @@ $$
 # Results
 
 
+## Logistic Regression
 
-
+```{r, echo=FALSE, fig.align='center', out.width="100%", out.height="100%"}
+knitr::include_graphics("result_files/model_results.pdf")
+```
 
 # Conclusion
 

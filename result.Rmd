@@ -591,7 +591,7 @@ df_table <- df_table[-1,] %>%
 rtf_table <- df_table %>%
   rtf_page(width = 9.5,
            height = 11) %>%
-  rtf_title("Table 1: Summary of Logistic Regression Models") %>%
+  rtf_title("Table 2: Summary of Logistic Regression Models") %>%
   rtf_colheader(" |BP Systolic >130 and Diastolic >80 | BP Systolic >140 and Diastolic >90",
                 col_rel_width = c(rep(2, 3))) %>%
   rtf_colheader("Variable | OR (95% CI) | P-value | OR (95% CI) | P-value ",
