@@ -15,7 +15,7 @@ header-includes:
 abstract: "This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) data to investigate hypertension risk factors in the U.S. adult population. We aim to identify the potential causes or correlates of worsening BP control among US adults with hypertension over the past decade. Logistic regression analysis incorporated multi-year dataset weighting and multiple imputations for missing data. Key variables included survey year, age, race, gender, BMI, diabetes, CKD, CVD, medication use, and hypertension awareness.\\
 
 
-Keywords: blood pressure, hypertension risk, cardiovascular, risk analysis"
+Keywords: blood pressure control, cardiovascular, hypertension risk, multiple imputation, NHANES data, risk analysis"
 
 editor_options:
   chunk_output_type: console
@@ -189,8 +189,7 @@ In our logistic regression analysis for survey data, we have integrated multiple
 
 # Results
 
-
-## Logistic Regression
+In Table 2 and Figure 1, age exhibited significance in both stages of hypertension outcomes, with each additional year of age associated with an increased odds ratio for worsening blood pressure control. Non-Hispanic Black individuals displayed significantly higher odds ratios for both stages (1.59 with a 95% CI of 1.5-1.69 for stage 1, and 1.96 with a 95% CI of 1.82- 2.11 for stage 2), suggesting racial disparities in hypertension management. Additionally, individuals with a BMI of 30 or higher had elevated odds ratios for worsening blood pressure control compared to those with a BMI less than 25, highlighting the importance of weight management. 	
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%", out.height="100%"}
 knitr::include_graphics("result_files/model_results.pdf")
@@ -198,14 +197,21 @@ knitr::include_graphics("result_files/model_results.pdf")
 
 # Conclusion
 
-From our analysis, we observe survey year, age, race, gender, bmi, diabetes, chronic kidney disease, cardiovascular disease, medication use, hypertension awareness are statistically significant in our model. In contrast, our first hypothesis where 
+From our analysis, we observe survey year, age, race, gender, BMI, diabetes, chronic kidney disease, cardiovascular disease, medication use, and hypertension awareness are statistically significant in our model. This supports our first hypothesis that lifestyle and comorbidities might impact the risk of hypertension. Individuals with older age, non-Hispanic Black ethnic- ity, obesity, and chronic kidney disease were associated with higher odds of worsening blood pressure control. Furthermore, we observed a significant trend over the years, indicating that blood pressure control has improved in more recent survey years compared to the baseline year 1999-2000. This trend continued even after adjusting for other covariates in the model. Individuals with hypertension awareness had significantly higher odds of worsening blood pressure control because individuals with hypertension awareness typically have a higher likelihood of being diagnosed and treated for hypertension.		
+
+There are some limitations in the current analysis, such as the absence of a variable selection process and trend analysis. Our analysis relied on logistic regression with a specific set of predictor variables, which did not take into account all the relevant predictors from the dataset. By using Lasso for variable selection, we could avoid potential overfitting issues in our analysis. Our main objective is to investigate the potential causes of worsening BP control among US adults with hypertension over the past decade. A time series model would be more effective than logistic regression in accounting for temporal dependencies and capturing trends and long-term changes. 
+
 
 
 
 \newpage
 # References
 
+“Facts about Hypertension.” Centers for Disease Control and Prevention, 6 July 2023. URL http://www.cdc.gov/bloodpressure/facts.htm/ [Accessed 22 Dec. 2023.]
 
+“Nhanes tutorials - Variance Estimation module”. Centers for Disease Control and Prevention, URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx [Accessed 22 Dec. 2023.]
+
+“Nhanes tutorials - weighting module”. Centers for Disease Control and Prevention, URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 2023.]
 
 
 \newpage
