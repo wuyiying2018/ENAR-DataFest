@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 # INSTALL PACKAGES
 packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
               "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools", 
-              "haven", "gridExtra", "r2rtf","gt","officer","flextable")
+              "haven", "gridExtra", "r2rtf","gt","officer","flextable", "ggplot2")
 
 # Install missing packages
 installed_packages <- packages %in% rownames(installed.packages())
@@ -200,6 +200,50 @@ dat %>%
   tbl_summary() %>% 
   bold_labels()
 ```
+
+### Preliminary Analysis
+
+
+```{r}
+dat_sub <- subset(dat, svy_subpop_htn == 1)
+
+dat_sub %>%
+  select(svy_id, svy_weight_mec, svy_psu, svy_strata, svy_year, 
+         bp_uncontrolled_130_80, bp_uncontrolled_140_90, htn_aware, bp_med_use) %>%
+  group_by(svy_year) %>%
+  summarise(
+    bp_uncontrolled_130_80_prop = sum(bp_uncontrolled_130_80, na.rm = TRUE) / sum(!is.na(bp_uncontrolled_130_80)) * 100,
+    bp_uncontrolled_140_90_prop = sum(bp_uncontrolled_140_90, na.rm = TRUE) / sum(!is.na(bp_uncontrolled_140_90)) * 100,
+    htn_aware_prop = sum(htn_aware, na.rm = TRUE) / sum(!is.na(htn_aware)) * 100,
+    bp_med_use_prop = sum(bp_med_use, na.rm = TRUE) / sum(!is.na(bp_med_use)) * 100
+  ) %>%
+  pivot_longer(cols = starts_with("bp_") | starts_with("htn_"), 
+               names_to = "category", 
+               values_to = "proportion") %>%
+  mutate(category = factor(category, 
+                           levels = c("bp_uncontrolled_130_80_prop", 
+                                      "htn_aware_prop", 
+                                      "bp_uncontrolled_140_90_prop",
+                                      "bp_med_use_prop"
+                                      ))) %>%
+  ggplot(aes(x = svy_year, y = proportion, group = category)) + 
+  geom_point() +
+  geom_line() +
+  facet_wrap(~category, scales = "free_y", ncol = 2,
+             labeller = labeller(category = c(
+               bp_uncontrolled_130_80_prop = "Stage 1 Hypertension",
+               htn_aware_prop = "Awareness",
+               bp_uncontrolled_140_90_prop = "Stage 2 Hypertension",
+               bp_med_use_prop = "Medication Use"
+             ))) +
+  ylim(0, 100) +
+  labs(x = "Year", y = "Proportion (%) of Stage 1 Hypertension, Stage 2 Hypertension,
+       Awareness, and  Self-reported Antihypertensive Medication Use") +
+  # ggtitle("Proportion (%) from 1999 to 2020 by Prevalence, Awareness, Medication Use") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5, lineheight = 0.8))
+
+```
+
 
 ### Create a new data frame that contains 11 predictors
 ```{r}
