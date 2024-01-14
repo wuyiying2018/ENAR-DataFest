@@ -1,0 +1,63 @@
+---
+title: "Presentation Slides"
+author: "Yi Huang, YiyingWu"
+date: "Junuary 13, 2024"
+output:
+  beamer_presentation:
+    theme: "Madrid"
+    colortheme: "default"
+    fonttheme: "structurebold"
+    slide_level: 2
+    keep_tex: true
+navigation: horizontal
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Content
+
+1.  Introduction
+
+2.  Methodology
+
+3.  Results
+
+4.  Discussion
+
+5.  References
+
+## Introduction
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+##
+
+`r kableExtra::text_spec("Methodology", color = "gray", bold = TRUE, font_size = 18)`
+
+## Methodology
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+##
+
+`r kableExtra::text_spec("Results", color = "gray", bold = TRUE, font_size = 18)`
+
+## Results
+
+
+
+
+## Discussion
+
+```{r pressure}
+plot(pressure)
+```
+
+
+## References
