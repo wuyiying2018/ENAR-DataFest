@@ -85,6 +85,21 @@ $$
 
 ## Results
 
+```{r,echo=FALSE,out.width='90%',out.height='70%',fig.align='center', fig.cap="OR (95% CI) of Stage 2 Hypertension"}
+knitr::include_graphics("./result_files/m_plot_prevalence.png")
+```
+
+## Results
+
+```{r,echo=FALSE,out.width='90%',out.height='70%',fig.align='center', fig.cap="OR (95% CI) of Awareness"}
+knitr::include_graphics("./result_files/m_plot_awareness.png")
+```
+
+## Results
+
+```{r,echo=FALSE,out.width='90%',out.height='70%',fig.align='center', fig.cap="OR (95% CI) of Self-reported Antihypertensive Medication Use"}
+knitr::include_graphics("./result_files/m_plot_meduse.png")
+```
 
 ##
 
