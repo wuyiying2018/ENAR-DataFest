@@ -1,7 +1,7 @@
 ---
 title: "Trends in Stage 2 Hypertension Management in U.S. Adults: A Comprehensive Analysis (1999-2020)"
 author: "YiyingWu, Yi Huang"
-date: "Junuary 14, 2024"
+date: "Junuary 16, 2024"
 output:
   beamer_presentation:
     theme: "Madrid"
@@ -10,7 +10,8 @@ output:
     slide_level: 2
     keep_tex: false
 header-includes:
-  - \AtBeginDocument{\title[ENAR 2024 DataFest Student Project]{}}
+  - \AtBeginDocument{\title[ENAR 2024 DataFest Student Project]{Trends in Stage 2 Hypertension Management in U.S. Adults:\ A Comprehensive Analysis (1999-2020)}}
+  
 navigation: horizontal
 ---
 
