@@ -86,20 +86,21 @@ $$
 
 ## Results
 
-```{r,echo=FALSE,out.width='90%',out.height='70%',fig.align='center', fig.cap="OR (95% CI) of Stage 2 Hypertension"}
-knitr::include_graphics("./result_files/m_plot_prevalence.png")
+```{r,echo=FALSE,out.width='60%',out.height='80%',fig.align='center'}
+knitr::include_graphics("./result_files/res_table1.png")
 ```
 
 ## Results
 
-```{r,echo=FALSE,out.width='90%',out.height='70%',fig.align='center', fig.cap="OR (95% CI) of Awareness"}
-knitr::include_graphics("./result_files/m_plot_awareness.png")
+```{r,echo=FALSE,out.width='50%',out.height='70%',fig.align='center', fig.cap="Odds Ratios and 95% CI of Uncontrolled Stage 2 Hypertension, Awareness, and Self-reported Antihypertensive Medication Use in US Adults by Year"}
+knitr::include_graphics("./result_files/m_plot.png")
 ```
+
 
 ## Results
 
-```{r,echo=FALSE,out.width='90%',out.height='70%',fig.align='center', fig.cap="OR (95% CI) of Self-reported Antihypertensive Medication Use"}
-knitr::include_graphics("./result_files/m_plot_meduse.png")
+```{r,echo=FALSE,out.width='60%',out.height='80%',fig.align='center'}
+knitr::include_graphics("./result_files/res_table2.png")
 ```
 
 ##
@@ -107,7 +108,23 @@ knitr::include_graphics("./result_files/m_plot_meduse.png")
 `r kableExtra::text_spec("Discussion", color = "gray", bold = TRUE, font_size = 18)`
 
 ## Discussion
+**Data source** 
 
+- NHANES data (1999-2020).
+
+**Method**
+
+- Descriptive statistics and logistic regression
+
+**Findings**
+
+- Significant gap in high blood pressure treatment
+- Overall increase in awareness and treatment since 1999, but a notable decline in recent years.
+- Age, race, BMI, and additional health conditions, particularly diabetes, have a considerable impact on high blood pressure management.
+
+**Limitations**
+
+- Potential inaccuracies in self-reported data and the exclusion of certain variables that might influence the outcomes.
 
 ## References
 
