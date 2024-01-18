@@ -1,5 +1,5 @@
 ---
-title: "Trends in Stage 2 Hypertension Management in U.S. Adults: A Comprehensive Analysis (1999-2020)"
+title: "Trends in Hypertension Control and Management Disparities in U.S. Adults: A NHANES Analysis from 1999-2020"
 author: "YiyingWu, Yi Huang"
 date: "Junuary 16, 2024"
 output:
@@ -10,7 +10,7 @@ output:
     slide_level: 2
     keep_tex: false
 header-includes:
-  - \AtBeginDocument{\title[ENAR 2024 DataFest Student Project]{Trends in Stage 2 Hypertension Management in U.S. Adults:\ A Comprehensive Analysis (1999-2020)}}
+  - \AtBeginDocument{\title[ENAR 2024 DataFest Student Project]{Trends in Hypertension Control and Management Disparities in U.S. Adults:\ A NHANES Analysis from 1999-2020}}
   
 navigation: horizontal
 ---
