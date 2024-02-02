@@ -103,3 +103,53 @@ m_plot
 ``` r
 ggsave("./result_files/m_plot.png", plot = m_plot, width = 8, height = 12, dpi = 300)
 ```
+
+here’s a modified plot
+
+``` r
+combined_res <- merge(res_m1, res_m2, by = c("", "coef.names"), all = TRUE)
+combined_res <- merge(combined_res, res_m3, by = c("coef.names"), all = TRUE) 
+combined_res <- combined_res %>% select(-Var.1, -Var.9)
+
+# Reshape the data to a long format suitable for ggplot
+long_df <- combined_res %>%
+  gather(key, value, -coef.names) %>%
+  separate(key, into = c("model", "measure"), sep = "_") %>%
+  spread(measure, value) %>%
+  slice(31:57) %>%
+  mutate(coef.names = sub("^svy_year", "", coef.names))
+
+m_plot <- 
+  long_df %>%
+  ggplot(aes(x = coef.names, y = OR, ymin = ci.low, ymax = ci.up, group = model)) +
+  geom_point() +
+  geom_line() +
+  geom_errorbar(width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +
+  facet_wrap(~ model, scales = "free_y", ncol = 1,
+             labeller = labeller(model = c(
+               m1 = "Stage 2 Hypertension",
+               m2 = "Awareness",
+               m3 = "Medication Use"))) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 14), # Increases x-axis text size
+        axis.text.y = element_text(size = 14), # Increases y-axis text size
+        axis.title.x = element_text(size = 16), # Increases x-axis title size
+        axis.title.y = element_text(size = 16), # Increases y-axis title size
+        legend.text = element_text(size = 14), # Increases legend text size
+        legend.title = element_text(size = 16), # Increases legend title size
+        strip.text = element_text(size = 16), # Increases facet label size
+        panel.background = element_rect(fill = "white"),
+        plot.background = element_rect(fill = "white", color = NA),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  labs(x = "Year (1999-2020)", y = "Odds Ratio (95 % CI)")
+
+
+m_plot
+```
+
+![](result_plots_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+ggsave("./result_files/m_plot2.png", plot = m_plot, width = 8, height = 6, dpi = 300)
+```

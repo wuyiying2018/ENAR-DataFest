@@ -1,6 +1,6 @@
 ---
 title: "Trends in Hypertension Control and Management Disparities in U.S. Adults: A NHANES Analysis from 1999-2020"
-author: "YiyingWu, Yi Huang"
+author: "Yiying Wu, Yi Huang"
 date: "Junuary 16, 2024"
 output:
   beamer_presentation:
