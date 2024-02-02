@@ -71,7 +71,7 @@ $$
 <!-- `r kableExtra::text_spec("Results", color = "gray", bold = TRUE, font_size = 18)` -->
 
 ## Results
-- \textcolor{red}{Significant gap} in high blood pressure treatment!
+- \textcolor{red}{Gap in high blood pressure treatment!}
   - **Prevalence**: 19% of the population have stage 2 hypertension.
   - **Awareness**: Only 63% of those with stage 2 hypertension are aware of their condition.
   - **Treatment**: Among those aware, 77% are receiving medication
@@ -103,7 +103,7 @@ knitr::include_graphics("./result_files/table2m.png")
 ## Discussion
 **Findings**
 
-- Significant gap in high blood pressure treatment
+- A gap in high blood pressure treatment
 - Overall increase in awareness since 1999, but a notable decline in recent years.
 - Level of medication use has not shown significant improvement. 
 - Women and people with existing health issues tend to pay more attention to blood pressure management.
