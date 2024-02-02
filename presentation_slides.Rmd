@@ -1,7 +1,7 @@
 ---
 title: "Trends in Hypertension Control and Management Disparities in U.S. Adults: A NHANES Analysis from 1999-2020"
 author: "Yiying Wu, Yi Huang"
-date: "Junuary 16, 2024"
+date: "February 2, 2024"
 output:
   beamer_presentation:
     theme: "Madrid"
@@ -19,18 +19,6 @@ navigation: horizontal
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Content
-
-1.  Introduction
-
-2.  Methodology
-
-3.  Results
-
-4.  Discussion
-
-5.  References
-
 ## Introduction: Background
 
 
@@ -46,81 +34,79 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **Motivation** 
 
-- This study is motivated by the need to investigate the reasons behind this decline and to identify factors contributing to the diminishing control of hypertension in recent years.
+- This study aims to explore the reasons behind recent declines in hypertension control.
 
 **Study Objective**
 
-- Examining the trends, awareness, and medication use in stage 2 hypertension among U.S. adults. 
+- Examining the trends, awareness, and medication use in stage 2 hypertension among U.S. adults in 1999-2020.
 
 - Assessing the impact of demographic factors and comorbid conditions on hypertension control.
 
-##
+- This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) data.
 
-`r kableExtra::text_spec("Methodology", color = "gray", bold = TRUE, font_size = 18)`
+<!-- ## -->
 
-## Methodology
+<!-- `r kableExtra::text_spec("Methodology", color = "gray", bold = TRUE, font_size = 18)` -->
+
+## Statistical Analysis
 
 1. Weighting and multiple year adjustment
 
-2. Multiple Imputation to address missing data
+2. Multiple Imputation to address missing data 
 
-3. Logistic Regression Models (Dobson, 2008):
+3. Logistic Regression Models accounts for complex survey design (Heeringa, S., West, B.T. and Berglund, P.A., 2017):
 
-Suppose there are $n$ covariates $X_i, i=1,\ ...\ n$, the model can be expressed as:
+The model can be expressed as:
 
 $$
 log(\frac{\pi}{1-\pi})=X\beta = \beta_0+\beta_1X_1+...+\beta_nX_n
 $$
 
-- $\pi$ is the risk
+- Variance is estimated using the linearization method
 
-- $\frac{\pi}{1-\pi}$ is the odds
+- Using Rubin's multiple imputation combining rule to combine both between and within imputation variance (Rubin, 2018)
 
-- $\beta_0$ is the log odds for $X_i's=0$
+<!-- ## -->
 
-- $\beta_i$ is the log odds ratio per unit change of $X_i$, holding all other covariates fixed
+<!-- `r kableExtra::text_spec("Results", color = "gray", bold = TRUE, font_size = 18)` -->
 
-##
-
-`r kableExtra::text_spec("Results", color = "gray", bold = TRUE, font_size = 18)`
+## Results
+- \textcolor{red}{Significant gap} in high blood pressure treatment!
+  - **Prevalence**: 19% of the population have stage 2 hypertension.
+  - **Awareness**: Only 63% of those with stage 2 hypertension are aware of their condition.
+  - **Treatment**: Among those aware, 77% are receiving medication
+- Less than half ($0.63\times 0.77\approx 49\%$) of those with stage 2 hypertension are being medicated.
 
 ## Results
 
-```{r,echo=FALSE,out.width='60%',out.height='80%',fig.align='center'}
-knitr::include_graphics("./result_files/res_table1.png")
+```{r,echo=FALSE,out.width='80%',out.height='80%',fig.align='center'}
+knitr::include_graphics("./result_files/table1m.png")
 ```
 
 ## Results
 
-```{r,echo=FALSE,out.width='50%',out.height='70%',fig.align='center', fig.cap="Odds Ratios and 95% CI of Uncontrolled Stage 2 Hypertension, Awareness, and Self-reported Antihypertensive Medication Use in US Adults by Year"}
-knitr::include_graphics("./result_files/m_plot.png")
+```{r,echo=FALSE,out.width='70%',out.height='70%',fig.align='center', fig.cap="Odds Ratios and 95% CI of Uncontrolled Stage 2 Hypertension, Awareness, and Self-reported Antihypertensive Medication Use in US Adults by Year"}
+knitr::include_graphics("./result_files/m_plot2.png")
 ```
 
 
 ## Results
 
-```{r,echo=FALSE,out.width='60%',out.height='80%',fig.align='center'}
-knitr::include_graphics("./result_files/res_table2.png")
+```{r,echo=FALSE,out.width='100%',out.height='70%',fig.align='center'}
+knitr::include_graphics("./result_files/table2m.png")
 ```
 
-##
+<!-- ## -->
 
-`r kableExtra::text_spec("Discussion", color = "gray", bold = TRUE, font_size = 18)`
+<!-- `r kableExtra::text_spec("Discussion", color = "gray", bold = TRUE, font_size = 18)` -->
 
 ## Discussion
-**Data source** 
-
-- NHANES data (1999-2020).
-
-**Method**
-
-- Descriptive statistics and logistic regression
-
 **Findings**
 
 - Significant gap in high blood pressure treatment
-- Overall increase in awareness and treatment since 1999, but a notable decline in recent years.
-- Age, race, BMI, and additional health conditions, particularly diabetes, have a considerable impact on high blood pressure management.
+- Overall increase in awareness since 1999, but a notable decline in recent years.
+- Level of medication use has not shown significant improvement. 
+- Women and people with existing health issues tend to pay more attention to blood pressure management.
 
 **Limitations**
 
@@ -128,16 +114,35 @@ knitr::include_graphics("./result_files/res_table2.png")
 
 ## References
 
-1. Dobson, A.J. (2008) An introduction to generalized linear models, Third Edition. Chapman & Hall. 
+\scriptsize
+1. Centers for Disease Control and Prevention. Facts about Hypertension. 
+URL http://www.cdc.gov/bloodpressure/facts.htm/ [Accessed 22 Dec. 2023.]
 
-2. “Facts about Hypertension.” Centers for Disease Control and Prevention, 6 July 2023. URL http://www.cdc.gov/bloodpressure/facts.htm/ [Accessed 22 Dec. 2023.]
+2. Centers for Disease Control and Prevention. NHANES tutorials - Variance Estimation module. 
+URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx [Accessed 22 Dec. 2023.]
 
-3. Muntner P, et al. (2020) Trends in Blood Pressure Control Among US Adults With Hypertension, 1999-2000 to 2017-2018. JAMA 324(12):1190–1200. https://doi.org/10.1001/jama.2020.14545
+3. Centers for Disease Control and Prevention. NHANES tutorials - weighting module. 
+URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 2023.]
 
-4. “Nhanes tutorials - Variance Estimation module”. Centers for Disease Control and Prevention, URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx [Accessed 22 Dec. 2023.]
+4. Heeringa, S., West, B.T. and Berglund, P.A. (2017) Applied Survey Data Analysis. Boca Raton, FL: CRC Press, Taylor & Francis Group. 
 
-## References
-
-5. “Nhanes tutorials - weighting module”. Centers for Disease Control and Prevention, URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 2023.]
+5. Muntner P, et al. (2020) Trends in Blood Pressure Control Among US Adults With Hypertension, 1999-2000 to 2017-2018. JAMA 324(12):1190–1200. https://doi.org/10.1001/jama.2020.14545
 
 6. Rubin, D.B. (2018). Flexible Imputation of Missing Data, Second Edition. Chapman and Hall/CRC.
+
+## Q&A
+
+\begin{center}
+\Huge Thank you!
+\end{center}
+\
+\begin{center}
+
+\normalsize We would like to express our gratitude to ENAR DataFest for giving us this opportunity!
+
+\normalsize For more information, feel free to email us at 
+
+\normalsize Yiying Wu, email: yw3996@cumc.columbia.edu
+
+\normalsize Yi Huang, email: yh3554@cumc.columbia.edu
+\end{center}
