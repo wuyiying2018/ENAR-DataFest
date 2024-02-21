@@ -1,0 +1,448 @@
+---
+title: "result3"
+author: "Yi Huang, YiyingWu"
+date: "2024-02-20"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## This document shows the modified result of the code
+
+## CardioStatsUSA
+To install CardioStatsUSA, run this
+```{r,eval=FALSE}
+install.packages("CardioStatsUSA")
+```
+
+## R packages
+```{r,warning=FALSE,message=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,include=TRUE)
+# INSTALL PACKAGES
+packages <- c("tidyverse", "dplyr", "knitr", "kableExtra", "cardioStatsUSA", 
+              "survey", "gtsummary", "mice", "stargazer", "texreg", "jtools", 
+              "haven", "gridExtra", "r2rtf","gt","officer","flextable")
+
+# Install missing packages
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages], dependencies = TRUE)
+}
+
+# Load packages invisibly
+invisible(lapply(packages, library, character.only = TRUE))
+
+# # Remove variables associated with package installation
+# rm(packages, installed_packages)
+```
+
+
+## data
+```{r,warning=FALSE,message=FALSE}
+# head(nhanes_data)
+# prompt: study BP control among adults who have hypertension.
+dat <- subset(nhanes_data, htn_jnc7 == 'Yes')
+```
+
+
+## data cleaning
+
+**combine categories**
+```{r}
+dat <- dat %>%
+  mutate(
+    # Demographics variables
+    # demo_age_cat
+    demo_age_cat = factor(case_when(
+      demo_age_cat == "65 to 74" ~ "65+",  
+      demo_age_cat == "75+" ~ "65+", 
+      TRUE ~ demo_age_cat
+    )),
+    # demo_race
+    demo_race=factor(case_when(
+      demo_race == "Non-Hispanic Asian" ~ "Hispanic/Asian/Other",
+      demo_race == "Hispanic" ~ "Hispanic/Asian/Other",
+      demo_race == "Other" ~ "Hispanic/Asian/Other",
+      TRUE ~ demo_race
+    )),
+    
+    # Antihypertensive medication variables
+    # bp_med_n_class
+    bp_med_n_class=factor(case_when(
+      bp_med_n_class == "Two" ~ "Two or more",
+      bp_med_n_class == "Three" ~ "Two or more",
+      bp_med_n_class == "Four or more" ~ "Two or more",
+      TRUE ~ bp_med_n_class
+    )),
+    # bp_med_n_pills
+    bp_med_n_pills=factor(case_when(
+      bp_med_n_pills == "Two" ~ "Two or more",
+      bp_med_n_pills == "Three" ~ "Two or more",
+      bp_med_n_pills == "Four or more" ~ "Two or more",
+      TRUE ~ bp_med_n_pills
+    )),
+    # cc_bmi
+    cc_bmi=factor(case_when(
+      cc_bmi == "30 to <35" ~ "30+",
+      cc_bmi == "35+" ~ "30+",
+      TRUE ~ cc_bmi
+    )),
+    # cc_smoke
+    cc_smoke=factor(case_when(
+      cc_smoke == "Former" ~ "Former",
+      cc_smoke == "Current" ~ "Current",
+      TRUE ~ cc_smoke
+    ))
+  )
+
+```
+
+### recode categorical data
+```{r}
+dat <- dat %>% mutate(
+  # Demographics variables
+  demo_age_cat=relevel(demo_age_cat, ref = "18 to 44"),
+  demo_race=relevel(demo_race,ref="Non-Hispanic White"),
+  pregnant=ifelse(demo_pregnant=="Yes",1,ifelse(demo_pregnant=="No",0,NA)),
+  female=ifelse(demo_gender=="Women",1,ifelse(demo_gender=="Men",0,NA)),
+  
+  # Blood pressure variables
+  bp_uncontrolled_140_90=ifelse(bp_uncontrolled_140_90=="Yes",1,ifelse(bp_uncontrolled_140_90=="No",0,NA)),
+  bp_uncontrolled_130_80=ifelse(bp_uncontrolled_130_80=="Yes",1,ifelse(bp_uncontrolled_130_80=="No",0,NA)),
+  
+  # Hypertension variables
+  htn_accaha=ifelse(htn_accaha=="Yes",1,ifelse(htn_accaha=="No",0,NA)),
+  htn_aware=ifelse(htn_aware=="Yes",1,ifelse(htn_aware=="No",0,NA)),
+  htn_resistant_jnc7=ifelse(htn_resistant_jnc7=="Yes",1,ifelse(htn_resistant_jnc7=="No",0,NA)),
+  htn_resistant_accaha=ifelse(htn_resistant_accaha=="Yes",1,ifelse(htn_resistant_accaha=="No",0,NA)),
+  htn_resistant_accaha_thz=ifelse(htn_resistant_accaha_thz=="Yes",1,ifelse(htn_resistant_accaha_thz=="No",0,NA)),
+  htn_resistant_jnc7_thz=ifelse(htn_resistant_jnc7_thz=="Yes",1,ifelse(htn_resistant_jnc7_thz=="No",0,NA)),
+  
+  # Antihypertensive medication variables
+  bp_med_use=ifelse(bp_med_use=="Yes",1,ifelse(bp_med_use=="No",0,NA)),
+  bp_med_recommended_jnc7=ifelse(bp_med_recommended_jnc7=="Yes",1,ifelse(bp_med_recommended_jnc7=="No",0,NA)),
+  bp_med_recommended_accaha=ifelse(bp_med_recommended_accaha=="Yes",1,ifelse(bp_med_recommended_accaha=="No",0,NA)),
+  bp_med_recommended_escesh=ifelse(bp_med_recommended_escesh=="Yes",1,ifelse(bp_med_recommended_escesh=="No",0,NA)),
+  bp_med_n_class=relevel(bp_med_n_class,ref="None"),
+  bp_med_n_pills=relevel(bp_med_n_pills,ref="None"),
+  bp_med_combination=ifelse(bp_med_combination=="Yes",1,ifelse(bp_med_combination=="No",0,NA)),
+  bp_med_pills_gteq_2=ifelse(bp_med_pills_gteq_2=="Yes",1,ifelse(bp_med_pills_gteq_2=="No",0,NA)),
+  bp_med_ace=ifelse(bp_med_ace=="Yes",1,ifelse(bp_med_ace=="No",0,NA)),
+  bp_med_aldo=ifelse(bp_med_aldo=="Yes",1,ifelse(bp_med_aldo=="No",0,NA)),
+  bp_med_alpha=ifelse(bp_med_alpha=="Yes",1,ifelse(bp_med_alpha=="No",0,NA)),
+  bp_med_angioten=ifelse(bp_med_angioten=="Yes",1,ifelse(bp_med_angioten=="No",1,NA)),
+  bp_med_beta=ifelse(bp_med_beta=="Yes",1,ifelse(bp_med_beta=="No",0,NA)),
+  bp_med_ccb=ifelse(bp_med_ccb=="Yes",1,ifelse(bp_med_ccb=="No",0,NA)),
+  bp_med_ccb_dh=ifelse(bp_med_ccb_dh=="Yes",1,ifelse(bp_med_ccb_dh=="No",0,NA)),
+  bp_med_ccb_ndh=ifelse(bp_med_ccb_ndh=="Yes",1,ifelse(bp_med_ccb_ndh=="No",0,NA)),
+  bp_med_central=ifelse(bp_med_central=="Yes",1,ifelse(bp_med_central=="No",0,NA)),
+  bp_med_renin_inhibitors=ifelse(bp_med_renin_inhibitors=="Yes",1,ifelse(bp_med_renin_inhibitors=="No",0,NA)),
+  bp_med_vasod=ifelse(bp_med_vasod=="Yes",1,ifelse(bp_med_vasod=="No",0,NA)),
+  bp_med_diur_loop=ifelse(bp_med_diur_loop=="Yes",1,ifelse(bp_med_diur_loop=="No",0,NA)),
+  bp_med_diur_Ksparing=ifelse(bp_med_diur_Ksparing=="Yes",1,ifelse(bp_med_diur_Ksparing=="No",0,NA)),
+  bp_med_diur_thz=ifelse(bp_med_diur_thz=="Yes",1,ifelse(bp_med_diur_thz=="No",0,NA)),
+  
+  # Comorbidities variables
+  cc_smoke=relevel(cc_smoke,ref="Current"),
+  cc_bmi=relevel(cc_bmi,ref="<25"),
+  cc_diabetes=ifelse(cc_diabetes=="Yes",1,ifelse(cc_diabetes=="No",0,NA)),
+  cc_ckd=ifelse(cc_ckd=="Yes",1,ifelse(cc_ckd=="No",0,NA)),
+  cc_cvd_mi=ifelse(cc_cvd_mi=="Yes",1,ifelse(cc_cvd_mi=="No",0,NA)),
+  cc_cvd_chd=ifelse(cc_cvd_chd=="Yes",1,ifelse(cc_cvd_chd=="No",0,NA)),
+  cc_cvd_stroke=ifelse(cc_cvd_stroke=="Yes",1,ifelse(cc_cvd_stroke=="No",0,NA)),
+  cc_cvd_ascvd=ifelse(cc_cvd_ascvd=="Yes",1,ifelse(cc_cvd_ascvd=="No",0,NA)),
+  cc_cvd_hf=ifelse(cc_cvd_hf=="Yes",1,ifelse(cc_cvd_hf=="No",0,NA)),
+  cc_cvd_any=ifelse(cc_cvd_any=="Yes",1,ifelse(cc_cvd_any=="No",0,NA))
+)
+```
+### select the relavent variables
+```{r}
+dat=dat%>%select(
+  # Survey variables
+  svy_id, svy_psu,svy_strata, svy_weight_mec, svy_subpop_htn,
+  svy_year,
+  # Demographics variables
+  demo_age_cat, demo_age_years, demo_race, pregnant, female, 
+  # Blood pressure variables
+  bp_uncontrolled_140_90,bp_uncontrolled_130_80,
+  # Hypertension variables
+  htn_accaha, htn_aware, htn_resistant_accaha,
+  htn_resistant_accaha_thz,
+  # Antihypertensive medication variables
+  bp_med_use, bp_med_recommended_accaha, bp_med_n_class,
+  bp_med_n_pills, bp_med_combination, bp_med_pills_gteq_2,
+  bp_med_ace, bp_med_aldo, bp_med_alpha, bp_med_angioten,
+  bp_med_beta, bp_med_ccb, bp_med_ccb_dh, bp_med_ccb_ndh, 
+  bp_med_central, bp_med_renin_inhibitors, bp_med_vasod,
+  bp_med_diur_loop, bp_med_diur_Ksparing, bp_med_diur_thz, 
+  # Comorbidities variables
+  cc_smoke, cc_bmi, cc_diabetes, cc_ckd, cc_cvd_mi, cc_cvd_chd, 
+  cc_cvd_stroke, cc_cvd_ascvd, cc_cvd_hf, cc_cvd_any
+)
+```
+
+**check variables**
+```{r}
+## Summary Statistics
+dat %>% 
+  select(everything()) %>% 
+  tbl_summary() %>% 
+  bold_labels()
+```
+
+### Create a new data frame that contains 10 predictors
+```{r}
+my_dat <- dat %>% select(# Survey variables 
+                         svy_id, svy_weight_mec, svy_psu, svy_strata, svy_year, svy_subpop_htn,
+                         # outcome
+                         bp_uncontrolled_140_90, bp_uncontrolled_130_80, 
+                         # predictors
+                         demo_age_years, demo_race, female, cc_bmi, 
+                         cc_diabetes, cc_ckd, cc_cvd_any, bp_med_use, htn_aware, cc_smoke
+                         # bp_med_n_class, htn_resistant_jnc7
+                        )
+
+## Summary Statistics
+my_dat %>% 
+  select(everything()) %>% 
+  tbl_summary() %>% 
+  bold_labels()
+```
+
+### missing values
+
+survey weights are calibrated within race, gender, and age groups to account for missing information on SBP, DBP or self-reported antihypertensive medication use: 
+https://www.sciencedirect.com/science/article/pii/S027263860350004X?casa_token=U-KIitsxOGEAAAAA:jVZ1jyZmsVzR6BGEFVWUTjCh3wfKqvF1JXOLL55qFOu4Dk8giNQSfyU4pGS05Xl4DfM8uiwfPQ
+
+```{r,eval=FALSE}
+# Check the distribution of demo_age_years
+hist(my_dat$demo_age_years, main="demo_age_years")
+
+# Initial imputation
+ini = mice(my_dat, maxit = 0, print = FALSE)
+pred0 = ini$pred
+method0 = ini$method
+method0
+ini$nmis
+
+# Study missing patterns in more details
+md.pattern(my_dat,plot = FALSE)
+
+# Modify the imputation predictor matrix
+# and generate 5 imputations with 5 iterations 
+# in each imputation using the modified predictor matrix
+pred1 = pred0
+pred1[, c("svy_id", "svy_weight_mec", "svy_psu", "svy_strata", "svy_year", "svy_subpop_htn")] = 0
+pred1
+
+# to Speed Up the Process, subset the data
+# my_dat<-my_dat%>%filter(svy_subpop_chol == 1)
+ini_1 = mice(my_dat, pred = pred1, m = 5, maxit = 5, print = FALSE, seed = 1)
+
+# get the first imputed data set, use the complete( ) function
+imp1 =  complete(ini_1, 1)
+
+## Check the convergence of the model
+plot(ini_1)
+
+## Summary Statistics
+imp1 %>% 
+  select(everything()) %>% 
+  tbl_summary() %>% 
+  bold_labels()
+```
+
+# survey design
+**Notes**: 
+
+* combine weight in many years, refer to https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx 
+* The weight in the dataset is: **Full sample 2 year MEC exam weight** (2-year weight?)
+* However, for all analyses that combine 1999-2000 with other survey cycles, you must start by using the 4-year weights provided by NCHS for 1999-2002, then include the 2-year weights for each additional 2-year cycle that is combined. (refer to larger nhance dataset to find 4-year weights???)
+
+## weight adjustment for years
+Since we must start by using the 4-year weights provided by NCHS for 1999-2002", and use 2-year weights for all observations from 1999-2016. Treat 2017-2020Mar as 3.2 years.
+
+We refer to NHANES 1999-2000 and 2001-2002 and get the 4-year weights
+```{r}
+dat1<-read_xpt("./data/DEMO1999-2000.XPT")%>%
+  janitor::clean_names()%>%
+  select(seqn,wtmec4yr)%>%
+  rename(svy_id=seqn)
+dat2<-read_xpt("./data/DEMO2001-2002.XPT")%>%
+  janitor::clean_names()%>%
+  select(seqn,wtmec4yr)%>%
+  rename(svy_id=seqn)
+dat12<-rbind(dat1,dat2)
+
+# dat12 %>% distinct(svy_id) %>% nrow()
+
+# dat_new<-dat%>%filter(svy_year %in% c("1999-2000","2001-2002"))
+my_dat <- my_dat %>% left_join(dat12, by = "svy_id")
+
+#summary(dat$wtmec4yr)
+#sum(is.na(dat$wtmec4yr))
+
+my_dat<-my_dat%>%mutate(svy_weight_mec=ifelse(svy_year %in% c("1999-2000","2001-2002"),wtmec4yr,svy_weight_mec))
+
+```
+
+
+Combining nine survey cycles + one 3.2 year survey cycle (18+3.2 years: 1999-2016 2017-2020Mar)
+```{r}
+my_dat$svy_weight_mec<-ifelse(my_dat$svy_year %in% c("2017-2020"),my_dat$svy_weight_mec*3.2/21.2,ifelse(my_dat$svy_year %in% c("1999-2000","2001-2002"),my_dat$svy_weight_mec*4/21.2,my_dat$svy_weight_mec*2/21.2))
+```
+
+## define survey design
+```{r}
+nhanes_all<-svydesign(data=my_dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
+```
+
+## for blood pressure and hypertension sub-population
+According to https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx, As a general rule when working with complex survey data such as NHANES, you should never drop records from your analysis dataset before executing your analysis procedures. Instead, use the special statements provided in your software's analysis procedure to perform subgroup analyses.
+
+We can use `subset` to produce correct variance estimates.
+
+```{r}
+nhanes<-subset(nhanes_all,svy_subpop_htn == 1)
+```
+
+For the variable `htn_aware`, its analysis should be confined to the subpopulation with high blood pressure, as awareness of hypertension is not applicable to healthy individuals. Consequently, our focus will be on this specific group for this variable.
+
+We can use the 140/90 cut off
+```{r}
+nhance_sub<-subset(nhanes,bp_uncontrolled_140_90==1)
+```
+
+Similarly, the variable `bp_med_use` should be examined within the subset of the population that is aware of their high blood pressure condition. This ensures that the analysis is relevant and targeted to the appropriate group.
+
+```{r}
+nhance_sub2<-subset(nhance_sub,htn_aware==1)
+```
+
+# Doing Imputation and logistic regression at the Same Time
+```{r}
+#create five imputations. The imputations object contains all five
+#complete datasets.
+imputations <- mice(my_dat, 5, printFlag=FALSE)
+
+lm_svy_mi <- function(formula, design, imputations) {
+  
+  #setting up null objects allows us to easily add results
+  #later
+  b <- se <- R2MF <- R2CU <-NULL
+  aic <- NULL
+  mean.aic <- NULL
+  # AUC <- mean.AUC <-NULL
+  
+  #now loop through our imputations and run the model
+  for(i in 1:imputations$m) {
+    #grab the complete dataset
+    imputation <- complete(imputations, i)
+    
+    #run the model
+    model <- svyglm(formula, design=design,family=quasibinomial)
+    #collect the results
+    b <- cbind(b, coef(model))
+    se <- cbind(se, summary(model)$coef[,2])
+    
+    summ_model <- summ(model)
+      
+    # # McFadden's R-squared
+    R2MF <- attr(summ_model, which = "rsqmc")
+    
+    # # CRagg-Uhler R-squared
+    R2CU <- attr(summ_model, which = "rsq")
+    
+    # AIC
+    aic <- c(aic,(-2) * logLik(model) + 2 * length(coef(model)))
+    
+    # # Logistic Regression AUC calculation
+    #predictions <- predict(model, type = "response")
+    #ROC_res <- roc(imputation.svy$variables$bp_uncontrolled_140_90, predictions)  # Replace with dependent variable
+    #AUC <- c(AUC, auc(ROC_res))
+    
+  }
+  
+  #now pool the results
+  b.pool <- apply(b, 1, mean)
+  between.var <- apply(b, 1, var)
+  within.var <- apply(se^2, 1, mean)
+  se.pool <- sqrt(within.var+between.var+between.var/imputations$m) 
+  lower.ci <- b.pool - 1.96 * se.pool  # Lower bound of 95% CI
+  upper.ci <- b.pool + 1.96 * se.pool  # Upper bound of 95% CI
+  t.pool <- b.pool/se.pool 
+  pvalue.pool <- (1-pnorm(abs(t.pool)))*2 
+  coefficients <- data.frame(b.pool, se.pool, lower.ci, upper.ci, t.pool, pvalue.pool)
+  
+  #we can also grap n and p from the last model since 
+  #they should be the same across all iterations
+  n <- nobs(model)
+  p <- length(model$coefficients)-1
+  mean.R2MF <- mean(R2MF)
+  mean.R2CU <- mean(R2CU)
+  mean.aic <- mean(aic)
+  #mean.AUC <- mean(AUC)
+  
+  #return everything in a list
+  return(list(coef=coefficients,
+              n=n,
+              R2MF = mean.R2MF,
+              R2CU = mean.R2CU,
+              aic = mean.aic
+              )
+         )
+}
+```
+
+## create the design effect object
+```{r}
+svy <- svydesign(data=my_dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
+imputation.svy<-subset(svy,svy_subpop_htn == 1)
+```
+
+```{r}
+# Hypertension
+#now lets try the model out
+model1 <- lm_svy_mi(bp_uncontrolled_140_90~svy_year+demo_age_years+demo_race+female+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any, imputation.svy,imputations)
+
+model1
+```
+
+### awareness
+```{r}
+model2 <- lm_svy_mi(htn_aware~svy_year+demo_age_years+demo_race+female+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any, imputation.svy,imputations)
+
+model2
+```
+
+### med use
+```{r}
+imputation.svy_subset1<-subset(imputation.svy,htn_aware == 1)
+
+model3 <- lm_svy_mi(bp_med_use~svy_year+demo_age_years+demo_race+female+cc_bmi+cc_diabetes+cc_ckd+cc_cvd_any, imputation.svy_subset1,imputations)
+
+model3
+```
+
+## create result dataframe
+```{r}
+res_df<-function(model){
+    coef.names = rownames(model$coef)
+    OR = exp(model$coef$b.pool)
+    ci.low = exp(model$coef$lower.ci)
+    ci.up = exp(model$coef$upper.ci)
+    res<-data_frame(coef.names,OR,ci.low,ci.up)
+    return(res)
+}
+res_m1<-res_df(model1)
+res_m2<-res_df(model2)
+res_m3<-res_df(model3)
+
+# save res
+write.csv(res_m1, "./result_files/res3_m1.csv")
+write.csv(res_m2, "./result_files/res3_m2.csv")
+write.csv(res_m3, "./result_files/res3_m3.csv")
+```
+
