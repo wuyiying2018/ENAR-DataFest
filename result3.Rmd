@@ -296,7 +296,7 @@ my_dat$svy_weight_mec<-ifelse(my_dat$svy_year %in% c("2017-2020"),my_dat$svy_wei
 
 ## define survey design
 ```{r}
-nhanes_all<-svydesign(data=my_dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
+nhanes_all<-svydesign(data=my_dat,id=~svy_psu, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
 ```
 
 ## for blood pressure and hypertension sub-population
@@ -398,7 +398,7 @@ lm_svy_mi <- function(formula, design, imputations) {
 
 ## create the design effect object
 ```{r}
-svy <- svydesign(data=my_dat,id=~svy_id, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
+svy <- svydesign(data=my_dat,id=~svy_psu, strata=~svy_strata, weights=~svy_weight_mec, nest=TRUE)
 imputation.svy<-subset(svy,svy_subpop_htn == 1)
 ```
 
