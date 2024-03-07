@@ -16,9 +16,9 @@ library(tidyr)
 ## OR Plots of Uncontrolled Hypertension, Awareness, Medication Use by Year
 
 ```{r}
-res_m1 <- read_csv("./result_files/res_m1.csv")
-res_m2 <- read_csv("./result_files/res_m2.csv")
-res_m3 <- read_csv("./result_files/res_m3.csv")
+res_m1 <- read_csv("./result_files/res3_m1.csv")
+res_m2 <- read_csv("./result_files/res3_m2.csv")
+res_m3 <- read_csv("./result_files/res3_m3.csv")
 
 # Storing the original names
 original_names1 <- names(res_m1)
@@ -73,7 +73,7 @@ m_plot <-
 
 m_plot
 
-ggsave("./result_files/m_plot.png", plot = m_plot, width = 8, height = 12, dpi = 300)
+ggsave("./result_files/m_plot_v2.png", plot = m_plot, width = 8, height = 12, dpi = 300)
 ```
 
 here's a modified plot
@@ -118,7 +118,7 @@ m_plot <-
 
 m_plot
 
-ggsave("./result_files/m_plot2.png", plot = m_plot, width = 8, height = 6, dpi = 300)
+ggsave("./result_files/m_plot2_v2.png", plot = m_plot, width = 8, height = 6, dpi = 300)
 
 ```
 

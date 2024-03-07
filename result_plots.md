@@ -5,7 +5,7 @@ OR Plots for 3 Models
 ## OR Plots of Uncontrolled Hypertension, Awareness, Medication Use by Year
 
 ``` r
-res_m1 <- read_csv("./result_files/res_m1.csv")
+res_m1 <- read_csv("./result_files/res3_m1.csv")
 ```
 
     ## New names:
@@ -18,7 +18,7 @@ res_m1 <- read_csv("./result_files/res_m1.csv")
     ## • `` -> `...1`
 
 ``` r
-res_m2 <- read_csv("./result_files/res_m2.csv")
+res_m2 <- read_csv("./result_files/res3_m2.csv")
 ```
 
     ## New names:
@@ -31,7 +31,7 @@ res_m2 <- read_csv("./result_files/res_m2.csv")
     ## • `` -> `...1`
 
 ``` r
-res_m3 <- read_csv("./result_files/res_m3.csv")
+res_m3 <- read_csv("./result_files/res3_m3.csv")
 ```
 
     ## New names:
@@ -101,7 +101,7 @@ m_plot
 ![](result_plots_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
-ggsave("./result_files/m_plot.png", plot = m_plot, width = 8, height = 12, dpi = 300)
+ggsave("./result_files/m_plot_v2.png", plot = m_plot, width = 8, height = 12, dpi = 300)
 ```
 
 here’s a modified plot
@@ -151,5 +151,5 @@ m_plot
 ![](result_plots_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
-ggsave("./result_files/m_plot2.png", plot = m_plot, width = 8, height = 6, dpi = 300)
+ggsave("./result_files/m_plot2_v2.png", plot = m_plot, width = 8, height = 6, dpi = 300)
 ```
