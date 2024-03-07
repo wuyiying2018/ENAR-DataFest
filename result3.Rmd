@@ -209,6 +209,19 @@ my_dat %>%
   select(everything()) %>% 
   tbl_summary() %>% 
   bold_labels()
+
+my_dat %>% 
+  select(everything()) %>% 
+  filter(htn_aware==1) %>%
+  tbl_summary() %>% 
+  bold_labels()
+
+my_dat %>% 
+  select(everything()) %>% 
+  filter(htn_aware==1,
+         bp_med_use==1) %>%
+  tbl_summary() %>% 
+  bold_labels()
 ```
 
 ### missing values
