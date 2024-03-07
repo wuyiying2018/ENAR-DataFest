@@ -64,7 +64,7 @@ $$
 
 - Variance is estimated using the linearization method
 
-- Using Rubin's multiple imputation combining rule to combine both between and within imputation variance (Rubin, 2018)
+- Using Rubin's multiple imputation combining rule to combine both between and within imputation variance (Little, R.A. and Rubin, D.B., 2019)
 
 <!-- ## -->
 
@@ -124,11 +124,11 @@ URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/VarianceEstimation.aspx [Accessed
 3. Centers for Disease Control and Prevention. NHANES tutorials - weighting module. 
 URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 2023.]
 
-4. Heeringa, S., West, B.T. and Berglund, P.A. (2017) Applied Survey Data Analysis. Boca Raton, FL: CRC Press, Taylor & Francis Group. 
+4. Heeringa, S., West, B.T. and Berglund, P.A. (2017) Applied Survey Data Analysis. Boca Raton, FL: CRC Press, Taylor and Francis Group. 
 
 5. Muntner P, et al. (2020) Trends in Blood Pressure Control Among US Adults With Hypertension, 1999-2000 to 2017-2018. JAMA 324(12):1190–1200. https://doi.org/10.1001/jama.2020.14545
 
-6. Rubin, D.B. (2018). Flexible Imputation of Missing Data, Second Edition. Chapman and Hall/CRC.
+6. Little, R.A. and Rubin, D.B. (2019). Statistical Analysis with Missing Data, Third Edition. Chapman and Hall/CRC.
 
 ## Q&A
 
