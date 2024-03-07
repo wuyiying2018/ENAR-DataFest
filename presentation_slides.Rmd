@@ -72,10 +72,10 @@ $$
 
 ## Results
 - \textcolor{red}{Gap in high blood pressure treatment!}
-  - **Prevalence**: 19% of the population have stage 2 hypertension.
-  - **Awareness**: Only 63% of those with stage 2 hypertension are aware of their condition.
-  - **Treatment**: Among those aware, 77% are receiving medication
-- Less than half ($0.63\times 0.77\approx 49\%$) of those with stage 2 hypertension are being medicated.
+  - **Prevalence**: Among the 20,409 participants with hypertension, 46% are controlled.
+  - **Awareness**: Among those with hypertension, 80% of them are aware of their condition.
+  - **Treatment**: Among those aware, 90% of them are taking medication.
+- $0.80\times 0.90\approx 0.72\%$ of those with stage 2 hypertension are being medicated.
 
 ## Results
 
@@ -93,7 +93,7 @@ knitr::include_graphics("./result_files/m_plot2_v2.png")
 ## Results
 
 ```{r,echo=FALSE,out.width='100%',out.height='70%',fig.align='center'}
-knitr::include_graphics("./result_files/table2m.png")
+knitr::include_graphics("./result_files/table2_v2.png")
 ```
 
 <!-- ## -->
@@ -106,7 +106,7 @@ knitr::include_graphics("./result_files/table2m.png")
 - A gap in high blood pressure treatment
 - Overall increase in awareness since 1999, but a notable decline in recent years.
 - Level of medication use has not shown significant improvement. 
-- Women and people with existing health issues tend to pay more attention to blood pressure management.
+- Women and people with diabetes or history of CVD tend to pay more attention to blood pressure management.
 
 **Limitations**
 
