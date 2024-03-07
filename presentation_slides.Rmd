@@ -72,10 +72,10 @@ $$
 
 ## Results
 - \textcolor{red}{Gap in high blood pressure treatment!}
-  - **Prevalence**: Among the 20,409 participants with hypertension, 46% are controlled.
+  - **Hypertension control**: Among the 20,409 participants with stage 2 hypertension, 54% are uncontrolled.
   - **Awareness**: Among those with hypertension, 80% of them are aware of their condition.
   - **Treatment**: Among those aware, 90% of them are taking medication.
-- $0.80\times 0.90\approx 0.72\%$ of those with stage 2 hypertension are being medicated.
+- $0.80\times 0.90\approx 72\%$ of those with stage 2 hypertension are being medicated.
 
 ## Results
 
