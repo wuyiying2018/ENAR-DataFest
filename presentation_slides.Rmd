@@ -80,7 +80,7 @@ $$
 ## Results
 
 ```{r,echo=FALSE,out.width='80%',out.height='80%',fig.align='center'}
-knitr::include_graphics("./result_files/table1_v2.png")
+knitr::include_graphics("./result_files/table1_v3.png")
 ```
 
 ## Results
@@ -93,7 +93,7 @@ knitr::include_graphics("./result_files/m_plot2_v2.png")
 ## Results
 
 ```{r,echo=FALSE,out.width='100%',out.height='70%',fig.align='center'}
-knitr::include_graphics("./result_files/table2_v2.png")
+knitr::include_graphics("./result_files/table2_v3.png")
 ```
 
 <!-- ## -->
