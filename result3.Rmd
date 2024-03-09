@@ -204,18 +204,28 @@ my_dat <- dat %>% select(# Survey variables
                          # bp_med_n_class, htn_resistant_jnc7
                         )
 
-## Summary Statistics
+## Summary Statistics for dataset
+### Hypertension
 my_dat %>% 
   select(everything()) %>% 
   tbl_summary() %>% 
   bold_labels()
 
+### uncontrolled
+my_dat %>% 
+  select(everything()) %>% 
+  filter(bp_uncontrolled_140_90==1) %>%
+  tbl_summary() %>% 
+  bold_labels()
+
+### awareness
 my_dat %>% 
   select(everything()) %>% 
   filter(htn_aware==1) %>%
   tbl_summary() %>% 
   bold_labels()
 
+### medication use
 my_dat %>% 
   select(everything()) %>% 
   filter(htn_aware==1,
@@ -333,6 +343,47 @@ Similarly, the variable `bp_med_use` should be examined within the subset of the
 ```{r}
 nhance_sub2<-subset(nhance_sub,htn_aware==1)
 ```
+
+# Summary Statistics accounting for complex survey design
+```{r}
+## us adults with hypertension
+dstrat <- svydesign(ids = ~ svy_psu,
+          strata = ~ svy_strata,
+          weights = ~ svy_weight_mec,
+          data = my_dat,
+          nest = TRUE) %>%
+  tbl_svysummary()
+dstrat
+
+## subset on those who are uncontrolled among us adults with hypertension
+filtered_dstrat0 <- subset(my_dat, bp_uncontrolled_140_90==1)
+svydesign(ids = ~ svy_psu,
+          strata = ~ svy_strata,
+          weights = ~ svy_weight_mec,
+          data = filtered_dstrat0,
+          nest = TRUE) %>%
+  tbl_svysummary()
+
+
+## subset on those who are aware
+filtered_dstrat1 <- subset(my_dat, htn_aware == 1)
+svydesign(ids = ~ svy_psu,
+          strata = ~ svy_strata,
+          weights = ~ svy_weight_mec,
+          data = filtered_dstrat1,
+          nest = TRUE) %>%
+  tbl_svysummary()
+
+## subset on those who are aware with medication use
+filtered_dstrat2 <- subset(my_dat, htn_aware == 1 & bp_med_use == 1)
+svydesign(ids = ~ svy_psu,
+          strata = ~ svy_strata,
+          weights = ~ svy_weight_mec,
+          data = filtered_dstrat2,
+          nest = TRUE) %>%
+  tbl_svysummary()
+```
+
 
 # Doing Imputation and logistic regression at the Same Time
 ```{r}
