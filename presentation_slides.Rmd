@@ -86,7 +86,7 @@ knitr::include_graphics("./result_files/table1_v3.png")
 ## Results
 
 ```{r,echo=FALSE,out.width='70%',out.height='70%',fig.align='center', fig.cap="Odds Ratios and 95% CI of Uncontrolled Stage 2 Hypertension, Awareness, and Self-reported Antihypertensive Medication Use in US Adults by Year"}
-knitr::include_graphics("./result_files/m_plot2_v2.png")
+knitr::include_graphics("./result_files/m_plot2_v3.png")
 ```
 
 

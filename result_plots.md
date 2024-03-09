@@ -128,7 +128,7 @@ m_plot <-
   geom_hline(yintercept = 1, linetype = "dashed", color = "red") +
   facet_wrap(~ model, scales = "free_y", ncol = 1,
              labeller = labeller(model = c(
-               m1 = "Stage 2 Hypertension",
+               m1 = "Uncontrolled Hypertension",
                m2 = "Awareness",
                m3 = "Medication Use"))) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 14), # Increases x-axis text size
@@ -151,5 +151,5 @@ m_plot
 ![](result_plots_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
-ggsave("./result_files/m_plot2_v2.png", plot = m_plot, width = 8, height = 6, dpi = 300)
+ggsave("./result_files/m_plot2_v3.png", plot = m_plot, width = 8, height = 6, dpi = 300)
 ```
