@@ -48,6 +48,16 @@ knitr::opts_chunk$set(echo = FALSE)
 
 <!-- `r kableExtra::text_spec("Methodology", color = "gray", bold = TRUE, font_size = 18)` -->
 
+## Definition & Study Outcomes
+
+- **Study population**: U.S. adults (larger than 18 years old) with hypertension defined by the JNC7 guideline
+
+- **Uncontrolled Hypertension**: Systolic blood pressure >= 140 mm Hg or diastolic blood pressure >= 90 mm Hg 
+
+- **Awareness**: Self-report of a prior diagnosis of antihypertensive medication.
+
+- **Medication Use**: Self-reported use of antihypertensive medication
+
 ## Statistical Analysis
 
 1. Weighting and multiple year adjustment
@@ -72,10 +82,10 @@ $$
 
 ## Results
 - \textcolor{red}{Gap in high blood pressure treatment!}
-  - **Hypertension control**: Among the 20,409 participants with stage 2 hypertension, 54% are uncontrolled.
+  - **Hypertension control**: Among U.S. adults with stage 2 hypertension, 52% are uncontrolled.
   - **Awareness**: Among those with hypertension, 80% of them are aware of their condition.
-  - **Treatment**: Among those aware, 90% of them are taking medication.
-- $0.80\times 0.90\approx 72\%$ of those with stage 2 hypertension are being medicated.
+  - **Medication Use**: Among those aware, 71% of them are taking medication.
+- $0.80\times 0.71\approx 56.8\%$ of those with stage 2 hypertension are being medicated.
 
 ## Results
 
@@ -103,7 +113,7 @@ knitr::include_graphics("./result_files/table2_v3.png")
 ## Discussion
 **Findings**
 
-- A gap in high blood pressure treatment
+- A gap in high blood pressure treatment: 56.8% of those with stage 2 hypertension are being medicated.
 - Overall increase in awareness since 1999, but a notable decline in recent years.
 - Level of medication use has not shown significant improvement. 
 - Women and people with diabetes or history of CVD tend to pay more attention to blood pressure management.
@@ -128,7 +138,7 @@ URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 
 
 5. Muntner P, et al. (2020) Trends in Blood Pressure Control Among US Adults With Hypertension, 1999-2000 to 2017-2018. JAMA 324(12):1190–1200. https://doi.org/10.1001/jama.2020.14545
 
-6. Little, R.A. and Rubin, D.B. (2019). Statistical Analysis with Missing Data, Third Edition. Chapman and Hall/CRC.
+6. Little, R.A. and Rubin, D.B. (2019). Statistical Analysis with Missing Data, Third Edition. John Wiley & Sons.
 
 ## Q&A
 
