@@ -2,6 +2,22 @@
 
 This is the github repository for ENAR 2024 DataFest.
 
+# About our work
+
+Find the latest version of our code [here](./result3.Rmd)
+
+Find our slides [here](./presentation_slides.pdf)
+
+# Contact us
+
+For more information, feel free to email us at 
+
+Yiying Wu, email: yw3996@cumc.columbia.edu 
+
+Yi Huang, email: yh3554@cumc.columbia.edu
+
+# About ENAR 2024 DataFest
+
 Check the link for details on the ENAR 2024 DataFest: https://www.enar.org/meetings/spring2024/program/datafest_submission.cfm
 
 
