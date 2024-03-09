@@ -99,7 +99,7 @@ m_plot <-
   geom_hline(yintercept = 1, linetype = "dashed", color = "red") +
   facet_wrap(~ model, scales = "free_y", ncol = 1,
              labeller = labeller(model = c(
-               m1 = "Uncontrolled Hypertension",
+               m1 = "Uncontrolled Blood Pressure",
                m2 = "Awareness",
                m3 = "Medication Use"))) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 14), # Increases x-axis text size

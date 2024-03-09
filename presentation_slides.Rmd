@@ -1,7 +1,7 @@
 ---
 title: "Trends in Hypertension Control and Management Disparities in U.S. Adults: A NHANES Analysis from 1999-2020"
 author: "Yiying Wu, Yi Huang"
-date: "February 2, 2024"
+date: "March 12, 2024"
 output:
   beamer_presentation:
     theme: "Madrid"
@@ -10,7 +10,7 @@ output:
     slide_level: 2
     keep_tex: false
 header-includes:
-  - \AtBeginDocument{\title[ENAR 2024 DataFest Student Project]{Trends in Hypertension Control and Management Disparities in U.S. Adults:\ A NHANES Analysis from 1999-2020}}
+  - \AtBeginDocument{\title[Columbia University]{Trends in Hypertension Control and Management Disparities in U.S. Adults:\ A NHANES Analysis from 1999-2020}}
   
 navigation: horizontal
 ---
@@ -38,11 +38,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 **Study Objective**
 
-- Examining the trends, awareness, and medication use in stage 2 hypertension among U.S. adults in 1999-2020.
+- Examining the trends, awareness, and medication use among U.S. adults with hypertension in 1999-2020.
 
-- Assessing the impact of demographic factors and comorbid conditions on hypertension control.
+- Assessing the impact of demographic factors and comorbid conditions on blood pressure control.
 
-- This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) data.
+- This study used 1999-2020 National Health and Nutrition Examination Survey (NHANES) dataset.
 
 <!-- ## -->
 
@@ -50,9 +50,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Definition & Study Outcomes
 
-- **Study population**: U.S. adults (larger than 18 years old) with hypertension defined by the JNC7 guideline
+- **Study population**: U.S. adults (older than 18 years old) with hypertension defined by the JNC7 guideline
 
-- **Uncontrolled Hypertension**: Systolic blood pressure >= 140 mm Hg or diastolic blood pressure >= 90 mm Hg 
+- **Uncontrolled Blood Pressure**: Systolic blood pressure >= 140 mm Hg or diastolic blood pressure >= 90 mm Hg 
 
 - **Awareness**: Self-report of a prior diagnosis of antihypertensive medication.
 
@@ -64,7 +64,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 2. Multiple Imputation to address missing data 
 
-3. Logistic Regression Models accounts for complex survey design (Heeringa, S., West, B.T. and Berglund, P.A., 2017):
+3. Logistic Regression Models account for complex survey design (Heeringa, S., West, B.T. and Berglund, P.A., 2017):
 
 The model can be expressed as:
 
@@ -82,20 +82,20 @@ $$
 
 ## Results
 - \textcolor{red}{Gap in high blood pressure treatment!}
-  - **Hypertension control**: Among U.S. adults with stage 2 hypertension, 52% are uncontrolled.
+  - **Blood Pressure control**: Among U.S. adults with hypertension, 52% are uncontrolled.
   - **Awareness**: Among those with hypertension, 80% of them are aware of their condition.
-  - **Medication Use**: Among those aware, 71% of them are taking medication.
-- $0.80\times 0.71\approx 56.8\%$ of those with stage 2 hypertension are being medicated.
+  - **Medication Use**: Among those who are aware, 71% of them are taking medication.
+- $0.80\times 0.71\approx 56.8\%$ of those with hypertension are being medicated.
 
 ## Results
 
 ```{r,echo=FALSE,out.width='80%',out.height='80%',fig.align='center'}
-knitr::include_graphics("./result_files/table1_v3.png")
+knitr::include_graphics("./result_files/table1_v4.png")
 ```
 
 ## Results
 
-```{r,echo=FALSE,out.width='70%',out.height='70%',fig.align='center', fig.cap="Odds Ratios and 95% CI of Uncontrolled Stage 2 Hypertension, Awareness, and Self-reported Antihypertensive Medication Use in US Adults by Year"}
+```{r,echo=FALSE,out.width='70%',out.height='70%',fig.align='center', fig.cap="Odds Ratios and 95% CI of Uncontrolled Blood Pressure, Awareness, and Self-reported Antihypertensive Medication Use in U.S. Adults with Hypertension by Year"}
 knitr::include_graphics("./result_files/m_plot2_v3.png")
 ```
 
@@ -113,7 +113,7 @@ knitr::include_graphics("./result_files/table2_v3.png")
 ## Discussion
 **Findings**
 
-- A gap in high blood pressure treatment: 56.8% of those with stage 2 hypertension are being medicated.
+- A gap in high blood pressure treatment: 56.8% of those with  hypertension are being medicated.
 - Overall increase in awareness since 1999, but a notable decline in recent years.
 - Level of medication use has not shown significant improvement. 
 - Women and people with diabetes or history of CVD tend to pay more attention to blood pressure management.
