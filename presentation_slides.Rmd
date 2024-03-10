@@ -48,9 +48,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 <!-- `r kableExtra::text_spec("Methodology", color = "gray", bold = TRUE, font_size = 18)` -->
 
-## Definition & Study Outcomes
+## Study Population & Outcomes
 
-- **Study population**: U.S. adults (older than 18 years old) with hypertension defined by the JNC7 guideline
+**Study population**
+
+- U.S. adults (older than 18 years old) with hypertension defined by the JNC7 guideline
+
+
+**Study Outcomes**
 
 - **Uncontrolled Blood Pressure**: Systolic blood pressure >= 140 mm Hg or diastolic blood pressure >= 90 mm Hg 
 
@@ -113,10 +118,25 @@ knitr::include_graphics("./result_files/table2_v3.png")
 ## Discussion
 **Findings**
 
-- A gap in high blood pressure treatment: 56.8% of those with  hypertension are being medicated.
-- Overall increase in awareness since 1999, but a notable decline in recent years.
-- Level of medication use has not shown significant improvement. 
-- Women and people with diabetes or history of CVD tend to pay more attention to blood pressure management.
+- **\textcolor{blue}{Significant treatment gap}**
+  - Uncontrolled blood pressure: 52%
+  - Awareness level: 80%
+  - Medication use: 56.8% 
+- **\textcolor{blue}{Gender differences}**: Women, slightly more likely to have hypertension than men, show better blood pressure control due to higher awareness and medication adherence.
+- **\textcolor{blue}{Impact of other chronic diseases}**: 
+  - Diabetes or history of CVD: higher awareness, medication use, and better blood pressure control. 
+  - CKD: struggle with control despite high awareness and medication use.
+- **\textcolor{blue}{Trends over time}**: Uncontrolled high blood pressure has decreased since 1999, with a peak in awareness in 2013-2014, followed by a decline. Medication use has fluctuated without significant improvement in management over the past 20 years.
+
+
+## Discussion
+**Suggestions**
+
+- **\textcolor{blue}{Enhance Public Awareness Campaigns}**:  especially among men and individuals with chronic kidney disease (CKD), who may experience less effective treatment.
+
+- **\textcolor{blue}{Improve Healthcare Accessibility}**: help in early detection and continuous control of hypertension.
+
+- **\textcolor{blue}{Personalize Treatment Approaches}**: Considering the variances in response to medication, particularly among individuals with CKD
 
 **Limitations**
 
@@ -145,7 +165,7 @@ URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 
 **Acknowledgement**
 
 \
-We would like to express our gratitude to ENAR DataFest for giving us this opportunity! Also, we would like to give special thanks to those who encouraged us with this project.
+We would like to express our gratitude to ENAR DataFest for giving us this opportunity! Also, we would like to give special thanks to those who encouraged us during this project.
 
 - Qixuan Chen, PhD, Associate Professor of Biostatistics
 
