@@ -140,15 +140,22 @@ URL https://wwwn.cdc.gov/nchs/nhanes/tutorials/Weighting.aspx [Accessed 22 Dec. 
 
 6. Little, R.A. and Rubin, D.B. (2019). Statistical Analysis with Missing Data, Third Edition. John Wiley & Sons.
 
-## Q&A
+## 
+
+**Acknowledgement**
+
+\
+We would like to express our gratitude to ENAR DataFest for giving us this opportunity! Also, we would like to give special thanks to those who encouraged us with this project.
+
+- Qixuan Chen, PhD, Associate Professor of Biostatistics
+
+## 
 
 \begin{center}
 \Huge Thank you!
 \end{center}
 \
 \begin{center}
-
-\normalsize We would like to express our gratitude to ENAR DataFest for giving us this opportunity!
 
 \normalsize For more information, feel free to email us at 
 
