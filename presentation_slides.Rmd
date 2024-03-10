@@ -122,11 +122,15 @@ knitr::include_graphics("./result_files/table2_v3.png")
   - Uncontrolled blood pressure: 52%
   - Awareness level: 80%
   - Medication use: 56.8% 
-- **\textcolor{blue}{Gender differences}**: Women, slightly more likely to have hypertension than men, show better blood pressure control due to higher awareness and medication adherence.
-- **\textcolor{blue}{Impact of other chronic diseases}**: 
-  - Diabetes or history of CVD: higher awareness, medication use, and better blood pressure control. 
-  - CKD: struggle with control despite high awareness and medication use.
-- **\textcolor{blue}{Trends over time}**: Uncontrolled high blood pressure has decreased since 1999, with a peak in awareness in 2013-2014, followed by a decline. Medication use has fluctuated without significant improvement in management over the past 20 years.
+- **\textcolor{blue}{Gender differences}**
+  - Women: higher awareness and medication $\rightarrow$ better blood pressure control
+- **\textcolor{blue}{Impact of other chronic diseases}**
+  - Diabetes/history of CVD: higher awareness and medication $\rightarrow$ better blood pressure control
+  - CKD: struggle with control despite high awareness and medication use
+- **\textcolor{blue}{Trends}**
+  - Uncontrolled  decreased
+  - Awareness peak in 2013-2014 then decline
+  - Medication use no significant improvement
 
 
 ## Discussion
